@@ -11,7 +11,10 @@ def add_user():
 		_json = request.json
 		_name = _json['name']
 		_email = _json['email']
-		_password = _json['pwd']
+		_password = _json['pwd']		
+		print(_name)
+		print(_email)
+		print(_password)
 		# validate the received values
 		if _name and _email and _password and request.method == 'POST':
 			#do not save password as a plain text
@@ -34,7 +37,7 @@ def add_user():
 		cursor.close()
 		conn.close()
 
-@app.route('/users')
+@app.route('/users', methods=['GET'])
 def users():
 	try:
 		conn = mysql.connect()
@@ -46,11 +49,12 @@ def users():
 		return resp
 	except Exception as e:
 		print(e)
-	finally:
-		cursor.close()
-		conn.close()
+	# finally:
+    #     print('oi')
+    #     # cursor.close()
+	# 	# conn.close()
 
-@app.route('/user/<int:id>')
+@app.route('/user/<int:id>', methods=['GET'])
 def user(id):
 	try:
 		conn = mysql.connect()
@@ -64,7 +68,9 @@ def user(id):
 		print(e)
 	finally:
 		cursor.close()
-		conn.close()@app.route('/update', methods=['POST'])
+		conn.close()
+
+@app.route('/update', methods=['PUT','POST'])
 def update_user():
 	try:
 		_json = request.json
@@ -94,7 +100,7 @@ def update_user():
 		cursor.close()
 		conn.close()
 
-@app.route('/delete/<int:id>')
+@app.route('/delete/<int:id>', methods=['DELETE'])
 def delete_user(id):
 	try:
 		conn = mysql.connect()
