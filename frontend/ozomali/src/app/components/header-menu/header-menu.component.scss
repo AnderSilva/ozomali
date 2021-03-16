@@ -1,3 +1,7 @@
+*:focus {
+  outline: none;
+}
+
 .header-menu {
   &__header {
     background-color: #5d8ff0;
@@ -9,6 +13,8 @@
 
     &-title {
       font-size: 36px;
+      margin: 0;
+      padding: 15px 5px;
       cursor: pointer;
     }
 
@@ -23,6 +29,12 @@
     display: flex;
   }
 
+  &__text-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   &__menu {
     background-color: #3372eb;
     padding: 30px 25px;
@@ -31,8 +43,9 @@
     color: white;
 
     &-title {
-      font-size: 44px;
-      margin-bottom: 60px;
+      margin: 0;
+      padding: 15px 5px;
+      font-size: 36px;
       cursor: pointer;
     }
 
@@ -41,6 +54,7 @@
       align-items: center;
       margin-top: 35px;
       cursor: pointer;
+      user-select: none;
 
       &-image {
         height: 60px;
@@ -49,12 +63,13 @@
 
       &-text {
         font-size: 36px;
-        margin-left: 20px;
+        padding: 15px 5px;
+        margin: 0 0 0 20px;
       }
     }
   }
 
-  // &__content {
-
-  // }
+  &__content {
+    width: 100%;
+  }
 }
