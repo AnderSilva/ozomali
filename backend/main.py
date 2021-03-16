@@ -164,6 +164,22 @@ def providers():
 		cursor.close()
 		conn.close()
 
+@app.route('/providers/<int:id>', methods=['GET'])
+def provider(id):
+	try:
+		conn = db.connect()
+		cursor = conn.cursor(pymysql.cursors.DictCursor)
+		cursor.execute("SELECT * FROM Fornecedor WHERE id=%s", id)
+		row = cursor.fetchone()
+		resp = jsonify(row)
+		resp.status_code = 200
+		return resp
+	except Exception as e:
+		print(e)
+	finally:
+		cursor.close()
+		conn.close()
+
 @app.route('/providers', methods=['PUT'])
 def update_provider():
 	try:
@@ -205,6 +221,110 @@ def delete_provider(id):
 		cursor.execute("DELETE FROM Fornecedor WHERE id=%s", (id,))
 		conn.commit()
 		resp = jsonify('Fornecedor deletado com sucesso!')
+		resp.status_code = 200
+		return resp
+	except Exception as e:
+		print(e)
+	finally:
+		cursor.close()
+		conn.close()
+
+@app.route('/products', methods=['POST'])
+def add_product():
+	try:
+		_json = request.json
+		_nome = _json['nome']
+		_preco_custo = _json['preco_custo']
+		_preco_venda = _json['preco_venda']
+		_quantidade = _json['quantidade']	
+
+		if _nome and _preco_custo and _preco_venda and _quantidade and request.method == 'POST':						
+			sql = "INSERT INTO Produto(nome, preco_custo, preco_venda, quantidade) VALUES(%s, %s, %s, %s )"
+			data = (_nome, _preco_custo, _preco_venda, _quantidade, )
+			conn = db.connect()
+			cursor = conn.cursor()
+			cursor.execute(sql, data)
+			conn.commit()
+			resp = jsonify('Produto criado com sucesso')
+			resp.status_code = 200
+			return resp
+		else:
+			return not_found()
+	except Exception as e:
+		print(e)
+	finally:
+		cursor.close()
+		conn.close()
+
+@app.route('/products', methods=['GET'])
+def products():
+	try:
+		conn = db.connect()
+		cursor = conn.cursor(pymysql.cursors.DictCursor)
+		cursor.execute("SELECT * FROM Produto")
+		rows = cursor.fetchall()
+		resp = jsonify(rows)
+		resp.status_code = 200
+		return resp
+	except Exception as e:
+		print(e)
+	finally:
+		cursor.close()
+		conn.close()
+
+@app.route('/products/<int:id>', methods=['GET'])
+def product(id):
+	try:
+		conn = db.connect()
+		cursor = conn.cursor(pymysql.cursors.DictCursor)
+		cursor.execute("SELECT * FROM Produto WHERE id=%s", id)
+		row = cursor.fetchone()
+		resp = jsonify(row)
+		resp.status_code = 200
+		return resp
+	except Exception as e:
+		print(e)
+	finally:
+		cursor.close()
+		conn.close()
+
+@app.route('/products', methods=['PUT'])
+def update_product():
+	try:
+		_json = request.json
+		_id = _json['id']
+		_nome = _json['nome']
+		_preco_custo = _json['preco_custo']
+		_preco_venda = _json['preco_venda']
+		_quantidade = _json['quantidade']
+		# validate the received values
+		if _nome and _preco_custo and _preco_venda and _quantidade and _id and request.method == 'PUT':
+			# save edits
+			sql = "UPDATE Produto SET nome=%s, preco_custo=%s, preco_venda=%s, quantidade=%s WHERE id=%s"
+			data = (_nome, _preco_custo, _preco_venda, _quantidade, _id,)
+			conn = db.connect()
+			cursor = conn.cursor()
+			cursor.execute(sql, data)
+			conn.commit()
+			resp = jsonify('Produto atualizado com sucesso!')
+			resp.status_code = 200
+			return resp
+		else:
+			return not_found()
+	except Exception as e:
+		print(e)
+	finally:
+		cursor.close()
+		conn.close()
+
+@app.route('/products/<int:id>', methods=['DELETE'])
+def delete_product(id):
+	try:
+		conn = db.connect()
+		cursor = conn.cursor()
+		cursor.execute("DELETE FROM Produto WHERE id=%s", (id,))
+		conn.commit()
+		resp = jsonify('Produto deletado com sucesso!')
 		resp.status_code = 200
 		return resp
 	except Exception as e:
