@@ -6,10 +6,8 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
   styleUrls: ['./header-menu.component.scss'],
 })
 export class HeaderMenuComponent implements OnInit {
-  @Output() public shouldLogout: EventEmitter<void>;
-  constructor() {
-    this.shouldLogout = new EventEmitter();
-  }
+  @Output() public shouldLogout: EventEmitter<void> = new EventEmitter();
+  constructor() {}
 
   ngOnInit(): void {}
 
