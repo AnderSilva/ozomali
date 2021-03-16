@@ -1,13 +1,13 @@
 from app import app
 
-from flask_sqlalchemy import SQLAlchemy
-# from flaskext.mysql import MySQL
+# from flask_sqlalchemy import SQLAlchemy
+from flaskext.mysql import MySQL
 import os 
 from dotenv import load_dotenv
 load_dotenv()
 
-# db = MySQL()
-db = SQLAlchemy()
+db = MySQL()
+# db = SQLAlchemy()
 
 # MySQL configurations
 # app.config['MYSQL_DATABASE_USER'] = os.getenv('MYSQL_DATABASE_USER')

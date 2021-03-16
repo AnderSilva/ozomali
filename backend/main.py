@@ -4,6 +4,7 @@ from db_config import db
 from flask import jsonify
 from flask import flash, request
 from werkzeug.security import generate_password_hash, check_password_hash
+import os
 
 
 @app.route('/', methods=['GET'])
@@ -42,8 +43,8 @@ def add_user():
 @app.route('/users', methods=['GET'])
 def users():
 	try:
-		conn = db.connect()
-		cursor = conn.cursor(pymysql.cursors.DictCursor)
+		conn = db.create_engine(app.config['DATABASE_URL']).raw_connection()
+		cursor = conn.cursor()
 		cursor.execute("SELECT * FROM Usuario")
 		rows = cursor.fetchall()
 		resp = jsonify(rows)
