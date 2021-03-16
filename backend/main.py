@@ -43,7 +43,8 @@ def add_user():
 @app.route('/users', methods=['GET'])
 def users():
 	try:
-		conn = db.create_engine(app.config['DATABASE_URL']).raw_connection()
+		print(app.config['SQLALCHEMY_DATABASE_URI'])
+		conn = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI']).raw_connection()
 		cursor = conn.cursor()
 		cursor.execute("SELECT * FROM Usuario")
 		rows = cursor.fetchall()
@@ -52,9 +53,10 @@ def users():
 		return resp
 	except Exception as e:
 		print(e)
-	finally:
-		cursor.close()
-		conn.close()
+		return not_found()
+	# finally:
+	# 	cursor.close()
+	# 	conn.close()
 
 @app.route('/users/<int:id>', methods=['GET'])
 def user(id):
