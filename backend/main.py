@@ -52,8 +52,9 @@ def users():
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/users/<int:id>', methods=['GET'])
 def user(id):
@@ -68,8 +69,9 @@ def user(id):
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/users', methods=['PUT'])
 def update_user():
@@ -98,8 +100,9 @@ def update_user():
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/users/<int:id>', methods=['DELETE'])
 def delete_user(id):
@@ -114,8 +117,9 @@ def delete_user(id):
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/providers', methods=['POST'])
 def add_provider():
@@ -145,8 +149,9 @@ def add_provider():
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/providers', methods=['GET'])
 def providers():
@@ -161,8 +166,9 @@ def providers():
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/providers/<int:id>', methods=['GET'])
 def provider(id):
@@ -177,8 +183,9 @@ def provider(id):
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/providers', methods=['PUT'])
 def update_provider():
@@ -210,8 +217,9 @@ def update_provider():
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/providers/<int:id>', methods=['DELETE'])
 def delete_provider(id):
@@ -226,8 +234,9 @@ def delete_provider(id):
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/products', methods=['POST'])
 def add_product():
@@ -253,8 +262,9 @@ def add_product():
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/products', methods=['GET'])
 def products():
@@ -269,8 +279,9 @@ def products():
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/products/<int:id>', methods=['GET'])
 def product(id):
@@ -285,8 +296,9 @@ def product(id):
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/products', methods=['PUT'])
 def update_product():
@@ -314,8 +326,9 @@ def update_product():
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/products/<int:id>', methods=['DELETE'])
 def delete_product(id):
@@ -330,8 +343,9 @@ def delete_product(id):
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.errorhandler(404)
 def not_found(error=None):
