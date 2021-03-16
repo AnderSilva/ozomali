@@ -1,6 +1,6 @@
 import pymysql
 from app import app
-from db_config import mysql
+from db_config import db
 from flask import jsonify
 from flask import flash, request
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -19,14 +19,12 @@ def add_user():
 		_nome = _json['nome']
 		_login = _json['login']
 		_senha = _json['senha']
-		# validate the received values
-		if _nome and _login and _senha and request.method == 'POST':
-			#do not save password as a plain text
-			_hash_senha = generate_password_hash(_senha)
-			# save edits
+
+		if _nome and _login and _senha and request.method == 'POST':			
+			_hash_senha = generate_password_hash(_senha)			
 			sql = "INSERT INTO Usuario(nome, login, senha) VALUES(%s, %s, %s)"
 			data = (_nome, _login, _hash_senha,)
-			conn = mysql.connect()
+			conn = db.connect()
 			cursor = conn.cursor()
 			cursor.execute(sql, data)
 			conn.commit()
@@ -44,7 +42,7 @@ def add_user():
 @app.route('/users', methods=['GET'])
 def users():
 	try:
-		conn = mysql.connect()
+		conn = db.connect()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
 		cursor.execute("SELECT * FROM Usuario")
 		rows = cursor.fetchall()
@@ -60,7 +58,7 @@ def users():
 @app.route('/users/<int:id>', methods=['GET'])
 def user(id):
 	try:
-		conn = mysql.connect()
+		conn = db.connect()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
 		cursor.execute("SELECT * FROM Usuario WHERE id=%s", id)
 		row = cursor.fetchone()
@@ -88,7 +86,7 @@ def update_user():
 			# save edits
 			sql = "UPDATE Usuario SET nome=%s, login=%s, senha=%s WHERE id=%s"
 			data = (_nome, _login, _hashed_password, _id,)
-			conn = mysql.connect()
+			conn = db.connect()
 			cursor = conn.cursor()
 			cursor.execute(sql, data)
 			conn.commit()
@@ -106,11 +104,107 @@ def update_user():
 @app.route('/users/<int:id>', methods=['DELETE'])
 def delete_user(id):
 	try:
-		conn = mysql.connect()
+		conn = db.connect()
 		cursor = conn.cursor()
 		cursor.execute("DELETE FROM Usuario WHERE id=%s", (id,))
 		conn.commit()
 		resp = jsonify('Usuario deletado com sucesso!')
+		resp.status_code = 200
+		return resp
+	except Exception as e:
+		print(e)
+	finally:
+		cursor.close()
+		conn.close()
+
+@app.route('/providers', methods=['POST'])
+def add_provider():
+	try:
+		_json = request.json
+		_nome = _json['nome']
+		_cnpj = _json['cnpj']
+		_cep = _json['cep']
+		_endereco = _json['endereco']
+		_numero = _json['numero']
+		_complemento = _json['complemento']
+		_cidade = _json['cidade']
+		_estado = _json['estado']		
+
+		if _nome and _cnpj and _cep and _endereco and _numero and _cidade and _estado and request.method == 'POST':						
+			sql = "INSERT INTO Fornecedor(nome, cnpj, cep, endereco, numero, complemento, cidade, estado) VALUES(%s, %s, %s, %s,%s, %s, %s, %s)"
+			data = (_nome, _cnpj, _cep, _endereco, _numero, _complemento, _cidade, _estado, )
+			conn = db.connect()
+			cursor = conn.cursor()
+			cursor.execute(sql, data)
+			conn.commit()
+			resp = jsonify('Provider added successfully!')
+			resp.status_code = 200
+			return resp
+		else:
+			return not_found()
+	except Exception as e:
+		print(e)
+	finally:
+		cursor.close()
+		conn.close()
+
+@app.route('/providers', methods=['GET'])
+def providers():
+	try:
+		conn = db.connect()
+		cursor = conn.cursor(pymysql.cursors.DictCursor)
+		cursor.execute("SELECT * FROM Fornecedor")
+		rows = cursor.fetchall()
+		resp = jsonify(rows)
+		resp.status_code = 200
+		return resp
+	except Exception as e:
+		print(e)
+	finally:
+		cursor.close()
+		conn.close()
+
+@app.route('/providers', methods=['PUT'])
+def update_provider():
+	try:
+		_json = request.json
+		_id = _json['id']
+		_nome = _json['nome']
+		_cnpj = _json['cnpj']
+		_cep = _json['cep']
+		_endereco = _json['endereco']
+		_numero = _json['numero']
+		_complemento = _json['complemento']
+		_cidade = _json['cidade']
+		_estado = _json['estado']
+		# validate the received values
+		if _nome and _cnpj and _cep and _endereco and _numero and _cidade and _estado and _id and request.method == 'PUT':
+			# save edits
+			sql = "UPDATE Fornecedor SET nome=%s, cnpj=%s, cep=%s, endereco=%s, numero=%s, cidade=%s, estado=%s, complemento=%s WHERE id=%s"
+			data = (_nome, _cnpj, _cep, _endereco, _numero, _cidade, _estado, _complemento, _id,)
+			conn = db.connect()
+			cursor = conn.cursor()
+			cursor.execute(sql, data)
+			conn.commit()
+			resp = jsonify('Fornecedor atualizado com sucesso!!')
+			resp.status_code = 200
+			return resp
+		else:
+			return not_found()
+	except Exception as e:
+		print(e)
+	finally:
+		cursor.close()
+		conn.close()
+
+@app.route('/providers/<int:id>', methods=['DELETE'])
+def delete_provider(id):
+	try:
+		conn = db.connect()
+		cursor = conn.cursor()
+		cursor.execute("DELETE FROM Fornecedor WHERE id=%s", (id,))
+		conn.commit()
+		resp = jsonify('Fornecedor deletado com sucesso!')
 		resp.status_code = 200
 		return resp
 	except Exception as e:
