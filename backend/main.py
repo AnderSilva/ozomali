@@ -12,7 +12,7 @@ def home():
 	resp.status_code = 200
 	return resp
 
-@app.route('/add', methods=['POST'])
+@app.route('/users', methods=['POST'])
 def add_user():
 	try:
 		_json = request.json
@@ -57,7 +57,7 @@ def users():
 		cursor.close()
 		conn.close()
 
-@app.route('/user/<int:id>', methods=['GET'])
+@app.route('/users/<int:id>', methods=['GET'])
 def user(id):
 	try:
 		conn = mysql.connect()
@@ -73,7 +73,7 @@ def user(id):
 		cursor.close()
 		conn.close()
 
-@app.route('/update', methods=['PUT','POST'])
+@app.route('/users', methods=['PUT'])
 def update_user():
 	try:
 		_json = request.json
@@ -82,12 +82,12 @@ def update_user():
 		_login = _json['login']
 		_senha = _json['senha']
 		# validate the received values
-		if _nome and _login and _senha and _id and request.method == 'POST':
+		if _nome and _login and _senha and _id and request.method == 'PUT':
 			#do not save password as a plain text
 			_hashed_password = generate_password_hash(_senha)
 			# save edits
 			sql = "UPDATE Usuario SET nome=%s, login=%s, senha=%s WHERE id=%s"
-			data = (_nome, _login, _senha, _id,)
+			data = (_nome, _login, _hashed_password, _id,)
 			conn = mysql.connect()
 			cursor = conn.cursor()
 			cursor.execute(sql, data)
@@ -103,7 +103,7 @@ def update_user():
 		cursor.close()
 		conn.close()
 
-@app.route('/delete/<int:id>', methods=['DELETE'])
+@app.route('/users/<int:id>', methods=['DELETE'])
 def delete_user(id):
 	try:
 		conn = mysql.connect()
