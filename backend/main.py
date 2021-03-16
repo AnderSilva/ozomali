@@ -137,7 +137,7 @@ def add_provider():
 			cursor = conn.cursor()
 			cursor.execute(sql, data)
 			conn.commit()
-			resp = jsonify('Provider added successfully!')
+			resp = jsonify('Fornecedor criado com sucesso!')
 			resp.status_code = 200
 			return resp
 		else:
@@ -202,7 +202,7 @@ def update_provider():
 			cursor = conn.cursor()
 			cursor.execute(sql, data)
 			conn.commit()
-			resp = jsonify('Fornecedor atualizado com sucesso!!')
+			resp = jsonify('Fornecedor atualizado com sucesso!')
 			resp.status_code = 200
 			return resp
 		else:
@@ -245,7 +245,7 @@ def add_product():
 			cursor = conn.cursor()
 			cursor.execute(sql, data)
 			conn.commit()
-			resp = jsonify('Produto criado com sucesso')
+			resp = jsonify('Produto criado com sucesso!')
 			resp.status_code = 200
 			return resp
 		else:
