@@ -19,5 +19,5 @@
 </div>
 
 <ng-template #notAuthenticated>
-  <app-header-menu></app-header-menu>
+  <app-header-menu (shouldLogout)="logoff()"></app-header-menu>
 </ng-template>

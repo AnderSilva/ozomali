@@ -20,11 +20,15 @@ export class LoginScreenComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  login(): void {
+  public login(): void {
     if (this.loginForm.invalid) {
       return
     }
 
+    this.isAuthenticated = !this.isAuthenticated
+  }
+
+  public logoff(): void {
     this.isAuthenticated = !this.isAuthenticated
   }
 }
