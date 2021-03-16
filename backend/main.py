@@ -1,6 +1,6 @@
 import pymysql
 from app import app
-from db_config import mysql
+from db_config import db
 from flask import jsonify
 from flask import flash, request
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -12,21 +12,19 @@ def home():
 	resp.status_code = 200
 	return resp
 
-@app.route('/add', methods=['POST'])
+@app.route('/user/add', methods=['POST'])
 def add_user():
 	try:
 		_json = request.json
 		_nome = _json['nome']
 		_login = _json['login']
 		_senha = _json['senha']
-		# validate the received values
-		if _nome and _login and _senha and request.method == 'POST':
-			#do not save password as a plain text
-			_hash_senha = generate_password_hash(_senha)
-			# save edits
+
+		if _nome and _login and _senha and request.method == 'POST':			
+			_hash_senha = generate_password_hash(_senha)			
 			sql = "INSERT INTO Usuario(nome, login, senha) VALUES(%s, %s, %s)"
 			data = (_nome, _login, _hash_senha,)
-			conn = mysql.connect()
+			conn = db.connect()
 			cursor = conn.cursor()
 			cursor.execute(sql, data)
 			conn.commit()
@@ -41,10 +39,10 @@ def add_user():
 		cursor.close()
 		conn.close()
 
-@app.route('/users', methods=['GET'])
+@app.route('/user', methods=['GET'])
 def users():
 	try:
-		conn = mysql.connect()
+		conn = db.connect()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
 		cursor.execute("SELECT * FROM Usuario")
 		rows = cursor.fetchall()
@@ -60,7 +58,7 @@ def users():
 @app.route('/user/<int:id>', methods=['GET'])
 def user(id):
 	try:
-		conn = mysql.connect()
+		conn = db.connect()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
 		cursor.execute("SELECT * FROM Usuario WHERE id=%s", id)
 		row = cursor.fetchone()
@@ -73,7 +71,7 @@ def user(id):
 		cursor.close()
 		conn.close()
 
-@app.route('/update', methods=['PUT','POST'])
+@app.route('/user/update', methods=['PUT','POST'])
 def update_user():
 	try:
 		_json = request.json
@@ -88,7 +86,7 @@ def update_user():
 			# save edits
 			sql = "UPDATE Usuario SET nome=%s, login=%s, senha=%s WHERE id=%s"
 			data = (_nome, _login, _senha, _id,)
-			conn = mysql.connect()
+			conn = db.connect()
 			cursor = conn.cursor()
 			cursor.execute(sql, data)
 			conn.commit()
@@ -103,10 +101,10 @@ def update_user():
 		cursor.close()
 		conn.close()
 
-@app.route('/delete/<int:id>', methods=['DELETE'])
+@app.route('/user/delete/<int:id>', methods=['DELETE'])
 def delete_user(id):
 	try:
-		conn = mysql.connect()
+		conn = db.connect()
 		cursor = conn.cursor()
 		cursor.execute("DELETE FROM Usuario WHERE id=%s", (id,))
 		conn.commit()
