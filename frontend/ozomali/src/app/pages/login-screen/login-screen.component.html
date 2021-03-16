@@ -1,0 +1,23 @@
+<div class="login-screen" *ngIf="!isAuthenticated; else notAuthenticated">
+  <div class="login-screen__content">
+    <img class="login-screen__icon" src="../../../assets/tcc.svg">
+
+    <form class="login-screen__form" [formGroup]="loginForm">
+      <mat-form-field appearance="outline" class="login-screen__form-field">
+        <mat-label>Login</mat-label>
+        <input matInput placeholder="Escreva seu nome de usuário" formControlName="username"/>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="login-screen__form-field">
+        <mat-label>Senha</mat-label>
+        <input matInput placeholder="Digite sua senha" [type]="'password'" formControlName="password"/>
+      </mat-form-field>
+    </form>
+
+    <div matRipple class="login-screen__button" (click)="login()">Entrar</div>
+  </div>
+</div>
+
+<ng-template #notAuthenticated>
+  <app-header-menu></app-header-menu>
+</ng-template>
