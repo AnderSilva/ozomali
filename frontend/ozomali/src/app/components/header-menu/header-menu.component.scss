@@ -45,7 +45,7 @@
     &-title {
       margin: 0;
       padding: 15px 5px;
-      font-size: 44px;
+      font-size: 36px;
       cursor: pointer;
     }
 
@@ -69,7 +69,7 @@
     }
   }
 
-  // &__content {
-
-  // }
+  &__content {
+    width: 100%;
+  }
 }
