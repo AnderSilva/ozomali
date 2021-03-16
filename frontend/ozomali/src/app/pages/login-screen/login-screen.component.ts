@@ -22,13 +22,14 @@ export class LoginScreenComponent implements OnInit {
 
   public login(): void {
     if (this.loginForm.invalid) {
-      return
+      return;
     }
 
-    this.isAuthenticated = !this.isAuthenticated
+    this.isAuthenticated = !this.isAuthenticated;
+    this.loginForm.reset();
   }
 
   public logoff(): void {
-    this.isAuthenticated = !this.isAuthenticated
+    this.isAuthenticated = !this.isAuthenticated;
   }
 }
