@@ -1,0 +1,37 @@
+.confirmation-modal {
+  &__description {
+    font-size: 24px;
+  }
+
+  &__warning {
+    color: #ff3737;
+    margin-bottom: 50px;
+  }
+
+  &__buttons-wrapper {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__cancel,
+  &__confirm {
+    padding: 5px 25px;
+    border: unset;
+    cursor: pointer;
+    color: #E5E5E5;
+
+    &:focus {
+      outline: unset;
+    }
+  }
+
+  &__cancel {
+    background-color: #AC3E37;
+  }
+
+  &__confirm {
+    background-color: #48AC37;
+    margin-left: 24px;
+  }
+
+}
