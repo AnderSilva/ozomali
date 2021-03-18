@@ -42,10 +42,18 @@ def add_user():
 @app.route('/users', methods=['GET'])
 def users():
 	try:
+		_nome = request.args.get('nome')
+		_where = "" 
+		if _nome:
+			_where = " nome like '%" + _nome + "%' "		
+
 		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
 		conn = engine.raw_connection()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
-		cursor.execute("SELECT * FROM Usuario")
+		sql = "SELECT id, login, nome FROM Usuario"
+		if _where :
+			sql += " where " + _where
+		cursor.execute(sql)
 		rows = cursor.fetchall()
 		resp = jsonify(rows)
 		resp.status_code = 200
@@ -58,12 +66,12 @@ def users():
 			conn.close()
 
 @app.route('/users/<int:id>', methods=['GET'])
-def user(id):
+def userById(id):
 	try:
 		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
 		conn = engine.raw_connection()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
-		cursor.execute("SELECT * FROM Usuario WHERE id=%s", id)
+		cursor.execute("SELECT id, login, nome FROM Usuario WHERE id=%s", id)
 		row = cursor.fetchone()
 		resp = jsonify(row)
 		resp.status_code = 200
@@ -161,10 +169,18 @@ def add_provider():
 @app.route('/providers', methods=['GET'])
 def providers():
 	try:
+		_nome = request.args.get('nome')
+		_where = "" 
+		if _nome:
+			_where = " nome like '%" + _nome + "%' "
+
 		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
 		conn = engine.raw_connection()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
-		cursor.execute("SELECT * FROM Fornecedor")
+		sql = "SELECT * FROM Fornecedor"
+		if _where :
+			sql += " where " + _where
+		cursor.execute(sql)
 		rows = cursor.fetchall()
 		resp = jsonify(rows)
 		resp.status_code = 200
@@ -279,10 +295,18 @@ def add_product():
 @app.route('/products', methods=['GET'])
 def products():
 	try:
+		_nome = request.args.get('nome')
+		_where = ""
+		if _nome:
+			_where = " nome like '%" + _nome + "%' "
+
 		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
 		conn = engine.raw_connection()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
-		cursor.execute("SELECT * FROM Produto")
+		sql = "SELECT * FROM Produto"
+		if _where :
+			sql += " where " +_where
+		cursor.execute(sql)
 		rows = cursor.fetchall()
 		resp = jsonify(rows)
 		resp.status_code = 200
