@@ -49,7 +49,6 @@ def users():
 
 		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
 		conn = engine.raw_connection()
-
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
 		sql = "SELECT id, login, nome FROM Usuario"
 		if _where :
