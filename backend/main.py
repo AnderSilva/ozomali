@@ -47,7 +47,9 @@ def users():
 		if _nome:
 			_where = " nome like '%" + _nome + "%' "		
 
-		conn = db.connect()
+		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
+		conn = engine.raw_connection()
+
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
 		sql = "SELECT id, login, nome FROM Usuario"
 		if _where :
@@ -60,13 +62,15 @@ def users():
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/users/<int:id>', methods=['GET'])
 def userById(id):
 	try:
-		conn = db.connect()
+		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
+		conn = engine.raw_connection()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
 		cursor.execute("SELECT id, login, nome FROM Usuario WHERE id=%s", id)
 		row = cursor.fetchone()
@@ -76,8 +80,9 @@ def userById(id):
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/users', methods=['PUT'])
 def update_user():
@@ -94,8 +99,9 @@ def update_user():
 			# save edits
 			sql = "UPDATE Usuario SET nome=%s, login=%s, senha=%s WHERE id=%s"
 			data = (_nome, _login, _hashed_password, _id,)
-			conn = db.connect()
-			cursor = conn.cursor()
+			engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
+			conn = engine.raw_connection()
+			cursor = conn.cursor(pymysql.cursors.DictCursor)
 			cursor.execute(sql, data)
 			conn.commit()
 			resp = jsonify('Usuario atualizado com sucesso!!')
@@ -106,14 +112,16 @@ def update_user():
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/users/<int:id>', methods=['DELETE'])
 def delete_user(id):
 	try:
-		conn = db.connect()
-		cursor = conn.cursor()
+		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
+		conn = engine.raw_connection()
+		cursor = conn.cursor(pymysql.cursors.DictCursor)
 		cursor.execute("DELETE FROM Usuario WHERE id=%s", (id,))
 		conn.commit()
 		resp = jsonify('Usuario deletado com sucesso!')
@@ -122,8 +130,9 @@ def delete_user(id):
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/providers', methods=['POST'])
 def add_provider():
@@ -141,8 +150,9 @@ def add_provider():
 		if _nome and _cnpj and _cep and _endereco and _numero and _cidade and _estado and request.method == 'POST':						
 			sql = "INSERT INTO Fornecedor(nome, cnpj, cep, endereco, numero, complemento, cidade, estado) VALUES(%s, %s, %s, %s,%s, %s, %s, %s)"
 			data = (_nome, _cnpj, _cep, _endereco, _numero, _complemento, _cidade, _estado, )
-			conn = db.connect()
-			cursor = conn.cursor()
+			engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
+			conn = engine.raw_connection()
+			cursor = conn.cursor(pymysql.cursors.DictCursor)
 			cursor.execute(sql, data)
 			conn.commit()
 			resp = jsonify('Fornecedor criado com sucesso!')
@@ -153,8 +163,9 @@ def add_provider():
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/providers', methods=['GET'])
 def providers():
@@ -164,7 +175,8 @@ def providers():
 		if _nome:
 			_where = " nome like '%" + _nome + "%' "
 
-		conn = db.connect()
+		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
+		conn = engine.raw_connection()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
 		sql = "SELECT * FROM Fornecedor"
 		if _where :
@@ -177,13 +189,15 @@ def providers():
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/providers/<int:id>', methods=['GET'])
 def provider(id):
 	try:
-		conn = db.connect()
+		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
+		conn = engine.raw_connection()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
 		cursor.execute("SELECT * FROM Fornecedor WHERE id=%s", id)
 		row = cursor.fetchone()
@@ -193,8 +207,9 @@ def provider(id):
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/providers', methods=['PUT'])
 def update_provider():
@@ -214,8 +229,9 @@ def update_provider():
 			# save edits
 			sql = "UPDATE Fornecedor SET nome=%s, cnpj=%s, cep=%s, endereco=%s, numero=%s, cidade=%s, estado=%s, complemento=%s WHERE id=%s"
 			data = (_nome, _cnpj, _cep, _endereco, _numero, _cidade, _estado, _complemento, _id,)
-			conn = db.connect()
-			cursor = conn.cursor()
+			engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
+			conn = engine.raw_connection()
+			cursor = conn.cursor(pymysql.cursors.DictCursor)
 			cursor.execute(sql, data)
 			conn.commit()
 			resp = jsonify('Fornecedor atualizado com sucesso!')
@@ -226,14 +242,16 @@ def update_provider():
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/providers/<int:id>', methods=['DELETE'])
 def delete_provider(id):
 	try:
-		conn = db.connect()
-		cursor = conn.cursor()
+		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
+		conn = engine.raw_connection()
+		cursor = conn.cursor(pymysql.cursors.DictCursor)
 		cursor.execute("DELETE FROM Fornecedor WHERE id=%s", (id,))
 		conn.commit()
 		resp = jsonify('Fornecedor deletado com sucesso!')
@@ -242,8 +260,9 @@ def delete_provider(id):
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/products', methods=['POST'])
 def add_product():
@@ -257,8 +276,9 @@ def add_product():
 		if _nome and _preco_custo and _preco_venda and _quantidade and request.method == 'POST':						
 			sql = "INSERT INTO Produto(nome, preco_custo, preco_venda, quantidade) VALUES(%s, %s, %s, %s )"
 			data = (_nome, _preco_custo, _preco_venda, _quantidade, )
-			conn = db.connect()
-			cursor = conn.cursor()
+			engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
+			conn = engine.raw_connection()
+			cursor = conn.cursor(pymysql.cursors.DictCursor)
 			cursor.execute(sql, data)
 			conn.commit()
 			resp = jsonify('Produto criado com sucesso!')
@@ -269,8 +289,9 @@ def add_product():
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/products', methods=['GET'])
 def products():
@@ -280,7 +301,8 @@ def products():
 		if _nome:
 			_where = " nome like '%" + _nome + "%' "
 
-		conn = db.connect()
+		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
+		conn = engine.raw_connection()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
 		sql = "SELECT * FROM Produto"
 		if _where :
@@ -293,13 +315,15 @@ def products():
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/products/<int:id>', methods=['GET'])
 def product(id):
 	try:
-		conn = db.connect()
+		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
+		conn = engine.raw_connection()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
 		cursor.execute("SELECT * FROM Produto WHERE id=%s", id)
 		row = cursor.fetchone()
@@ -309,8 +333,9 @@ def product(id):
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/products', methods=['PUT'])
 def update_product():
@@ -326,8 +351,9 @@ def update_product():
 			# save edits
 			sql = "UPDATE Produto SET nome=%s, preco_custo=%s, preco_venda=%s, quantidade=%s WHERE id=%s"
 			data = (_nome, _preco_custo, _preco_venda, _quantidade, _id,)
-			conn = db.connect()
-			cursor = conn.cursor()
+			engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
+			conn = engine.raw_connection()
+			cursor = conn.cursor(pymysql.cursors.DictCursor)
 			cursor.execute(sql, data)
 			conn.commit()
 			resp = jsonify('Produto atualizado com sucesso!')
@@ -338,14 +364,16 @@ def update_product():
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.route('/products/<int:id>', methods=['DELETE'])
 def delete_product(id):
 	try:
-		conn = db.connect()
-		cursor = conn.cursor()
+		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
+		conn = engine.raw_connection()
+		cursor = conn.cursor(pymysql.cursors.DictCursor)
 		cursor.execute("DELETE FROM Produto WHERE id=%s", (id,))
 		conn.commit()
 		resp = jsonify('Produto deletado com sucesso!')
@@ -354,8 +382,9 @@ def delete_product(id):
 	except Exception as e:
 		print(e)
 	finally:
-		cursor.close()
-		conn.close()
+		if cursor is not None:
+			cursor.close()
+			conn.close()
 
 @app.errorhandler(404)
 def not_found(error=None):
