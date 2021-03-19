@@ -12,6 +12,48 @@ def home():
 	resp.status_code = 200
 	return resp
 
+@app.route('/auth', methods=['POST'])
+def auth():
+	try:
+		_json = request.json
+		_login = _json['login']
+		_senha = _json['senha']	
+
+		if _login and _senha and request.method == 'POST':
+			engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
+			conn = engine.raw_connection()
+
+			cursor = conn.cursor(pymysql.cursors.DictCursor)
+			sql = "SELECT senha FROM Usuario where login = '" + _login + "' "	
+
+			cursor.execute(sql)
+			values = cursor.fetchone()
+		
+			if values == None:
+				resp = jsonify('Usuario nao foi autenticado!')
+				resp.status_code = 401
+				return resp
+			_data = jsonify(values)
+			_senhaHash = _data.json['senha']
+			if not check_password_hash(_senhaHash, _senha):
+				resp = jsonify('Usuario nao foi autenticado!')
+				resp.status_code = 401
+				return resp
+			sql = "SELECT id, nome, login FROM Usuario where login = '" + _login + "' "	
+			cursor.execute(sql)
+			values = cursor.fetchone()	
+			resp = jsonify(values)
+			resp.status_code = 200
+			return resp
+		else:
+			return not_found()
+	except Exception as e:
+		print(e)
+	finally:
+		if cursor is not None:
+			cursor.close()
+			conn.close()
+
 @app.route('/users', methods=['POST'])
 def add_user():
 	try:
@@ -24,7 +66,8 @@ def add_user():
 			_hash_senha = generate_password_hash(_senha)			
 			sql = "INSERT INTO Usuario(nome, login, senha) VALUES(%s, %s, %s)"
 			data = (_nome, _login, _hash_senha,)
-			conn = db.connect()
+			engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
+			conn = engine.raw_connection()
 			cursor = conn.cursor()
 			cursor.execute(sql, data)
 			conn.commit()
@@ -42,10 +85,18 @@ def add_user():
 @app.route('/users', methods=['GET'])
 def users():
 	try:
+		_nome = request.args.get('nome')
+		_where = "" 
+		if _nome:
+			_where = " nome like '%" + _nome + "%' "		
+
 		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
 		conn = engine.raw_connection()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
-		cursor.execute("SELECT * FROM Usuario")
+		sql = "SELECT id, login, nome FROM Usuario"
+		if _where :
+			sql += " where " + _where
+		cursor.execute(sql)
 		rows = cursor.fetchall()
 		resp = jsonify(rows)
 		resp.status_code = 200
@@ -58,12 +109,12 @@ def users():
 			conn.close()
 
 @app.route('/users/<int:id>', methods=['GET'])
-def user(id):
+def userById(id):
 	try:
 		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
 		conn = engine.raw_connection()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
-		cursor.execute("SELECT * FROM Usuario WHERE id=%s", id)
+		cursor.execute("SELECT id, login, nome FROM Usuario WHERE id=%s", id)
 		row = cursor.fetchone()
 		resp = jsonify(row)
 		resp.status_code = 200
@@ -161,10 +212,18 @@ def add_provider():
 @app.route('/providers', methods=['GET'])
 def providers():
 	try:
+		_nome = request.args.get('nome')
+		_where = "" 
+		if _nome:
+			_where = " nome like '%" + _nome + "%' "
+
 		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
 		conn = engine.raw_connection()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
-		cursor.execute("SELECT * FROM Fornecedor")
+		sql = "SELECT * FROM Fornecedor"
+		if _where :
+			sql += " where " + _where
+		cursor.execute(sql)
 		rows = cursor.fetchall()
 		resp = jsonify(rows)
 		resp.status_code = 200
@@ -279,10 +338,18 @@ def add_product():
 @app.route('/products', methods=['GET'])
 def products():
 	try:
+		_nome = request.args.get('nome')
+		_where = ""
+		if _nome:
+			_where = " nome like '%" + _nome + "%' "
+
 		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
 		conn = engine.raw_connection()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
-		cursor.execute("SELECT * FROM Produto")
+		sql = "SELECT * FROM Produto"
+		if _where :
+			sql += " where " +_where
+		cursor.execute(sql)
 		rows = cursor.fetchall()
 		resp = jsonify(rows)
 		resp.status_code = 200
