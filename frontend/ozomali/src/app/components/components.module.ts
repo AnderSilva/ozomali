@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NgxMaskModule } from 'ngx-mask';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { NgxMaskModule } from 'ngx-mask';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    NgxMaskModule
+    NgxMaskModule,
+    MatProgressSpinnerModule,
   ],
   exports: [
     HeaderMenuComponent,

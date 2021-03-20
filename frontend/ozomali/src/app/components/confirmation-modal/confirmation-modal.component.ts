@@ -13,7 +13,6 @@ export class ConfirmationModalComponent implements OnInit {
   @Input() public cancelText: string = '';
 
   @Output() public confirmation: EventEmitter<void> = new EventEmitter();
-  @Output() public cancelation: EventEmitter<void> = new EventEmitter();
 
   constructor(public dialogRef: MatDialogRef<ConfirmationModalComponent>) {}
 
@@ -25,7 +24,6 @@ export class ConfirmationModalComponent implements OnInit {
   }
 
   public cancel(): void {
-    this.cancelation.emit();
     this.dialogRef.close();
   }
 }

@@ -12,8 +12,6 @@
         </mat-error>
       </mat-form-field>
 
-      <br />
-
       <mat-form-field
         appearance="outline"
         class="vendor-register__form-field vendor-register__form-field--name"
@@ -24,8 +22,6 @@
           Digite o nome do fornecedor
         </mat-error>
       </mat-form-field>
-
-      <br />
 
       <div class="vendor-register__form-field--wrapper">
         <mat-form-field
@@ -59,8 +55,6 @@
           </mat-error>
         </mat-form-field>
       </div>
-
-      <br />
 
       <div class="vendor-register__form-field--wrapper">
         <mat-form-field
@@ -107,7 +101,10 @@
       </div>
     </div>
 
-    <button class="vendor-register__button">Limpar</button>
-    <button class="vendor-register__button">Cadastrar</button>
+    <div matRipple class="vendor-register__button" (click)="clearForm()">Limpar</div>
+    <div matRipple class="vendor-register__button" (click)="registerVendor()">
+      <span *ngIf="!isRegisterLoading">Cadastrar</span>
+      <mat-spinner [diameter]="30" *ngIf="isRegisterLoading"></mat-spinner>
+    </div>
   </form>
 </div>

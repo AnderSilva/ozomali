@@ -10,7 +10,7 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: flex-end;
-      padding: 48px;
+      padding: 72px 48px;
     }
 
     &-field {
@@ -47,7 +47,7 @@
     background-color: #3372eb;
     font-size: 24px;
     padding: 15px 45px;
-    margin-left: 24px;
+    margin: 24px 0 0 24px;
     border-radius: 5px;
     border: unset;
     user-select: none;
