@@ -7,12 +7,18 @@ import { MatMenuModule } from '@angular/material/menu';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 import { FeedbackModalComponent } from './feedback-modal/feedback-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { VendorRegisterComponent } from './vendor-register/vendor-register.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
   declarations: [
     HeaderMenuComponent,
     ConfirmationModalComponent,
     FeedbackModalComponent,
+    VendorRegisterComponent,
   ],
   imports: [
     CommonModule,
@@ -20,11 +26,17 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatRippleModule,
     MatMenuModule,
     MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    NgxMaskModule
   ],
   exports: [
     HeaderMenuComponent,
     ConfirmationModalComponent,
     FeedbackModalComponent,
+    VendorRegisterComponent,
   ],
 })
 export class ComponentsModule {}

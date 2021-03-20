@@ -1,0 +1,113 @@
+<div class="vendor-register">
+  <form [formGroup]="vendorRegisterForm" class="vendor-register__form-wrapper">
+    <div class="vendor-register__form">
+      <mat-form-field
+        appearance="outline"
+        class="vendor-register__form-field vendor-register__form-field--cnpj"
+      >
+        <mat-label>CNPJ</mat-label>
+        <input matInput placeholder="" mask="CPF_CNPJ" formControlName="cnpj" />
+        <mat-error *ngIf="vendorRegisterForm.get('cnpj').hasError('required')">
+          Digite um CNPJ válido
+        </mat-error>
+      </mat-form-field>
+
+      <br />
+
+      <mat-form-field
+        appearance="outline"
+        class="vendor-register__form-field vendor-register__form-field--name"
+      >
+        <mat-label>Nome</mat-label>
+        <input matInput placeholder="" formControlName="nome" />
+        <mat-error *ngIf="vendorRegisterForm.get('cnpj').hasError('required')">
+          Digite o nome do fornecedor
+        </mat-error>
+      </mat-form-field>
+
+      <br />
+
+      <div class="vendor-register__form-field--wrapper">
+        <mat-form-field
+          appearance="outline"
+          class="vendor-register__form-field vendor-register__form-field--cep"
+        >
+          <mat-label>CEP</mat-label>
+          <input
+            matInput
+            placeholder=""
+            mask="00000-000"
+            formControlName="cep"
+          />
+          <mat-error
+            *ngIf="vendorRegisterForm.get('cnpj').hasError('required')"
+          >
+            Digite um CEP válido
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field
+          appearance="outline"
+          class="vendor-register__form-field vendor-register__form-field--address"
+        >
+          <mat-label>Endereço</mat-label>
+          <input matInput placeholder="" formControlName="endereco" />
+          <mat-error
+            *ngIf="vendorRegisterForm.get('cnpj').hasError('required')"
+          >
+            Digite o endereço do fornecedor
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <br />
+
+      <div class="vendor-register__form-field--wrapper">
+        <mat-form-field
+          appearance="outline"
+          class="vendor-register__form-field"
+        >
+          <mat-label>Número</mat-label>
+          <input
+            matInput
+            placeholder=""
+            type="number"
+            formControlName="numero"
+          />
+          <mat-error
+            *ngIf="vendorRegisterForm.get('cnpj').hasError('required')"
+          >
+            Digite o número do endereço
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field
+          appearance="outline"
+          class="vendor-register__form-field"
+        >
+          <mat-label>Complemento</mat-label>
+          <input matInput placeholder="" formControlName="complemento" />
+        </mat-form-field>
+
+        <mat-form-field
+          appearance="outline"
+          class="vendor-register__form-field"
+        >
+          <mat-label>Cidade</mat-label>
+          <input matInput placeholder="" formControlName="cidade" />
+        </mat-form-field>
+
+        <mat-form-field
+          appearance="outline"
+          class="vendor-register__form-field"
+        >
+          <mat-label>Estado</mat-label>
+          <input matInput placeholder="" mask="SS" formControlName="estado" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <button class="vendor-register__button">Limpar</button>
+    <button class="vendor-register__button">Cadastrar</button>
+  </form>
+</div>
