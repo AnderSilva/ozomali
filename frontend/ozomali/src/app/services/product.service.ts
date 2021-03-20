@@ -9,7 +9,7 @@ export class ProductService {
   private readonly baseUrl: string;
 
   constructor(private http: HttpClient) {
-    this.baseUrl = 'https://ozomali-api.herokuapp.com/products';
+    this.baseUrl = 'https://ozomali.herokuapp.com/products';
   }
 
   public createProduct(params: any): Observable<any> {

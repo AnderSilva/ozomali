@@ -9,7 +9,7 @@ export class UserService {
   private readonly baseUrl: string;
 
   constructor(private http: HttpClient) {
-    this.baseUrl = 'https://ozomali-api.herokuapp.com/users';
+    this.baseUrl = 'https://ozomali.herokuapp.com/users';
   }
 
   public createUser(params: any): Observable<any> {

@@ -9,7 +9,7 @@ export class VendorService {
   private readonly baseUrl: string;
 
   constructor(private http: HttpClient) {
-    this.baseUrl = 'https://ozomali-api.herokuapp.com/providers';
+    this.baseUrl = 'https://ozomali.herokuapp.com/providers';
   }
 
   public createVendor(params: any): Observable<any> {
