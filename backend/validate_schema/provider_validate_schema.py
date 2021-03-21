@@ -2,8 +2,8 @@ provider_create_schema = {
     'type': 'object',
     'properties': {
         'nome': {'type': 'string',  "minLength": 4, "maxLength": 200},
-        'cnpj': {'type': 'string',  "minLength": 18, "maxLength": 18, "pattern": "^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$"},
-        'cep': {'type': 'number', "minimum": 1000, "maximum": 99999999},
+        'cnpj': {'type': 'string',  "minLength": 14, "maxLength": 14 },
+        'cep': {'type': 'string', "minLength": 8, "maxLength": 8},
         'endereco': {'type': 'string',  "minLength": 4, "maxLength": 200},
         'numero': {'type': 'string',  "minLength": 1, "maxLength": 10},
         'complemento': {'type': 'string',  "maxLength": 10},
@@ -18,8 +18,8 @@ provider_update_schema = {
     'properties': {
         'id': {'type': 'number', "minimum": 1},
         'nome': {'type': 'string',  "minLength": 4, "maxLength": 200},
-        'cnpj': {'type': 'string',  "minLength": 18, "maxLength": 18, "pattern": "^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$"},
-        'cep': {'type': 'number', "minimum": 1000, "maximum": 99999999},
+        'cnpj': {'type': 'string',  "minLength": 14, "maxLength": 14},
+        'cep': {'type': 'string', "minLength": 8, "maxLength": 8},
         'endereco': {'type': 'string',  "minLength": 4, "maxLength": 200},
         'numero': {'type': 'string',  "minLength": 1, "maxLength": 10},
         'complemento': {'type': 'string',  "maxLength": 10},
