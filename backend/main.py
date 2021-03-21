@@ -4,7 +4,10 @@ from db_config import db
 from flask import jsonify
 from flask import flash, request
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from flask_expects_json import expects_json
+from validate_schema.user_validate_schema import user_create_schema, user_auth_schema, user_update_schema
+from validate_schema.provider_validate_schema import provider_create_schema, provider_update_schema
+from validate_schema.product_validate_schema import product_create_schema, product_update_schema
 
 @app.route('/', methods=['GET'])
 def home():
@@ -13,6 +16,7 @@ def home():
 	return resp
 
 @app.route('/auth', methods=['POST'])
+@expects_json(user_auth_schema)
 def auth():
 	try:
 		_json = request.json
@@ -55,6 +59,7 @@ def auth():
 			conn.close()
 
 @app.route('/users', methods=['POST'])
+@expects_json(user_create_schema)
 def add_user():
 	try:
 		_json = request.json
@@ -82,13 +87,19 @@ def add_user():
 		cursor.close()
 		conn.close()
 
+@app.route('/users/<int:id>', methods=['GET'])
 @app.route('/users', methods=['GET'])
-def users():
+def users(id=0):
 	try:
 		_nome = request.args.get('nome')
+		_login = request.args.get('login')
 		_where = "" 
 		if _nome:
-			_where = " nome like '%" + _nome + "%' "		
+			_where = " nome like '%" + _nome + "%' "
+		if _login:
+			_where = " login = '" + _login + "' "
+		if id>0:
+			_where += " id = " + str(id) + " "
 
 		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
 		conn = engine.raw_connection()
@@ -108,25 +119,8 @@ def users():
 			cursor.close()
 			conn.close()
 
-@app.route('/users/<int:id>', methods=['GET'])
-def userById(id):
-	try:
-		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
-		conn = engine.raw_connection()
-		cursor = conn.cursor(pymysql.cursors.DictCursor)
-		cursor.execute("SELECT id, login, nome FROM Usuario WHERE id=%s", id)
-		row = cursor.fetchone()
-		resp = jsonify(row)
-		resp.status_code = 200
-		return resp
-	except Exception as e:
-		print(e)
-	finally:
-		if cursor is not None:
-			cursor.close()
-			conn.close()
-
 @app.route('/users', methods=['PUT'])
+@expects_json(user_update_schema)
 def update_user():
 	try:
 		_json = request.json
@@ -177,6 +171,7 @@ def delete_user(id):
 			conn.close()
 
 @app.route('/providers', methods=['POST'])
+@expects_json(provider_create_schema)
 def add_provider():
 	try:
 		_json = request.json
@@ -185,7 +180,9 @@ def add_provider():
 		_cep = _json['cep']
 		_endereco = _json['endereco']
 		_numero = _json['numero']
-		_complemento = _json['complemento']
+		_complemento = ""
+		if not (_json.get('complemento') is None):
+			_complemento = _json['complemento']
 		_cidade = _json['cidade']
 		_estado = _json['estado']		
 
@@ -209,14 +206,16 @@ def add_provider():
 			cursor.close()
 			conn.close()
 
+@app.route('/providers/<int:id>', methods=['GET'])
 @app.route('/providers', methods=['GET'])
-def providers():
+def providers(id=0):
 	try:
 		_nome = request.args.get('nome')
 		_where = "" 
 		if _nome:
 			_where = " nome like '%" + _nome + "%' "
-
+		if id>0:
+			_where += " id = " + str(id) + " "
 		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
 		conn = engine.raw_connection()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
@@ -235,25 +234,8 @@ def providers():
 			cursor.close()
 			conn.close()
 
-@app.route('/providers/<int:id>', methods=['GET'])
-def provider(id):
-	try:
-		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
-		conn = engine.raw_connection()
-		cursor = conn.cursor(pymysql.cursors.DictCursor)
-		cursor.execute("SELECT * FROM Fornecedor WHERE id=%s", id)
-		row = cursor.fetchone()
-		resp = jsonify(row)
-		resp.status_code = 200
-		return resp
-	except Exception as e:
-		print(e)
-	finally:
-		if cursor is not None:
-			cursor.close()
-			conn.close()
-
 @app.route('/providers', methods=['PUT'])
+@expects_json(provider_update_schema)
 def update_provider():
 	try:
 		_json = request.json
@@ -307,6 +289,7 @@ def delete_provider(id):
 			conn.close()
 
 @app.route('/products', methods=['POST'])
+@expects_json(product_create_schema)
 def add_product():
 	try:
 		_json = request.json
@@ -335,14 +318,16 @@ def add_product():
 			cursor.close()
 			conn.close()
 
+@app.route('/products/<int:id>', methods=['GET'])
 @app.route('/products', methods=['GET'])
-def products():
+def products(id=0):
 	try:
 		_nome = request.args.get('nome')
 		_where = ""
 		if _nome:
 			_where = " nome like '%" + _nome + "%' "
-
+		if id>0:
+			_where += " id = " + str(id) + " "
 		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
 		conn = engine.raw_connection()
 		cursor = conn.cursor(pymysql.cursors.DictCursor)
@@ -361,25 +346,8 @@ def products():
 			cursor.close()
 			conn.close()
 
-@app.route('/products/<int:id>', methods=['GET'])
-def product(id):
-	try:
-		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
-		conn = engine.raw_connection()
-		cursor = conn.cursor(pymysql.cursors.DictCursor)
-		cursor.execute("SELECT * FROM Produto WHERE id=%s", id)
-		row = cursor.fetchone()
-		resp = jsonify(row)
-		resp.status_code = 200
-		return resp
-	except Exception as e:
-		print(e)
-	finally:
-		if cursor is not None:
-			cursor.close()
-			conn.close()
-
 @app.route('/products', methods=['PUT'])
+@expects_json(product_update_schema)
 def update_product():
 	try:
 		_json = request.json
