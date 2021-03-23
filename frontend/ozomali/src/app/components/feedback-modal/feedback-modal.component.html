@@ -1,8 +1,8 @@
 <div class="feedback-modal">
-  <p class="feedback-modal__text">{{ text }}</p>
-  <p class="feedback-modal__warning">{{ warning }}</p>
+  <p class="feedback-modal__text">{{ data.text }}</p>
+  <p class="feedback-modal__warning">{{ data.warning }}</p>
 
   <div class="feedback-modal__button-wrapper">
-    <button matRipple class="feedback-modal__continue" (click)="onContinue()">{{ continueText }}</button>
+    <button matRipple class="feedback-modal__continue" (click)="onContinue()">{{ data.continueText }}</button>
   </div>
 </div>

@@ -1,10 +1,10 @@
 <div class="confirmation-modal">
-  <p class="confirmation-modal__description">{{ description }}</p>
-  <p class="confirmation-modal__warning">{{ warning }}</p>
+  <p class="confirmation-modal__description">{{ data.description }}</p>
+  <p class="confirmation-modal__warning">{{ data.warning }}</p>
 
   <div class="confirmation-modal__buttons-wrapper">
-    <button matRipple class="confirmation-modal__cancel" (click)="cancel()">{{ cancelText }}</button>
-    <button matRipple class="confirmation-modal__confirm" (click)="confirm()">{{ confirmText }}</button>
+    <button matRipple class="confirmation-modal__cancel" (click)="cancel()">{{ data.cancelText }}</button>
+    <button matRipple class="confirmation-modal__confirm" (click)="confirm()">{{ data.confirmText }}</button>
   </div>
 </div>
 
