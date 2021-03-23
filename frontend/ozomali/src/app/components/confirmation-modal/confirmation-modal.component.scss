@@ -18,7 +18,7 @@
     padding: 5px 25px;
     border: unset;
     cursor: pointer;
-    color: #E5E5E5;
+    color: #e5e5e5;
 
     &:focus {
       outline: unset;
@@ -26,12 +26,11 @@
   }
 
   &__cancel {
-    background-color: #AC3E37;
+    background-color: #ac3e37;
   }
 
   &__confirm {
-    background-color: #48AC37;
+    background-color: #48ac37;
     margin-left: 24px;
   }
-
 }

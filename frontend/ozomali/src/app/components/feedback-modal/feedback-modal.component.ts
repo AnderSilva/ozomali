@@ -14,7 +14,7 @@ export class FeedbackModalComponent {
       text: string;
       warning: string;
       continueText: string;
-    }
+    },
   ) {}
 
   onContinue(): void {

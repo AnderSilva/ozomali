@@ -15,7 +15,7 @@ export class ConfirmationModalComponent implements OnInit {
       warning: string;
       confirmText: string;
       cancelText: string;
-    }
+    },
   ) {}
 
   ngOnInit(): void {}
