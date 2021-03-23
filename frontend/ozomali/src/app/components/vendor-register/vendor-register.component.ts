@@ -82,14 +82,18 @@ export class VendorRegisterComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const modal = this.dialog.open(ConfirmationModalComponent);
-    modal.componentInstance.description =
-      'Você realmente quer salvar esse cadastro?';
-    modal.componentInstance.confirmText = 'Sim';
-    modal.componentInstance.cancelText = 'Não';
+    const confirmationModal = this.dialog.open(ConfirmationModalComponent, {
+      data: {
+        description: 'Você realmente quer salvar esse cadastro?',
+        confirmText: 'Sim',
+        cancelText: 'Não',
+      },
+    });
 
-    modal.componentInstance.confirmation
+    confirmationModal
+      .afterClosed()
       .pipe(
+        filter((confirmation) => confirmation === true),
         switchMap(() => {
           this.isRegisterLoading = true;
           const formValues = this.vendorRegisterForm.getRawValue();
@@ -109,17 +113,22 @@ export class VendorRegisterComponent implements OnInit, OnDestroy {
         () => {
           this.vendorRegisterForm.reset();
           this.isRegisterLoading = false;
-          const modal = this.dialog.open(FeedbackModalComponent);
-          modal.componentInstance.text = 'Cadastro Realizado com Sucesso!';
-          modal.componentInstance.continueText = 'Fechar';
+          const feedbackModal = this.dialog.open(FeedbackModalComponent, {
+            data: {
+              text: 'Cadastro Realizado com Sucesso!',
+              continueText: 'Fechar',
+            },
+          });
         },
         () => {
           this.isRegisterLoading = false;
-          const modal = this.dialog.open(FeedbackModalComponent);
-          modal.componentInstance.text = 'Desculpe, o cadastro não funcionou!';
-          modal.componentInstance.warning =
-            'Tente novamente ou entre em contado com nosso suporte.';
-          modal.componentInstance.continueText = 'Fechar';
+          const feedbackModal = this.dialog.open(FeedbackModalComponent, {
+            data: {
+              text: 'Desculpe, o cadastro não funcionou!',
+              warning: 'Tente novamente ou entre em contado com nosso suporte.',
+              continueText: 'Fechar',
+            },
+          });
         }
       );
   }
