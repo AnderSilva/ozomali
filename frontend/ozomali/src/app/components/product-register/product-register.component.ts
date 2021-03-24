@@ -18,7 +18,6 @@ export class ProductRegisterComponent implements OnInit {
   public productRegisterForm: FormGroup;
   public productSearchForm: FormGroup;
   public isRegisterLoading: boolean;
-  public number: number
 
   constructor(private formBuider: FormBuilder, private productService: ProductService, private dialog: MatDialog) {
     this.productRegisterForm = this.formBuider.group({
@@ -37,6 +36,7 @@ export class ProductRegisterComponent implements OnInit {
 
   public clearForm(): void {
     this.productRegisterForm.reset();
+    this.product = undefined;
   }
 
   public registerProduct(): void {
@@ -68,9 +68,9 @@ export class ProductRegisterComponent implements OnInit {
             }
           });
 
-          params.preco_custo = Number(params.preco_custo)
-          params.preco_venda = Number(params.preco_custo)
-          params.quantidade = Number(params.preco_venda)
+          params.preco_custo = Number(params.preco_custo);
+          params.preco_venda = Number(params.preco_custo);
+          params.quantidade = Number(params.preco_venda);
 
           return this.productService.createProduct(params);
         }),
@@ -100,9 +100,135 @@ export class ProductRegisterComponent implements OnInit {
       );
   }
 
-  public onSearchProduct(): void {}
+  public setProductForm(product: product): void {
+    this.productRegisterForm.get('nome').setValue(product.nome);
+    this.productRegisterForm.get('preco_custo').setValue(product.preco_custo);
+    this.productRegisterForm.get('preco_venda').setValue(product.preco_venda);
+    this.productRegisterForm.get('quantidade').setValue(product.quantidade);
+  }
 
-  public updateProduct(): void {}
+  public onSearchProduct(): void {
+    if (this.productSearchForm.invalid || this.isRegisterLoading) {
+      this.productSearchForm.markAllAsTouched();
+      return;
+    }
 
-  public deleteProduct(): void {}
+    this.isRegisterLoading = true;
+    const id = this.productSearchForm.get('id').value;
+
+    this.productService
+      .getProductById(id)
+      .pipe(take(1))
+      .subscribe(
+        product => {
+          this.isRegisterLoading = false;
+          this.product = product[0];
+          this.setProductForm(this.product);
+        },
+        () => {
+          this.isRegisterLoading = false;
+          const feedbackModal = this.dialog.open(FeedbackModalComponent, {
+            data: {
+              text: 'Desculpe, ocorreu um erro!',
+              warning: 'Tente novamente ou entre em contado com nosso suporte.',
+              continueText: 'Fechar',
+            },
+          });
+        },
+      );
+  }
+
+  public updateProduct(): void {
+    if (this.productRegisterForm.invalid || this.isRegisterLoading) {
+      this.productRegisterForm.markAllAsTouched();
+      return;
+    }
+
+    this.isRegisterLoading = true;
+    const formValues = this.productRegisterForm.getRawValue();
+    let params: product = {};
+
+    Object.entries(formValues).forEach(([key, value]) => {
+      if (value) {
+        params[`${key}`] = value;
+      }
+    });
+
+    params = { ...params, id: this.product.id };
+
+    this.productService
+      .updateProduct(params)
+      .pipe(take(1))
+      .subscribe(
+        () => {
+          this.isRegisterLoading = false;
+          const feedbackModal = this.dialog.open(FeedbackModalComponent, {
+            data: {
+              text: 'Registro atualizado com sucesso!',
+              continueText: 'Fechar',
+            },
+          });
+        },
+        () => {
+          this.isRegisterLoading = false;
+          const feedbackModal = this.dialog.open(FeedbackModalComponent, {
+            data: {
+              text: 'Desculpe, ocorreu um erro!',
+              warning: 'Tente novamente ou entre em contado com nosso suporte.',
+              continueText: 'Fechar',
+            },
+          });
+        },
+      );
+  }
+
+  public deleteProduct(): void {
+    if (this.isRegisterLoading) {
+      return;
+    }
+
+    const confirmationModal = this.dialog.open(ConfirmationModalComponent, {
+      data: {
+        description: 'Você realmente quer apagar esse registro?',
+        warning: 'Uma vez apagado, não será possivel recuperar',
+        confirmText: 'Sim',
+        cancelText: 'Não',
+      },
+    });
+
+    confirmationModal
+      .afterClosed()
+      .pipe(
+        filter(confirmation => confirmation === true),
+        switchMap(() => {
+          this.isRegisterLoading = true;
+
+          return this.productService.deleteProductById(this.product.id);
+        }),
+        take(1),
+      )
+      .subscribe(
+        () => {
+          this.productRegisterForm.reset();
+          this.isRegisterLoading = false;
+          this.product = undefined;
+          const feedbackModal = this.dialog.open(FeedbackModalComponent, {
+            data: {
+              text: 'Registro apagado com sucesso!',
+              continueText: 'Fechar',
+            },
+          });
+        },
+        () => {
+          this.isRegisterLoading = false;
+          const feedbackModal = this.dialog.open(FeedbackModalComponent, {
+            data: {
+              text: 'Desculpe, ocorreu um erro!',
+              warning: 'Tente novamente ou entre em contado com nosso suporte.',
+              continueText: 'Fechar',
+            },
+          });
+        },
+      );
+  }
 }
