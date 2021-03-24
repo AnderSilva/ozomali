@@ -55,6 +55,10 @@
       </div>
     </div>
 
+    <div matRipple class="vendor-register__button" *ngIf="isSearch" (click)="clearForm()">
+      <span *ngIf="!isRegisterLoading">Nova busca</span>
+      <mat-spinner [diameter]="30" *ngIf="isRegisterLoading"></mat-spinner>
+    </div>
     <div matRipple class="vendor-register__button" (click)="isSearch ? deleteVendor() : clearForm()">
       <span *ngIf="!isRegisterLoading"> {{ isSearch ? 'Deletar' : 'Limpar' }}</span>
       <mat-spinner [diameter]="30" *ngIf="isRegisterLoading"></mat-spinner>

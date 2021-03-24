@@ -76,6 +76,7 @@ export class VendorRegisterComponent implements OnInit, OnDestroy {
 
   public clearForm(): void {
     this.vendorRegisterForm.reset();
+    this.vendor = undefined;
   }
 
   public registerVendor(): void {
