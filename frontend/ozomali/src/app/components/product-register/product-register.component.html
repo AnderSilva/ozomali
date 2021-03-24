@@ -1,0 +1,65 @@
+<div class="product-register" *ngIf="isSearch ? (product ? true : false) : true">
+  <form [formGroup]="productRegisterForm" class="product-register__form-wrapper">
+    <div class="product-register__form">
+      <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--name">
+        <mat-label>Nome</mat-label>
+        <input matInput placeholder="" formControlName="nome" />
+        <mat-error *ngIf="productRegisterForm.get('nome').hasError('required')"> Digite o nome do produto </mat-error>
+      </mat-form-field>
+
+      <div class="product-register__form-field--wrapper">
+        <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--others">
+          <mat-label>Preço de custo</mat-label>
+          <input matInput placeholder="" mask="99999999" formControlName="preco_custo" />
+          <mat-error *ngIf="productRegisterForm.get('preco_custo').hasError('required')">
+            Digite o preço de custo do produto
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--others">
+          <mat-label>Preço de venda</mat-label>
+          <input matInput placeholder="" mask="99999999" formControlName="preco_venda" />
+          <mat-error *ngIf="productRegisterForm.get('preco_venda').hasError('required')">
+            Digite o preço de venda do produto
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--others">
+          <mat-label>Quantidade</mat-label>
+          <input matInput placeholder="" mask="99999999" formControlName="quantidade" />
+          <mat-error *ngIf="productRegisterForm.get('quantidade').hasError('required')">
+            Digite a quantidade de peças
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div matRipple class="product-register__button" (click)="isSearch ? deleteProduct() : clearForm()">
+      <span *ngIf="!isRegisterLoading"> {{ isSearch ? 'Deletar' : 'Limpar' }}</span>
+      <mat-spinner [diameter]="30" *ngIf="isRegisterLoading"></mat-spinner>
+    </div>
+    <div matRipple class="product-register__button" (click)="isSearch ? updateProduct() : registerProduct()">
+      <span *ngIf="!isRegisterLoading"> {{ isSearch ? 'Atualizar' : 'Cadastrar' }}</span>
+      <mat-spinner [diameter]="30" *ngIf="isRegisterLoading"></mat-spinner>
+    </div>
+  </form>
+</div>
+
+<ng-container *ngIf="isSearch ? (product ? false : true) : false">
+  <div class="product-register__search">
+    <form [formGroup]="productSearchForm" class="product-register__form-wrapper">
+      <div class="product-register__form">
+        <mat-form-field appearance="outline" class="product-register__form-field">
+          <mat-label>ID</mat-label>
+          <input matInput placeholder="" mask="99999" formControlName="id" />
+          <mat-error *ngIf="productSearchForm.get('id').hasError('required')"> Digite um ID </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div matRipple class="product-register__button" (click)="onSearchProduct()">
+        <span *ngIf="!isRegisterLoading">Buscar</span>
+        <mat-spinner [diameter]="30" *ngIf="isRegisterLoading"></mat-spinner>
+      </div>
+    </form>
+  </div>
+</ng-container>

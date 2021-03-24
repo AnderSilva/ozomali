@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NgxMaskModule } from 'ngx-mask';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ProductRegisterComponent } from './product-register/product-register.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ConfirmationModalComponent,
     FeedbackModalComponent,
     VendorRegisterComponent,
+    ProductRegisterComponent,
   ],
   imports: [
     CommonModule,
@@ -39,6 +41,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ConfirmationModalComponent,
     FeedbackModalComponent,
     VendorRegisterComponent,
+    ProductRegisterComponent,
   ],
 })
 export class ComponentsModule {}
