@@ -1,5 +1,5 @@
 export interface vendor {
-  cep?: number;
+  cep?: any;
   cidade?: string;
   cnpj?: string;
   complemento?: string;

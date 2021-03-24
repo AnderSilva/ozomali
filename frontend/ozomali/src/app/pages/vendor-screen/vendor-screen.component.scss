@@ -4,6 +4,37 @@
   align-items: center;
   height: 100%;
 
+  &__tabs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+
+    ::ng-deep .mat-tab {
+      &-label {
+        color: #ffffff;
+        font-weight: unset;
+        background-color: #5d8ff0;
+        opacity: unset;
+
+        &-active {
+          background-color: #3372eb !important;
+        }
+      }
+
+      &-body-wrapper {
+        width: 100%;
+      }
+    }
+  }
+
+  &__icons {
+    margin-right: 20px;
+    width: 35px;
+    height: 35px;
+  }
+
   &__component {
     display: flex;
     justify-content: center;

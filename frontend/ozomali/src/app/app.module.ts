@@ -16,6 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxMaskModule } from 'ngx-mask';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { NgxMaskModule } from 'ngx-mask';
     MatMenuModule,
     HttpClientModule,
     NgxMaskModule.forRoot(),
+    MatTabsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

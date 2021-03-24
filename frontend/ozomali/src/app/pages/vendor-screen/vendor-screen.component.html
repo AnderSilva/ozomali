@@ -1,3 +1,18 @@
 <div class="vendor-screen">
-  <app-vendor-register class="vendor-screen__component"></app-vendor-register>
+  <mat-tab-group class="vendor-screen__tabs">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <img class="vendor-screen__icons" src="../../../assets/busca.svg" />
+        Consultar Fornecedor
+      </ng-template>
+      <app-vendor-register [isSearch]="true" class="vendor-screen__component"></app-vendor-register>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <img class="vendor-screen__icons" src="../../../assets/fornecedor.svg" />
+        Cadastrar Fornecedor
+      </ng-template>
+      <app-vendor-register class="vendor-screen__component"></app-vendor-register>
+    </mat-tab>
+  </mat-tab-group>
 </div>

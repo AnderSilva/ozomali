@@ -8,9 +8,8 @@ describe('VendorScreenComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ VendorScreenComponent ]
-    })
-    .compileComponents();
+      declarations: [VendorScreenComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

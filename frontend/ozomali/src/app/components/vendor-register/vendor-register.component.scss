@@ -3,6 +3,12 @@
   background-color: #e7eced;
   width: 80%;
 
+  &__search {
+    display: flex;
+    background-color: #e7eced;
+    width: 80%;
+  }
+
   &__form {
     width: 100%;
 
@@ -11,6 +17,7 @@
       flex-wrap: wrap;
       justify-content: flex-end;
       padding: 72px 48px;
+      width: 100%;
     }
 
     &-field {
@@ -30,6 +37,9 @@
       }
       &--address {
         width: 65%;
+      }
+      &--others {
+        width: 22%;
       }
 
       ::ng-deep .mat-form-field {
