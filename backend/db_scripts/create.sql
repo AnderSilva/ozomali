@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS Fornecedor (
     id INT NOT NULL AUTO_INCREMENT,
     cnpj VARCHAR(18) NOT NULL UNIQUE,
     nome VARCHAR(200) NOT NULL,
-    cep INT(8) NOT NULL,
+    cep varchar(8) NOT NULL,
     endereco VARCHAR(200) NOT NULL,
     numero VARCHAR(10),
     complemento VARCHAR(10),
