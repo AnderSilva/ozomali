@@ -110,6 +110,7 @@ def users(id=0):
 		cursorx.execute(sql)
 		rows = cursorx.fetchall()
 		cursorx.close()
+		connc.close()
 		resp = jsonify(rows)
 		resp.status_code = 200
 		return resp
@@ -117,6 +118,7 @@ def users(id=0):
 		print(e)
 		if cursorx is not None:
 			cursorx.close()
+			connc.close()
 
 @app.route('/users', methods=['PUT'])
 @expects_json(user_update_schema)
