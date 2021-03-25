@@ -69,8 +69,8 @@ export class ProductRegisterComponent implements OnInit {
           });
 
           params.preco_custo = Number(params.preco_custo);
-          params.preco_venda = Number(params.preco_custo);
-          params.quantidade = Number(params.preco_venda);
+          params.preco_venda = Number(params.preco_venda);
+          params.quantidade = Number(params.quantidade);
 
           return this.productService.createProduct(params);
         }),
