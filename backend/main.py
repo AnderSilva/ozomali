@@ -8,6 +8,7 @@ from flask_expects_json import expects_json
 from validate_schema.user_validate_schema import user_create_schema, user_auth_schema, user_update_schema
 from validate_schema.provider_validate_schema import provider_create_schema, provider_update_schema
 from validate_schema.product_validate_schema import product_create_schema, product_update_schema
+enginex = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
 
 @app.route('/', methods=['GET'])
 def home():
@@ -101,23 +102,21 @@ def users(id=0):
 		if id>0:
 			_where += " id = " + str(id) + " "
 
-		engine = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'],{})
-		conn = engine.raw_connection()
-		cursor = conn.cursor(pymysql.cursors.DictCursor)
+		connc = enginex.raw_connection()
+		cursorx = connc.cursor(pymysql.cursors.DictCursor)
 		sql = "SELECT id, login, nome FROM Usuario"
 		if _where :
 			sql += " where " + _where
-		cursor.execute(sql)
-		rows = cursor.fetchall()
+		cursorx.execute(sql)
+		rows = cursorx.fetchall()
+		cursorx.close()
 		resp = jsonify(rows)
 		resp.status_code = 200
 		return resp
 	except Exception as e:
 		print(e)
-	finally:
-		if cursor is not None:
-			cursor.close()
-			conn.close()
+		if cursorx is not None:
+			cursorx.close()
 
 @app.route('/users', methods=['PUT'])
 @expects_json(user_update_schema)
