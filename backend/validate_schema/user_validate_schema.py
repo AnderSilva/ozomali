@@ -23,7 +23,7 @@ user_update_schema = {
         'id': {'type': 'number', "minimum": 1},
         'nome': {'type': 'string',  "minLength": 4, "maxLength": 200},
         'login': {'type': 'string', "pattern": "[^@]+@[^@]+\.[^@]"},
-        'senha': {'type': 'string', "minLength": 8, "maxLength": 20, "pattern": "^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=*]).*$"}
+        'senha': {'type': 'string', "minLength": 8, "maxLength": 20} #, "pattern": "^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=*]).*$"}
     },
     'required': ['id', 'nome', 'login', 'senha']
 }
