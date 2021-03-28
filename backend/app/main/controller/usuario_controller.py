@@ -60,4 +60,16 @@ class User(Resource):
         data = request.json        
         return update_user(id=id,data=data)
 
-
+@api.route('/<login>')
+@api.param('login', 'parte do nome ou login do usuário')
+@api.response(404, 'Usuário não encontrado.')
+class User(Resource):
+    @api.doc('get a user based on login')
+    @api.marshal_with(_userlist)
+    def get(self, login):
+        """Obtem informações de um usuário com base no seu login"""
+        user = get_some_user(login)
+        if not user:
+            api.abort(404)
+        else:
+            return user
