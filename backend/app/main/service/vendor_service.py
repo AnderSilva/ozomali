@@ -2,14 +2,14 @@ import uuid
 import datetime
 
 from app.main import db
-from app.main.model.user import User
+from app.main.model.usuario import Usuario
 from typing import Dict, Tuple
 
 
 def save_new_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
-    user = User.query.filter_by(login=data['login']).first()
+    usuario = Usuario.query.filter_by(login=data['login']).first()
     if not user:
-        new_user = User(
+        new_usuario = Usuario(
             nome=data['nome'],
             login=data['login'],
             senha=data['senha'],
@@ -30,10 +30,10 @@ def save_new_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
 
 
 def update_user(id,data):    
-    user = User.query.filter_by(id=id).first()    
-    user.nome  = data['nome']
-    user.senha = data['senha']
-    user.ativo = data['ativo']
+    usuario = Usuario.query.filter_by(id=id).first()    
+    usuario.nome  = data['nome']
+    usuario.senha = data['senha']
+    usuario.ativo = data['ativo']
     db.session.commit()
     response_object = {
         'status': 'success',
@@ -42,23 +42,23 @@ def update_user(id,data):
     return response_object, 200
 
 def get_all_users(ativo=False):    
-    return User.query.filter_by(ativo=ativo).all()
+    return Usuario.query.filter_by(ativo=ativo).all()
 
 
 def get_a_user(id):
-    return User.query.filter_by(id=id).first()
+    return Usuario.query.filter_by(id=id).first()
 
 def get_some_user(login):
     item = '%{}%'.format(login)
-    filter1 = User.login.like(item)
-    filter2 = User.nome.like(item)
-    return User.query.filter(db.or_(filter1,filter2)).all()
+    filter1 = Usuario.login.like(item)
+    filter2 = Usuario.nome.like(item)
+    return Usuario.query.filter(db.or_(filter1,filter2)).all()
 
 
-def generate_token(user: User) -> Tuple[Dict[str, str], int]:
+def generate_token(user: Usuario) -> Tuple[Dict[str, str], int]:
     try:
         # generate the auth token
-        auth_token = User.encode_auth_token(user.id)
+        auth_token = Usuario.encode_auth_token(usuario.id)
         response_object = {
             'status': 'success',
             'message': 'Registrado com sucesso.',
@@ -73,7 +73,7 @@ def generate_token(user: User) -> Tuple[Dict[str, str], int]:
         return response_object, 401
 
 
-def save_changes(data: User) -> None:
+def save_changes(data: Usuario) -> None:
     db.session.add(data)
     db.session.commit()
 

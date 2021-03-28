@@ -7,25 +7,26 @@ import jwt
 from typing import Union
 
 
-class User(db.Model):    
+class Usuario(db.Model):    
     __tablename__ = "usuario"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)    
     nome = db.Column(db.String(128), unique=True, nullable=False)
     login = db.Column(db.String(128), unique=True, nullable=False)
-    senha = db.Column(db.String(100))
+    senha_hash = db.Column(db.String(100))
     ativo = db.Column(db.Boolean,default=True)       
 
     @property
-    def password(self):
+    def senha(self):
         raise AttributeError('senha: campo somente leitura')
 
-    @password.setter
-    def password(self, password):
-        self.senha = flask_bcrypt.generate_password_hash(password).decode('utf-8')
+    
+    @senha.setter
+    def senha(self, senha):
+        self.senha_hash = flask_bcrypt.generate_password_hash(senha).decode('utf-8')
 
-    def check_password(self, password: str) -> bool:
-        return flask_bcrypt.check_password_hash(self.senha, password)
+    def check_senha(self, senha: str) -> bool:
+        return flask_bcrypt.check_senha_hash(self.senha_hash, senha)
 
     @staticmethod
     def encode_auth_token(user_id: int) -> bytes:
@@ -67,4 +68,4 @@ class User(db.Model):
             return 'Invalid token. Please log in again.'
 
     def __repr__(self):
-        return "<User '{}'>".format(self.login)
+        return "<Usuario '{}'>".format(self.login)

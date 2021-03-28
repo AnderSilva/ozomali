@@ -1,4 +1,4 @@
-from app.main.model.user import User
+from app.main.model.usuario import Usuario
 from ..service.blacklist_service import save_token
 from typing import Dict, Tuple
 
@@ -8,10 +8,10 @@ class Auth:
     @staticmethod
     def login_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         try:
-            # fetch the user data
-            user = User.query.filter_by(login=data.get('login')).first()
-            if user and user.check_password(data.get('senha')):
-                auth_token = User.encode_auth_token(user.id)
+            # fetch the usuario data
+            usuario = Usuario.query.filter_by(login=data.get('login')).first()
+            if usuario and usuario.check_senha(data.get('senha')):
+                auth_token = Usuario.encode_auth_token(usuario.id)
                 if auth_token:
                     response_object = {
                         'status': 'sucesso',
@@ -41,7 +41,7 @@ class Auth:
         else:
             auth_token = ''
         if auth_token:
-            resp = User.decode_auth_token(auth_token)
+            resp = Usuario.decode_auth_token(auth_token)
             if not isinstance(resp, str):
                 # mark the token as blacklisted
                 return save_token(token=auth_token)
@@ -63,14 +63,14 @@ class Auth:
         # get the auth token
         auth_token = new_request.headers.get('Authorization')
         if auth_token:
-            resp = User.decode_auth_token(auth_token)
+            resp = Usuario.decode_auth_token(auth_token)
             if not isinstance(resp, str):
-                user = User.query.filter_by(id=resp).first()
+                usuario = Usuario.query.filter_by(id=resp).first()
                 response_object = {
                     'status': 'successo',
                     'data': {                        
-                        'nome': user.nome,
-                        'login': user.login
+                        'nome': usuario.nome,
+                        'login': usuario.login
                         
                     }
                 }

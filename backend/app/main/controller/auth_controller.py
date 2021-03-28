@@ -6,16 +6,16 @@ from ..util.dto import AuthDto
 from typing import Dict, Tuple
 
 api = AuthDto.api
-user_auth = AuthDto.user_auth
+usuario_auth = AuthDto.usuario_auth
 
 
 @api.route('/login')
-class UserLogin(Resource):
+class UsuarioLogin(Resource):
     """
-        User Login Resource
+        Usuario Login Resource
     """
-    @api.doc('user login')
-    @api.expect(user_auth, validate=True)
+    @api.doc('login do usuario')
+    @api.expect(usuario_auth, validate=True)
     def post(self) -> Tuple[Dict[str, str], int]:
         # get the post data
         post_data = request.json

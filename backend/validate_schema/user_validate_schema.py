@@ -8,7 +8,7 @@ user_create_schema = {
     'required': ['nome', 'login', 'senha']
 }
 
-user_auth_schema = {
+usuario_auth_schema = {
     'type': 'object',
     'properties': {
         'login': {'type': 'string', "pattern": "[^@]+@[^@]+\.[^@]"},
