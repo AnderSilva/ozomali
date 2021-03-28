@@ -3,6 +3,7 @@ from flask import Blueprint
 
 from .main.controller.usuario_controller import api as usuario_ns
 from .main.controller.produto_controller import api as produto_ns
+# from .main.controller.fornecedor_controller import api as fornecedor_ns
 
 from .main.controller.auth_controller import api as auth_ns
 
@@ -18,11 +19,11 @@ api = Api(blueprint,
 api.add_namespace(usuario_ns, path='/usuarios')
 
 # TODO PRODUTOS
-api.add_namespace(produto_ns, path='/produtos')
+# api.add_namespace(produto_ns, path='/produtos')
 
 
 # TODO FORNECEDOR
-# api.add_namespace(vendor_ns, path='/vendors')
+# api.add_namespace(fornecedor_ns, path='/fornecedores')
 
 # TODO AUTH JWT
 # api.add_namespace(auth_ns)

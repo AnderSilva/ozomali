@@ -52,25 +52,32 @@ class Usuario(Resource):
         else:
             return usuario
 
+
+    @api.doc('Atualiza um usuário')
     @api.expect(_usuarioupdate, validate=True)
     @api.response(201, 'Usuário atualizado com sucesso.')
-    @api.doc('Atualiza um usuário')
-    def patch(self,id) -> Tuple[Dict[str, str], int]:        
+    #@api.marshal_with(_usuariolist) para retornar o objeto
+    def patch(self,id): # -> Tuple[Dict[str, str], int]:        
         """Atualiza um usuário  Obs: para inativar, coloque 'ativo': false """
-        data = request.json        
-        return update_user(id=id,data=data)
+        
+        usuario = get_a_user(id)
+        if not usuario:
+            api.abort(404)
+        else:
+            data = request.json        
+            return update_user(usuario,data=data)
 
 
-@api.route('/<login>')
+@api.route('/<string:login>')
 @api.param('login', 'parte do nome ou login do usuário')
 @api.response(404, 'Usuário não encontrado.')
 class Usuario(Resource):
     @api.doc('obtem usuario com base no login')
     @api.marshal_with(_usuariolist)
     def get(self, login):
-        """Obtem informações de um usuário com base no seu login"""
+        """Lista de usuário filtrados por login/nome"""
         usuario = get_some_user(login)
-        if not user:
+        if not usuario:
             api.abort(404)
         else:
-            return user
+            return usuario

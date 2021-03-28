@@ -7,7 +7,7 @@ import jwt
 from typing import Union
 
 
-class Vendor(db.Model):    
+class Fornecedor(db.Model):    
     __tablename__ = "fornecedor"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)    
@@ -22,4 +22,4 @@ class Vendor(db.Model):
     ativo = db.Column(db.Boolean,default=True)       
 
     def __repr__(self):
-        return "<Usuario '{}'>".format(self.login)
+        return "<Nome '{}'>".format(self.nome)

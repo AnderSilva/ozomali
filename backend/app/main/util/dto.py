@@ -3,22 +3,20 @@ from flask_restx import Namespace, fields
 
 class UsuarioDto:
     api = Namespace('usuarios', description='Operações com usuários')
+
     usuarioinsert = api.model('usuario', {
-        'nome': fields.String(required=True, description='nome do usuário'),
-        'login': fields.String(required=True, description='login do usuário'),
-        'senha': fields.String(required=True, description='senha do usuário'),
+        'nome': fields.String(required=True),
+        'login': fields.String(required=True),
+        'senha': fields.String(required=True),
     })
     usuariolist = api.model('usuariolist', {
-        'id'  : fields.Integer(required=True, description='id do usuário'),
-        'nome': fields.String(required=True, description='nome do usuário'),
-        'login': fields.String(required=True, description='login do usuário'),
-        'senha': fields.String(required=True, description='senha do usuário'),
-        'ativo': fields.Boolean(description='status do usuário'),
+        'id'  : fields.Integer(readonly=True),
+        'nome': fields.String(required=True),
+        'login': fields.String(required=True),
+        'senha': fields.String(attribute='senha_hash'),
+        'ativo': fields.Boolean(),
     })
-    usuarioupdate = api.model('usuarioupdate', {
-        'nome': fields.String(required=True, description='nome do usuário'),  
-        'login': fields.String(required=False, description='login do usuário'),      
-        'senha': fields.String(required=True, description='senha do usuário'),
+    usuarioupdate = api.clone('usuarioupdate', usuarioinsert, {
         'ativo': fields.Boolean(required=True,description='inativa/ativa usuário')
     })
 
@@ -26,8 +24,6 @@ class ProdutoDto:
     api = Namespace('produtos', description='Operações com Produtos')
     produto = api.model('produto', {
         'nome': fields.String(required=True, description='nome do usuário'),
-        'login': fields.String(required=True, description='login do usuário'),
-        'senha': fields.String(required=True, description='senha do usuário'),
     })
 
 class FornecedorDto:
@@ -41,7 +37,7 @@ class FornecedorDto:
         'bairro': fields.String(required=True, description='bairro'),
         'cidade': fields.String(required=True, description='cidade'),
         'estado': fields.String(required=True, description='estado'),
-        'cep': fields.String(required=True, description='cep'),       
+        'cep': fields.String(required=True, description='cep'),
 
     })
 
