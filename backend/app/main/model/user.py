@@ -8,12 +8,13 @@ from typing import Union
 
 
 class User(db.Model):    
-    __tablename__ = "user"
+    __tablename__ = "usuario"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)    
     nome = db.Column(db.String(128), unique=True, nullable=False)
     login = db.Column(db.String(128), unique=True, nullable=False)
-    senha = db.Column(db.String(100))       
+    senha = db.Column(db.String(100))
+    ativo = db.Column(db.Boolean,default=True)       
 
     @property
     def password(self):
