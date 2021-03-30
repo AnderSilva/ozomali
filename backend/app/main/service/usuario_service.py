@@ -8,14 +8,10 @@ from typing import Dict, Tuple
 
 def save_new_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
     usuario = Usuario.query.filter(
-        db.or_(
-             Usuario.nome  == data['nome']
-            ,Usuario.login == data['login']
-        )
+            Usuario.login == data['login']        
     ).first()
     if not usuario:
-        novo_usuario = Usuario(
-            nome=data['nome'],
+        novo_usuario = Usuario(            
             login=data['login'],
             senha=data['senha'],
         )
@@ -29,7 +25,7 @@ def save_new_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
     else:
         response_object = {
             'status': 'Falha',
-            'message': 'nome/login já existe.',
+            'message': 'login já existe.',
         }
         return response_object, 409
 
@@ -56,11 +52,12 @@ def get_all_users(ativo=False):
 def get_a_user(id):
     return Usuario.query.filter_by(id=id).first()
 
-def get_some_user(login):
-    item = '%{}%'.format(login)
-    filter1 = Usuario.login.like(item)
-    filter2 = Usuario.nome.like(item)
-    return Usuario.query.filter(db.or_(filter1,filter2)).all()
+def get_some_user(login):    
+    return Usuario.query \
+    .filter(
+        Usuario.login \
+        .like( '%{}%'.format(login) )
+    ).all()
 
 
 def generate_token(user: Usuario) -> Tuple[Dict[str, str], int]:
@@ -86,7 +83,7 @@ def save_changes(data: Usuario) -> None:
     db.session.commit()
 
 def update_changes(usuario: Usuario, data) -> None:
-    usuario.nome  = data['nome']  if data['nome']  !=None else usuario.nome
-    usuario.senha = data['senha'] if data['senha'] !=None else usuario.senha
-    usuario.ativo = data['ativo'] if data['ativo'] !=None else usuario.ativo
+    usuario.login = data.get('nome' , usuario.nome)
+    usuario.senha = data.get('senha', usuario.senha_hash)
+    usuario.ativo = data.get('ativo', usuario.ativo)
     db.session.commit()

@@ -10,8 +10,7 @@ from typing import Union
 class Usuario(db.Model):    
     __tablename__ = "usuario"
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)    
-    nome = db.Column(db.String(128), unique=True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)        
     login = db.Column(db.String(128), unique=True, nullable=False)
     senha_hash = db.Column(db.String(100))
     ativo = db.Column(db.Boolean,default=True)       
