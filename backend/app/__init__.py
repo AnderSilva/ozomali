@@ -22,13 +22,13 @@ api.add_namespace(usuario_ns, path='/usuarios')
 api.add_namespace(perfil_ns, path='/perfis')
 
 # TODO PRECOS - validar e testar
-api.add_namespace(preco_ns, path='/precos')
+# api.add_namespace(preco_ns, path='/precos')
 
 # TODO PRODUTOS - validar e testar
 # api.add_namespace(produto_ns, path='/produtos')
 
 # TODO FORNECEDOR - validar e testar
-api.add_namespace(fornecedor_ns, path='/fornecedores')
+# api.add_namespace(fornecedor_ns, path='/fornecedores')
 
 # TODO AUTH JWT
 # api.add_namespace(auth_ns)
