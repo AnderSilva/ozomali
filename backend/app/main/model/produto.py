@@ -1,11 +1,9 @@
 
-from .. import db, flask_bcrypt
+from .. import db
 import datetime
-from app.main.model.blacklist import BlacklistToken
 from ..config import key
-import jwt
 from typing import Union
-
+from .. model.fornecedor import Fornecedor
 
 class Produto(db.Model):    
     __tablename__ = "produto"
@@ -13,6 +11,9 @@ class Produto(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)    
     nome = db.Column(db.String(100), unique=True, nullable=False)
     codigoBarra = db.Column(db.String(50), unique=True, nullable=True)
+    fornecedor_id = db.Column(db.Integer,db.ForeignKey('fornecedor.id'))
+
+    ativo = db.Column(db.Boolean,default=True)
         
     
     def __repr__(self):

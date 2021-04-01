@@ -1,7 +1,6 @@
 from flask import request
 from flask_restx import Resource
 
-from app.main.util.decorator import admin_token_required
 from ..util.dto import ProdutoDto
 from ..service.produto_service import save_new_product, get_all_products, get_a_product, get_some_product
 from typing import Dict, Tuple
