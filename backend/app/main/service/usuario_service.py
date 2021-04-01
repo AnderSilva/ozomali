@@ -3,6 +3,7 @@ import datetime
 
 from app.main import db
 from app.main.model.usuario import Usuario
+from app.main.model.perfil import Perfil
 from typing import Dict, Tuple
 
 
@@ -45,8 +46,10 @@ def update_user(usuario: Usuario,data):
         }
         return response_object, 404
 
-def get_all_users(ativo=False):    
-    return Usuario.query.filter_by(ativo=ativo).all()
+def get_all_users(ativo=False): 
+    usuarios = Usuario.query.filter_by(ativo=ativo)
+    return usuarios.join(Perfil).all()    
+    # return Usuario.query.filter_by(ativo=ativo).all()
 
 
 def get_a_user(id):
@@ -83,7 +86,7 @@ def save_changes(data: Usuario) -> None:
     db.session.commit()
 
 def update_changes(usuario: Usuario, data) -> None:
-    usuario.login = data.get('nome' , usuario.nome)
-    usuario.senha = data.get('senha', usuario.senha_hash)
+    usuario.login = data.get('login' , usuario.login)
+    usuario.senha = data.get('senha', usuario.senhaHash)
     usuario.ativo = data.get('ativo', usuario.ativo)
     db.session.commit()
