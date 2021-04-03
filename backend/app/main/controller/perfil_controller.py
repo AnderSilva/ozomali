@@ -32,7 +32,7 @@ class PerfilListas(Resource):
     @api.marshal_list_with(_perfil, envelope='data')
     def get(self,ativo=False):
         """Lista todos usuários inativos"""
-        return get_all_users(ativo)
+        return get_all_profiles(ativo)
 
 
 @api.route('/<int:id>')
@@ -43,7 +43,7 @@ class Perfil(Resource):
     @api.marshal_with(_perfil)
     def get(self, id):
         """Obtem informações de um usuário com base no seu id"""
-        perfil = get_a_user(id)
+        perfil = get_a_profile(id)
         if not perfil:
             api.abort(404)
         else:
@@ -62,19 +62,5 @@ class Perfil(Resource):
             api.abort(404)
         else:
             data = request.json        
-            return update_user(perfil,data=data)
-
-
-@api.route('/<string:login>')
-@api.param('login', 'parte do login do usuário')
-@api.response(404, 'login não encontrado.')
-class Perfil(Resource):
-    @api.doc('obtem perfil com base no login')
-    @api.marshal_with(_perfil)
-    def get(self, login):
-        """Lista de usuário filtrados por login"""
-        perfil = get_some_user(login)
-        if not perfil:
-            api.abort(404)
-        else:
-            return perfil
+            return update_profile(perfil,data=data)
+            

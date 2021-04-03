@@ -9,9 +9,7 @@ class Perfil(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(50), index=False, unique=True, nullable=False)
     usuarios = db.relationship('Usuario', backref='perfil')
-    ativo = db.Column(db.Boolean,default=True)
-
-    # usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
+    ativo = db.Column(db.Boolean,default=True)    
 
     def __repr__(self):
         return "<Perfil {}>".format(self.nome)

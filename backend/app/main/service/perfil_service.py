@@ -50,13 +50,6 @@ def get_all_profiles(ativo=False):
 def get_a_profile(id):
     return Perfil.query.filter_by(id=id).first()
 
-def get_some_profile(nome):    
-    return Perfil.query \
-    .filter(
-        Perfil.login \
-        .like( '%{}%'.format(nome) )
-    ).all()
-
 def save_changes(data: Perfil) -> None:
     db.session.add(data)
     db.session.commit()
