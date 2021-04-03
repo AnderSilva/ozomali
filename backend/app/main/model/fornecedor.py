@@ -17,8 +17,9 @@ class Fornecedor(db.Model):
     bairro = db.Column(db.String(100), nullable=False)
     cidade = db.Column(db.String(100), nullable=False)
     estado = db.Column(db.String(2), nullable=False)
-    cep = db.Column(db.String(8), nullable=False)        
-    ativo = db.Column(db.Boolean,default=True)       
+    cep = db.Column(db.String(8), nullable=False)    
+    ativo = db.Column(db.Boolean,default=True) 
+    contatos = db.relationship('Contato', backref='fornecedor')     
 
     def __repr__(self):
         return "<Nome '{}'>".format(self.nome)

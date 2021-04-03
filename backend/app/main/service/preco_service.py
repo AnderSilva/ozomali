@@ -65,6 +65,6 @@ def save_changes(data: Preco) -> None:
 
 def update_changes(preco: Preco, data) -> None:
     preco.login = data.get('login' , preco.login)
-    preco.senha = data.get('senha', preco.senhaHash)
+    preco.senha = data.get('senha', preco.senha_hash)
     preco.ativo = data.get('ativo', preco.ativo)
     db.session.commit()
