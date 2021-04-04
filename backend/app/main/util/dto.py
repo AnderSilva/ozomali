@@ -22,7 +22,7 @@ class UsuarioDto:
         'id'  : fields.Integer(readonly=True),
         'login': fields.String(required=True),
         'ativo': fields.Boolean(),
-        'uri' : fields.Url('api.usuarios_usuario'),
+        'uri' : fields.Url('api.usuarios_usuario_id'),
         'perfil_id': fields.Integer( description='id do perfil')
     })
     usuarioupdate = api.model('usuarioupdate', {
