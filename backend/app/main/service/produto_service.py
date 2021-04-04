@@ -31,7 +31,7 @@ def save_new_product(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         save_changes(novo_produto)
         response_object = {
             'status': 'success',
-            'message': 'Produto Registrado com sucesso.',
+            'message': 'Produto registrado com sucesso.',
             'id' : novo_produto.id,
         }
         return response_object, 201

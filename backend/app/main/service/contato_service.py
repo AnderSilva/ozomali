@@ -70,6 +70,20 @@ def get_a_contact(id):
 
 def update_contact(contato: Contato,data):    
     if data:
+        # validando se esse tipo contato existe
+        if data.get('tipocontato_id',-1) != -1:
+            tipocontato = TipoContato.query.filter(
+                db.or_(
+                    TipoContato.id == data['tipocontato_id'],
+                )
+            ).first()
+            if not tipocontato:
+                response_object = {
+                    'status': 'Falha',
+                    'message': 'Tipo contato inválido.',
+                }
+                return response_object, 404
+
         update_changes(contato,data)        
         response_object = {
             'status': 'success',
@@ -91,4 +105,5 @@ def save_changes(data: Contato) -> None:
 def update_changes(contato: Contato, data) -> None:
     contato.valor = data.get('valor' , contato.valor)    
     contato.ativo = data.get('ativo', contato.ativo)
+    contato.tipocontato_id = data.get('tipocontato_id', contato.tipocontato_id)
     db.session.commit()

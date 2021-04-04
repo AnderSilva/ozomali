@@ -8,6 +8,8 @@ from typing import Dict, Tuple
 
 api = PerfilDto.api
 _perfil = PerfilDto.perfil
+_perfilinsert = PerfilDto.perfilinsert
+_perfilupdate = PerfilDto.perfilupdate
 
 @api.route('') #,'/')
 class PerfilList(Resource):
@@ -17,7 +19,7 @@ class PerfilList(Resource):
         """Lista todos perfis de usuário"""
         return get_all_profiles(ativo)
 
-    @api.expect(_perfil, validate=True)
+    @api.expect(_perfilinsert, validate=True)
     @api.response(201, 'Perfil criado com sucesso.')
     @api.doc('cria um novo perfil')
     def post(self) -> Tuple[Dict[str, str], int]:        
@@ -49,7 +51,7 @@ class Perfil(Resource):
 
 
     @api.doc('Atualiza um Perfil')
-    @api.expect(_perfil)
+    @api.expect(_perfilupdate)
     @api.response(201, 'Perfil atualizado com sucesso.')
     #@api.marshal_with(_perfillist) para retornar o objeto
     def patch(self,id): # -> Tuple[Dict[str, str], int]:        

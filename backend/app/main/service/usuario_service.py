@@ -12,11 +12,11 @@ def save_new_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
             db.or_(Usuario.login == data['login']
                   ,Usuario.nome == data['nome'])
     ).first()
-    perfil = Perfil.query.filter_by(id=data['perfil_id']).first()
+    perfil = Perfil.query.filter_by(id=data['perfil_id'], ativo=True).first()
     if not perfil:
         response_object = {
             'status': 'Falha',
-            'message': 'perfil não encontrado.',
+            'message': 'perfil não encontrado ou inativo.',
         }
         return response_object, 404
 

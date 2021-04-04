@@ -25,6 +25,7 @@ api.add_namespace(perfil_ns, path='/perfis')
 api.add_namespace(tipocontato_ns, path='/tipocontatos')
 api.add_namespace(fornecedor_ns, path='/fornecedores')
 api.add_namespace(contato_ns, path='/contatos')
+api.add_namespace(preco_ns, path='/precos')
 
 # TODO PRECOS - validar e testar
 # api.add_namespace(preco_ns, path='/precos')
