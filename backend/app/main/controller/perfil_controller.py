@@ -12,10 +12,9 @@ _perfil = PerfilDto.perfil
 @api.route('') #,'/')
 class PerfilList(Resource):
     @api.doc('list_of_registered_users')
-    # @admin_token_required
     @api.marshal_list_with(_perfil, envelope='data')
     def get(self,ativo=True):
-        """Lista todos usuários"""
+        """Lista todos perfis de usuário"""
         return get_all_profiles(ativo)
 
     @api.expect(_perfil, validate=True)
@@ -28,21 +27,20 @@ class PerfilList(Resource):
 @api.route('/inativos')
 class PerfilListas(Resource):
     @api.doc('list_of_inactive_registered_users')
-    # @admin_token_required
     @api.marshal_list_with(_perfil, envelope='data')
     def get(self,ativo=False):
-        """Lista todos usuários inativos"""
+        """Lista todos Perfis inativos"""
         return get_all_profiles(ativo)
 
 
 @api.route('/<int:id>')
-@api.param('id', 'Identificador do usuário')
-@api.response(404, 'Usuário não encontrado.')
+@api.param('id', 'Identificador do Perfil')
+@api.response(404, 'Perfil não encontrado.')
 class Perfil(Resource):
     @api.doc('get a profile')
     @api.marshal_with(_perfil)
     def get(self, id):
-        """Obtem informações de um usuário com base no seu id"""
+        """Obtem informações de um perfil com base no seu id"""
         perfil = get_a_profile(id)
         if not perfil:
             api.abort(404)
@@ -50,14 +48,14 @@ class Perfil(Resource):
             return perfil
 
 
-    @api.doc('Atualiza um usuário')
-    @api.expect(_perfil) #, validate=True)
-    @api.response(201, 'Usuário atualizado com sucesso.')
+    @api.doc('Atualiza um Perfil')
+    @api.expect(_perfil)
+    @api.response(201, 'Perfil atualizado com sucesso.')
     #@api.marshal_with(_perfillist) para retornar o objeto
     def patch(self,id): # -> Tuple[Dict[str, str], int]:        
-        """Atualiza um usuário  Obs: para inativar, coloque 'ativo': false """
+        """Atualiza um Perfil  Obs: para inativar, coloque 'ativo': false """
         
-        perfil = get_a_user(id)
+        perfil = get_a_profile(id)
         if not perfil:
             api.abort(404)
         else:

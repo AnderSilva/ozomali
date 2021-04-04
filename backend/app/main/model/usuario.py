@@ -1,33 +1,34 @@
 
 from .. import db, flask_bcrypt
 import datetime
-from app.main.model.blacklist import BlacklistToken
+# from app.main.model.blacklist import BlacklistToken
 from ..config import key
 import jwt
 from typing import Union
 
 
-class Usuario(db.Model):    
+class Usuario(db.Model):
     __tablename__ = "usuario"
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)    
-    nome = db.Column(db.String(128), unique=True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nome = db.Column(db.String(128), unique=True ,nullable=True)
     login = db.Column(db.String(128), unique=True, nullable=False)
-    senha_hash = db.Column(db.String(100))
+    senhaHash = db.Column(db.String(100))
     ativo = db.Column(db.Boolean,default=True)
-    perfil_id = db.Column(db.Integer, db.ForeignKey('perfil.id'))       
+    perfil_id = db.Column(db.Integer, db.ForeignKey('perfil.id'))
 
     @property
     def senha(self):
         raise AttributeError('senha: campo somente leitura')
 
-    
+
     @senha.setter
     def senha(self, senha):
-        self.senha_hash = flask_bcrypt.generate_password_hash(senha).decode('utf-8')
+        self.senhaHash = flask_bcrypt.generate_password_hash(senha).decode('utf-8')
 
     def check_senha(self, senha: str) -> bool:
-        return flask_bcrypt.check_senha_hash(self.senha_hash, senha)
+        return flask_bcrypt.check_senha_hash(self.senhaHash, senha)
+
 
     @staticmethod
     def encode_auth_token(user_id: int) -> bytes:
