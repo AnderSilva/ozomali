@@ -7,6 +7,14 @@ class PerfilDto:
         'id' : fields.Integer(description = 'id do perfil'),
         'nome': fields.String(required=True, description='nome do perfil'),
         'uri' : fields.Url('api.perfil_perfil', readonly=True),
+        'ativo': fields.Boolean(description='ativo'),
+    })
+    perfilinsert = api.model('perfilinsert', {
+        'nome': fields.String(required=True, description='nome do perfil'),
+    })
+    perfilupdate = api.model('perfilupdate', {
+        'nome': fields.String(required=True, description='nome do perfil'),
+        'ativo': fields.Boolean(description='ativo'),
     })
 
 class UsuarioDto:
@@ -21,6 +29,7 @@ class UsuarioDto:
     usuariolist = api.model('usuariolist', {
         'id'  : fields.Integer(readonly=True),
         'login': fields.String(required=True),
+        'nome' : fields.String(required=True),
         'ativo': fields.Boolean(),
         'uri' : fields.Url('api.usuarios_usuario_id'),
         'perfil_id': fields.Integer( description='id do perfil')

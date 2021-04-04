@@ -18,7 +18,7 @@ def save_new_profile(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         response_object = {
             'status': 'success',
             'message': 'Perfil registrado com sucesso.',
-            'id': perfil.id,
+            'id': novo_perfil.id,
         }
         return response_object, 201        
     else:
