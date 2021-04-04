@@ -67,10 +67,24 @@ class ProdutoDto:
 
 class PrecoDto:
     api = Namespace('precos', description='Operações com Precos')
-    preco = api.model('preco', {
-        'PrecoVenda': fields.String(required=True, description='Preco de venda'),
-        'uri' : fields.Url('api.precos_preco'),
+    precoinsert = api.model('preco', {
+        'preco_venda': fields.Float(required=True, description='Preço de venda'),
+        'usuario_id': fields.Integer(required=True, description='Id do usuario'),
+        'produto_id': fields.Integer(required=True, description='Id do produto'),
     })
+    precolista = api.model('precolista', {
+        'id'  : fields.Integer(readonly=True),
+        'preco_venda': fields.Float(description='Preço de venda'),
+        'data_emissao': fields.DateTime(description='Data da movimentação'),
+        'usuario_id': fields.Integer(description='Id do usuario'),
+        'produto_id': fields.Integer(description='Id do produto'),
+        'ativo': fields.Boolean(description='inativa/ativa preço')
+    })
+    precoproduto = api.model('precoproduto', {
+        'preco_venda': fields.Float(description='Preço de venda'),
+        'data_emissao': fields.DateTime(description='Data da movimentação'),
+    })
+
 
 
 class FornecedorDto:
