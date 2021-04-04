@@ -4,6 +4,7 @@ from .. model.perfil import Perfil
 class PerfilDto:
     api = Namespace('perfil', description='Operações com Perfis de Usuario')
     perfil = api.model('perfil', {
+        'id' : fields.Integer(description = 'id do perfil'),
         'nome': fields.String(required=True, description='nome do perfil'),
         'uri' : fields.Url('api.perfil_perfil', readonly=True),
     })
@@ -11,31 +12,47 @@ class PerfilDto:
 class UsuarioDto:
     api = Namespace('usuarios', description='Operações com usuários')
 
-    perfil = api.model('perfil', {
-        'id': fields.String( description='nome do perfil'),
-    })
-    usuarioinsert = api.model('usuario', {
+    usuarioinsert = api.model('usuarioinsert', {
         'login': fields.String(required=True),
         'nome' : fields.String(required=True),
         'senha': fields.String(required=True),
         'perfil_id': fields.Integer(required=True, description='id do perfil')
     })
     usuariolist = api.model('usuariolist', {
-        'id'  : fields.Integer(readonly=True),        
+        'id'  : fields.Integer(readonly=True),
         'login': fields.String(required=True),
         'ativo': fields.Boolean(),
         'uri' : fields.Url('api.usuarios_usuario'),
         'perfil_id': fields.Integer( description='id do perfil')
     })
-    usuarioupdate = api.clone('usuarioupdate', usuarioinsert, {
-        'ativo': fields.Boolean(required=True,description='inativa/ativa usuário')
+    usuarioupdate = api.model('usuarioupdate', {
+        'login': fields.String(required=False),
+        'nome' : fields.String(required=False),
+        'senha': fields.String(required=False),
+        'perfil_id': fields.Integer(required=False, description='id do perfil'),
+        'ativo': fields.Boolean(required=False,description='inativa/ativa usuário'),
     })
 
 class ProdutoDto:
     api = Namespace('produtos', description='Operações com Produtos')
-    produto = api.model('produto', {
-        'nome': fields.String(required=True, description='nome do usuário'),
-        'uri' : fields.Url('api.produtos_produto'),
+    produtoinsert = api.model('produto', {
+        'nome': fields.String(required=True, description='nome do produto'),
+        'codigo_barra': fields.String(required=True,description='Código de barra do Produto'),
+        'fornecedor_id' : fields.Integer(required=True, description='id do fornecedor')
+    })
+    produtolist = api.model('produtolist', {
+        'id'  : fields.Integer(readonly=True),
+        'nome': fields.String(required=True, description='nome do produto'),
+        'codigo_barra': fields.String(description='Código de barra do Produto'),
+        'uri' : fields.Url('api.produtos_produto_id'),
+        'fornecedor_id' : fields.Integer( description='id do fornecedor')
+    })
+    produtoupdate = api.model('produto', {
+        'nome': fields.String(required=False, description='nome do produto'),
+        'codigo_barra': fields.String(required=False,description='Código de barra do Produto'),
+        'fornecedor_id' : fields.Integer(required=False, description='id do fornecedor'),
+        'uri' : fields.Url('api.produtos_produto_id', readonly=True),
+        'ativo': fields.Boolean(required=False,description='inativa/ativa usuário')
     })
 
 class PrecoDto:
