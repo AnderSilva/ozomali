@@ -11,7 +11,7 @@ _produtoinsert = ProdutoDto.produtoinsert
 _produtoupdate = ProdutoDto.produtoupdate
 
 
-@api.route('','/')
+@api.route('')
 class ProdutoLista(Resource):
     @api.doc('lista_de_produtos_registrados')
     # @admin_token_required

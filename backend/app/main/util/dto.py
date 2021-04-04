@@ -45,9 +45,10 @@ class ProdutoDto:
         'nome': fields.String(required=True, description='nome do produto'),
         'codigo_barra': fields.String(description='Código de barra do Produto'),
         'uri' : fields.Url('api.produtos_produto_id'),
-        'fornecedor_id' : fields.Integer( description='id do fornecedor')
+        'fornecedor_id' : fields.Integer( description='id do fornecedor'),
+        'ativo': fields.Boolean(required=False,description='inativa/ativa usuário'),
     })
-    produtoupdate = api.model('produto', {
+    produtoupdate = api.model('produtoupdate', {
         'nome': fields.String(required=False, description='nome do produto'),
         'codigo_barra': fields.String(required=False,description='Código de barra do Produto'),
         'fornecedor_id' : fields.Integer(required=False, description='id do fornecedor'),
@@ -64,7 +65,7 @@ class PrecoDto:
 
 
 class FornecedorDto:
-    api = Namespace('fornecedores', description='Endpoint de Fornecedores')
+    api = Namespace('fornecedor', description='Endpoint de Fornecedores')
     fornecedorinsert = api.model('fornecedor', {
         'cnpj': fields.String(required=True, description='cpnj do fornecedor'),
         'nome': fields.String(required=True, description='nome fornecedor'),
@@ -76,7 +77,7 @@ class FornecedorDto:
         'estado': fields.String(required=True, description='estado'),
         'cep': fields.String(required=True, description='cep'),
     })
-    fornecedorlista = api.model('fornecedor', {
+    fornecedorlista = api.model('fornecedores', {
         'id': fields.String(description='id do fornecedor'),
         'cnpj': fields.String(description='cpnj do fornecedor'),
         'nome': fields.String(description='nome fornecedor'),
@@ -89,7 +90,7 @@ class FornecedorDto:
         'cep': fields.String(description='cep'),
         'ativo': fields.Boolean(description='ativo'),
     })
-    fornecedorupdate = api.model('fornecedor', {
+    fornecedorupdate = api.model('fornecedorupdate', {
         'nome': fields.String(description='nome fornecedor'),
         'logradouro': fields.String(description='rua, avenida, estrada, etc'),
         'numero': fields.String(description='numero do endereço'),
@@ -106,12 +107,12 @@ class TipoContatoDto:
     tipocontatoinsert = api.model('tipocontato', {
         'nome': fields.String(required=True, description='nome do tipo contato'),
     })
-    tipocontatolista = api.model('tipocontato', {
-        'id': fields.String(description='id do tipo contato'),
+    tipocontatolista = api.model('tipocontatos', {
+        'id': fields.Integer(description='id do tipo contato'),
         'nome': fields.String(description='nome do tipo contato'),
         'ativo': fields.Boolean(description='status do tipo contato'),
     })
-    tipocontatoupdate = api.model('tipocontato', {
+    tipocontatoupdate = api.model('tipocontatoupdate', {
         'nome': fields.String(description='nome do tipo contato'),
         'ativo': fields.Boolean(description='status do tipo contato'),
     })
@@ -123,15 +124,16 @@ class ContatoDto:
         'tipocontato_id': fields.Integer(required=True, description='id do tipo contato'),
         'fornecedor_id': fields.Integer(required=True, description='id do fornecedor'),
     })
-    contatolista = api.model('contato', {
+    contatolista = api.model('contatos', {
         'id': fields.String(description='id do contato'),
         'valor': fields.String(required=True, description='valor contato'),
         'tipocontato_id': fields.Integer(required=True, description='id do tipo contato'),
         'fornecedor_id': fields.Integer(required=True, description='id do fornecedor'),
         'ativo': fields.Boolean(description='status do contato'),
     })
-    contatoupdate = api.model('contato', {
+    contatoupdate = api.model('contatoupdate', {
         'valor': fields.String(description='valor contato'),
+        'tipocontato_id': fields.Integer(description='id do tipo contato'),
         'ativo': fields.Boolean(description='status do contato'),
     })
 
