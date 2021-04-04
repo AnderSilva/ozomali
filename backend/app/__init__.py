@@ -6,6 +6,8 @@ from .main.controller.perfil_controller import api as perfil_ns
 from .main.controller.produto_controller import api as produto_ns
 from .main.controller.preco_controller import api as preco_ns
 from .main.controller.fornecedor_controller import api as fornecedor_ns
+from .main.controller.tipocontato_controller import api as tipocontato_ns
+from .main.controller.contato_controller import api as contato_ns
 
 # from .main.controller.auth_controller import api as auth_ns
 
@@ -20,6 +22,9 @@ api = Api(blueprint,
 
 api.add_namespace(usuario_ns, path='/usuarios')
 api.add_namespace(perfil_ns, path='/perfis')
+api.add_namespace(tipocontato_ns, path='/tipocontatos')
+api.add_namespace(fornecedor_ns, path='/fornecedores')
+api.add_namespace(contato_ns, path='/contatos')
 
 # TODO PRECOS - validar e testar
 # api.add_namespace(preco_ns, path='/precos')
