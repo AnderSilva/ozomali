@@ -2,23 +2,39 @@ import uuid
 import datetime
 
 from app.main import db
-from app.main.model.produto import Produto
 from typing import Dict, Tuple
+from app.main.model.produto import Produto
+from app.main.model.fornecedor import Fornecedor
 
 
 def save_new_product(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
-    produto = Produto.query.filter_by(nome=data['nome']).first()
+    produto = Produto.query.filter(
+            db.or_(Produto.nome == data['nome']
+                  ,Produto.codigo_barra == data['codigo_barra'])
+    ).first()
+
+    fornecedor  = Fornecedor.query.filter_by(id=data['fornecedor_id']).first()
+
+    if not fornecedor:
+        response_object = {
+            'status': 'Falha',
+            'message': 'Fornecedor não encontrado.',
+        }
+        return response_object, 404
+
     if not produto:
-        new_product = Produto(                        
+        novo_produto = Produto(
             nome=data['nome'],
-            codigoBarra=data['codigoBarra']            
+            codigo_barra=data['codigo_barra'],
+            fornecedor_id=data['fornecedor_id'],
         )
-        save_changes(new_product)
+        save_changes(novo_produto)
         response_object = {
             'status': 'success',
-            'message': 'Registrado com sucesso.'            
+            'message': 'Produto Registrado com sucesso.',
+            'id' : novo_produto.id,
         }
-        return response_object, 201        
+        return response_object, 201
     else:
         response_object = {
             'status': 'Falha',
@@ -27,9 +43,15 @@ def save_new_product(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         return response_object, 409
 
 
-def get_all_products():
-    return Produto.query.all()
+def update_product(produto: Produto,data):       
+    update_changes(produto,data)
+    return produto    
 
+
+def get_all_products(ativo=False):
+    produto = Produto.query.filter_by(ativo=ativo)
+    # return produto.join(Perfil).all()
+    return Produto.query.filter_by(ativo=ativo).all()
 
 def get_a_product(id):
     return Produto.query.filter_by(id=id).first()
@@ -37,11 +59,19 @@ def get_a_product(id):
 def get_some_product(nome):
     item = '%{}%'.format(nome)
     filter1 = Produto.nome.like(item)
+    filter2 = Produto.codigo_barra.like(item)
 
-    return Produto.query.filter( filter1 ).all()
+    return Produto.query.filter( db.or_(filter1,filter2) ).all()
 
 
 def save_changes(data: Produto) -> None:
     db.session.add(data)
     db.session.commit()
 
+def update_changes(produto: Produto, data) -> None:
+    produto.nome         = data.get('nome'         , produto.nome)
+    produto.codigo_barra = data.get('codigo_barra' , produto.codigo_barra)
+    produto.ativo        = data.get('ativo'        , produto.ativo)
+    produto.fornecedor_id= data.get('fornecedor_id', produto.fornecedor_id)
+    
+    db.session.commit()

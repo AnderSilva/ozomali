@@ -10,10 +10,10 @@ class Produto(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)    
     nome = db.Column(db.String(100), unique=True, nullable=False)
-    codigoBarra = db.Column(db.String(50), unique=True, nullable=True)
+    codigo_barra = db.Column(db.String(50), unique=True, nullable=True)
     fornecedor_id = db.Column(db.Integer,db.ForeignKey('fornecedor.id'))
 
-    ativo = db.Column(db.Boolean,default=True)
+    ativo = db.Column(db.Boolean,default=True, nullable=False)
         
     
     def __repr__(self):
