@@ -72,9 +72,9 @@ class ProdutoID(Resource):
             api.abort(400,'Payload vazio.')
         
         if data.get('fornecedor_id', 0) != 0:
-                fornecedor  = Fornecedor.query.filter_by(id=data['fornecedor_id']).first()
-                if not fornecedor:
-                    api.abort(404,'Fornecedor Não Encontrado.')
+            fornecedor  = Fornecedor.query.filter_by(id=data['fornecedor_id']).first()
+            if not fornecedor:
+                api.abort(404,'Fornecedor Não Encontrado.')
 
         return update_product(produto,data=data)
 
@@ -88,13 +88,13 @@ class ProdutoID(Resource):
 })
 class ProdutoNome(Resource):
     @api.doc('obtem produto com base no nome')
-    @api.marshal_with(_produtolist)
+    @api.marshal_with(_produtolist, envelope='data')
     def get(self, nome):
         """Lista de produtos filtrados por nome"""
         
-        produto = get_some_product(nome)
-        if not produto:
+        produtos = get_some_product(nome)
+        if not produtos:
             api.abort(404)
         else:
-            return produto
+            return produtos
 

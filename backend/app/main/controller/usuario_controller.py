@@ -29,9 +29,7 @@ class UsuarioList(Resource):
         return save_new_user(data=data)
 
 @api.route('/inativos')
-class UsuarioListas(Resource):
-    @api.doc('list_of_inactive_registered_users')
-    # @admin_token_required
+class UsuarioInativos(Resource):        
     @api.marshal_list_with(_usuariolist, envelope='data')
     def get(self,ativo=False):
         """Lista todos usuários inativos"""
@@ -41,8 +39,7 @@ class UsuarioListas(Resource):
 @api.route('/<int:id>')
 @api.param('id', 'Identificador do usuário')
 @api.response(404, 'Usuário não encontrado.')
-class Usuario(Resource):
-    @api.doc('get a user')
+class UsuarioId(Resource):    
     @api.marshal_with(_usuariolist)
     def get(self, id):
         """Obtem informações de um usuário com base no seu id"""
@@ -53,31 +50,41 @@ class Usuario(Resource):
             return usuario
 
 
-    @api.doc('Atualiza um usuário')
+    @api.doc('Atualiza um usuário',responses={
+        200: 'Sucesso',
+        400: 'Erro na Atualização',
+        404: 'Perfil não encontrado'
+    })
     @api.expect(_usuarioupdate, validate=True)
     @api.response(201, 'Usuário atualizado com sucesso.')
-    #@api.marshal_with(_usuariolist) para retornar o objeto
-    def patch(self,id): # -> Tuple[Dict[str, str], int]:        
+    @api.marshal_with(_usuariolist)
+    def patch(self,id):
         """Atualiza um usuário  Obs: para inativar, coloque 'ativo': false """
         
         usuario = get_a_user(id)
+        data = request.json
         if not usuario:
-            api.abort(404)
-        else:
-            data = request.json        
-            return update_user(usuario,data=data)
+            api.abort(404, 'Usuario não encontrado.')
+        if not data:
+            api.abort(400, 'Payload vazio.')
+        
+        if data.get('perfil_id',0) !=0:
+            perfil = Perfil.query.filter_by(id=data['perfil_id']).first()
+            if not perfil:
+                api.abort(404, 'Perfil não encontrado')
+
+        return update_user(usuario,data=data)
 
 
 @api.route('/<string:login>')
 @api.param('login', 'parte do login do usuário')
-@api.response(404, 'login não encontrado.')
-class Usuario(Resource):
-    @api.doc('obtem usuario com base no login')
-    @api.marshal_with(_usuariolist)
+@api.response(404, 'Nenhum login encontrado.')
+class UsuarioNome(Resource):    
+    @api.marshal_with(_usuariolist, envelope='data')
     def get(self, login):
         """Lista de usuário filtrados por login"""
-        usuario = get_some_user(login)
-        if not usuario:
+        usuarios = get_some_user(login)
+        if not usuarios:
             api.abort(404)
         else:
-            return usuario
+            return usuarios

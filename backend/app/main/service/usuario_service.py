@@ -44,19 +44,9 @@ def save_new_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
 
 
 def update_user(usuario: Usuario,data):
-    if data:
-        update_changes(usuario,data)
-        response_object = {
-            'status': 'success',
-            'message': 'Usuário atualizado com sucesso.'
-        }
-        return response_object, 200 #usuario para retornar o objeto
-    else:
-        response_object = {
-            'status': 'Falha',
-            'message': 'Payload vazio, check e tente novamente.',
-        }
-        return response_object, 404
+    update_changes(usuario,data)
+    return usuario
+
 
 def get_all_users(ativo=False):
     usuarios = Usuario.query.filter_by(ativo=ativo)
