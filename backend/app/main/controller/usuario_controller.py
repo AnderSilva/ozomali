@@ -54,7 +54,7 @@ class Usuario(Resource):
 
 
     @api.doc('Atualiza um usuário')
-    @api.expect(_usuarioupdate) #, validate=True)
+    @api.expect(_usuarioupdate, validate=True)
     @api.response(201, 'Usuário atualizado com sucesso.')
     #@api.marshal_with(_usuariolist) para retornar o objeto
     def patch(self,id): # -> Tuple[Dict[str, str], int]:        
