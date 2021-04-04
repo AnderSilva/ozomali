@@ -18,6 +18,7 @@ def save_new_profile(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         response_object = {
             'status': 'success',
             'message': 'Perfil registrado com sucesso.',
+            'id': perfil.id,
         }
         return response_object, 201        
     else:
@@ -33,13 +34,13 @@ def update_profile(perfil: Perfil,data):
         update_changes(perfil,data)        
         response_object = {
             'status': 'success',
-            'message': 'Perfil atualizado com sucesso.'            
+            'message': 'Perfil atualizado com sucesso.'
         }
-        return response_object, 404 #perfil para retornar o objeto
+        return response_object, 201 #perfil para retornar o objeto
     else:
         response_object = {
             'status': 'Falha',
-            'message': 'Payload vazio, check e tente novamente.',
+            'message': 'Perfil inválido.',
         }
         return response_object, 404
 
