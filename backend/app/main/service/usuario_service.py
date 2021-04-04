@@ -11,10 +11,20 @@ def save_new_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
     usuario = Usuario.query.filter(
             Usuario.login == data['login']        
     ).first()
+    perfil = Perfil.query.filter_by(id=data['perfil_id']).first()
+    if not perfil:
+        response_object = {
+            'status': 'Falha',
+            'message': 'perfil não encontrado.',
+        }
+        return response_object, 404
+
     if not usuario:
         novo_usuario = Usuario(            
             login=data['login'],
             senha=data['senha'],
+            nome=data['nome'],
+            perfil_id=data['perfil_id'],
         )
         save_changes(novo_usuario)
         response_object = {
@@ -38,7 +48,7 @@ def update_user(usuario: Usuario,data):
             'status': 'success',
             'message': 'Usuário atualizado com sucesso.'            
         }
-        return response_object, 404 #usuario para retornar o objeto
+        return response_object, 200 #usuario para retornar o objeto
     else:
         response_object = {
             'status': 'Falha',
@@ -49,7 +59,7 @@ def update_user(usuario: Usuario,data):
 def get_all_users(ativo=False): 
     usuarios = Usuario.query.filter_by(ativo=ativo)
     return usuarios.join(Perfil).all()    
-    # return Usuario.query.filter_by(ativo=ativo).all()
+    #return Usuario.query.filter_by(ativo=ativo).all()
 
 
 def get_a_user(id):
@@ -87,6 +97,8 @@ def save_changes(data: Usuario) -> None:
 
 def update_changes(usuario: Usuario, data) -> None:
     usuario.login = data.get('login' , usuario.login)
-    usuario.senha = data.get('senha', usuario.senhaHash)
+    usuario.nome = data.get('nome' , usuario.nome)
+    if data.get('senha', 0) != 0:
+        usuario.senha = data['senha']
     usuario.ativo = data.get('ativo', usuario.ativo)
     db.session.commit()

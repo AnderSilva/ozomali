@@ -13,20 +13,19 @@ class UsuarioDto:
 
     perfil = api.model('perfil', {
         'id': fields.String( description='nome do perfil'),
-        'nome': fields.String( description='nome do perfil'),        
-        'uri' : fields.Url('api.perfil_perfil', readonly=True),
     })
     usuarioinsert = api.model('usuario', {
         'login': fields.String(required=True),
+        'nome' : fields.String(required=True),
         'senha': fields.String(required=True),
+        'perfil_id': fields.Integer(required=True, description='id do perfil')
     })
     usuariolist = api.model('usuariolist', {
         'id'  : fields.Integer(readonly=True),        
         'login': fields.String(required=True),
-        'senha': fields.String(attribute='senhaHash'),
         'ativo': fields.Boolean(),
         'uri' : fields.Url('api.usuarios_usuario'),
-        'perfil': fields.Nested(perfil,as_list=False)
+        'perfil_id': fields.Integer( description='id do perfil')
     })
     usuarioupdate = api.clone('usuarioupdate', usuarioinsert, {
         'ativo': fields.Boolean(required=True,description='inativa/ativa usuário')
