@@ -85,7 +85,32 @@ class PrecoDto:
         'data_emissao': fields.DateTime(description='Data da movimentação'),
     })
 
-
+class MovimentacaoDto:
+    api = Namespace('movimentacoes', description='Operações com Movimentacoes')
+    movimentacaoinsert = api.model('movimentacaoinsert', {
+        'local_estoque': fields.String(required=True, description='Local de estoque'),
+        'tipo_movimentacao': fields.String(required=True, description='Tipo movimentação a LETRA de E - Entrada ou S - Saida.'),
+        'preco_total': fields.Float(required=True, description='Preço Total'),
+        'quantidade': fields.Integer(required=True, description='Quantidade de produto.'),
+        'usuario_id': fields.Integer(required=True, description='Id do usuario'),
+        'produto_id': fields.Integer(required=True, description='Id do produto'),
+    })    
+    movimentacao_lista = api.model('movimentacaolista', {
+        'id'  : fields.Integer(readonly=True),
+        'local_estoque': fields.String(description='Local de estoque'),
+        'tipo_movimentacao': fields.String(description='Tipo movimentação a LETRA de E - Entrada ou S - Saida.'),
+        'preco_total': fields.Float(description='Preço Total'),
+        'quantidade': fields.Integer(description='Quantidade de produto.'),
+        'usuario_id': fields.Integer(description='Id do usuario'),
+        'produto_id': fields.Integer(description='Id do produto'),
+        'data_movimentacao': fields.DateTime(),
+        'ativo': fields.Boolean(description='inativa/ativa movimento'),
+        'produto.nome':fields.String(description='Nome do produto'),
+        'usuario.nome':fields.String(description='Nome do usuario'),
+    })
+    movimentacao_saldo = api.model('movimentacaosaldo', {
+        'quantidade': fields.Integer(description='Quantidade que existe no estoque')
+    })
 
 class FornecedorDto:
     api = Namespace('fornecedor', description='Endpoint de Fornecedores')
