@@ -2,7 +2,7 @@ from flask_restx import Namespace, fields
 from .. model.perfil import Perfil
 
 class PerfilDto:
-    api = Namespace('perfil', description='Operações com Perfis de Usuario')
+    api = Namespace('perfis', description='Operações com Perfis de Usuario')
     perfil = api.model('perfil', {
         'id' : fields.Integer(description = 'id do perfil'),
         'nome': fields.String(required=True, description='nome do perfil'),
@@ -113,7 +113,7 @@ class MovimentacaoDto:
     })
 
 class FornecedorDto:
-    api = Namespace('fornecedor', description='Endpoint de Fornecedores')
+    api = Namespace('fornecedores', description='Operações com Fornecedores')
     fornecedorinsert = api.model('fornecedor', {
         'cnpj': fields.String(required=True, description='cpnj do fornecedor'),
         'nome': fields.String(required=True, description='nome fornecedor'),
@@ -151,7 +151,7 @@ class FornecedorDto:
     })
 
 class TipoContatoDto:
-    api = Namespace('tipocontato', description='Operações com Tipo Contato dos Contatos')
+    api = Namespace('tipocontatos', description='Operações com Tipo Contato dos Contatos')
     tipocontatoinsert = api.model('tipocontato', {
         'nome': fields.String(required=True, description='nome do tipo contato'),
     })
@@ -166,7 +166,7 @@ class TipoContatoDto:
     })
 
 class ContatoDto:
-    api = Namespace('contato', description='Operações com contatos')
+    api = Namespace('contatos', description='Operações com contatos')
     contatoinsert = api.model('contato', {
         'valor': fields.String(required=True, description='valor contato'),
         'tipocontato_id': fields.Integer(required=True, description='id do tipo contato'),

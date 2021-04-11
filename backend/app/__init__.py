@@ -28,15 +28,9 @@ api.add_namespace(fornecedor_ns, path='/fornecedores')
 api.add_namespace(contato_ns, path='/contatos')
 api.add_namespace(preco_ns, path='/precos')
 api.add_namespace(movimentacao_ns, path='/movimentacoes')
-
-# TODO PRECOS - validar e testar
-# api.add_namespace(preco_ns, path='/precos')
+api.add_namespace(produto_ns, path='/produtos')
 
 
-# TODO FORNECEDOR - validar e testar
-# api.add_namespace(fornecedor_ns, path='/fornecedores')
 
 # TODO AUTH JWT
 # api.add_namespace(auth_ns)
-
-api.add_namespace(produto_ns, path='/produtos')
