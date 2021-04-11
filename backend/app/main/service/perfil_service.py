@@ -30,19 +30,8 @@ def save_new_profile(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
 
 
 def update_profile(perfil: Perfil,data):    
-    if data:
-        update_changes(perfil,data)        
-        response_object = {
-            'status': 'success',
-            'message': 'Perfil atualizado com sucesso.'
-        }
-        return response_object, 201 #perfil para retornar o objeto
-    else:
-        response_object = {
-            'status': 'Falha',
-            'message': 'Perfil inválido.',
-        }
-        return response_object, 404
+    update_changes(perfil,data)        
+    return perfil
 
 def get_all_profiles(ativo=False):    
     return Perfil.query.filter_by(ativo=ativo).all()

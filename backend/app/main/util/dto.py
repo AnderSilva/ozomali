@@ -6,7 +6,7 @@ class PerfilDto:
     perfil = api.model('perfil', {
         'id' : fields.Integer(description = 'id do perfil'),
         'nome': fields.String(required=True, description='nome do perfil'),
-        'uri' : fields.Url('api.perfil_perfil', readonly=True),
+        'uri' : fields.Url('api.perfis_perfil', readonly=True),
         'ativo': fields.Boolean(description='ativo'),
     })
     perfilinsert = api.model('perfilinsert', {

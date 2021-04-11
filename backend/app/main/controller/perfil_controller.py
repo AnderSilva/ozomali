@@ -53,14 +53,16 @@ class Perfil(Resource):
     @api.doc('Atualiza um Perfil')
     @api.expect(_perfilupdate)
     @api.response(201, 'Perfil atualizado com sucesso.')
-    #@api.marshal_with(_perfillist) para retornar o objeto
+    @api.marshal_with(_perfil)
     def patch(self,id): # -> Tuple[Dict[str, str], int]:        
         """Atualiza um Perfil  Obs: para inativar, coloque 'ativo': false """
         
         perfil = get_a_profile(id)
+        data = request.json
         if not perfil:
-            api.abort(404)
-        else:
-            data = request.json        
-            return update_profile(perfil,data=data)
+            api.abort(404, 'Perfil não encontrado.')
+        if not data:
+            api.abort(400, 'Payload vazio.')
+
+        return update_profile(perfil,data=data)
             
