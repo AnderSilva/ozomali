@@ -23,12 +23,12 @@ api = Api(blueprint,
 
 api.add_namespace(usuario_ns, path='/usuarios')
 api.add_namespace(perfil_ns, path='/perfis')
-api.add_namespace(tipocontato_ns, path='/tipocontatos')
 api.add_namespace(fornecedor_ns, path='/fornecedores')
 api.add_namespace(contato_ns, path='/contatos')
-api.add_namespace(preco_ns, path='/precos')
-api.add_namespace(movimentacao_ns, path='/movimentacoes')
+api.add_namespace(tipocontato_ns, path='/tipocontatos')
 api.add_namespace(produto_ns, path='/produtos')
+api.add_namespace(movimentacao_ns, path='/movimentacoes')
+api.add_namespace(preco_ns, path='/precos')
 
 
 
