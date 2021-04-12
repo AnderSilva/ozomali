@@ -31,14 +31,6 @@ class ProdutoLista(Resource):
         return save_new_product(data=data)
 
 
-@api.route('/inativos')
-class ProdutoInativos(Resource):    
-    @api.marshal_list_with(_produtolist, envelope='data')
-    def get(self,ativo=False):
-        """Lista todos produtos inativos"""
-        return get_all_products(ativo)
-
-
 @api.route('/<int:id>')
 @api.param('id', 'Identificador do produto')
 @api.response(404, 'Produto não encontrado.')
@@ -77,26 +69,6 @@ class ProdutoID(Resource):
                 api.abort(404,'Fornecedor Não Encontrado.')
 
         return update_product(produto,data=data)
-
-
-
-@api.route('/<string:nome>')
-@api.param('nome', 'parte do nome do produto')
-@api.doc('Atualiza um Produto',responses={
-    200: 'Lista dos Produtos encontrados.',
-    404: 'Nenhum produto encontrado com o filtro informado.'
-})
-class ProdutoNome(Resource):
-    @api.doc('obtem produto com base no nome')
-    @api.marshal_with(_produtolist, envelope='data')
-    def get(self, nome):
-        """Lista de produtos filtrados por nome"""
-        
-        produtos = get_some_product(nome)
-        if not produtos:
-            api.abort(404)
-        else:
-            return produtos
 
 
 @api.route('/<string:campo>/<string:valor>')

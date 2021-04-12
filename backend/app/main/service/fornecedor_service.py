@@ -54,6 +54,13 @@ def get_a_vendor(tipo, id):
     if tipo=='id':
         return Fornecedor.query.filter_by(id=id).first()
 
+    if tipo=='nome':
+        filter1 = unaccent(Fornecedor.nome).ilike(item)
+        filter2 = Fornecedor.nome.ilike(item)
+        return Fornecedor.query.filter(
+            db.or_(filter1, filter2)
+        ).all()
+
     if tipo=='cnpj':
         return Fornecedor.query.filter_by(cnpj=id).first()
 
@@ -75,19 +82,10 @@ def get_a_vendor(tipo, id):
     if tipo=='cep':
         return Fornecedor.query.filter_by(cep=id).all()
     
+    if tipo=='ativo':
+        return Fornecedor.query.filter_by(ativo=id).all()
     
-
-def get_some_vendor(nome):
-    item = '%{}%'.format(nome)
-    filter1 = unaccent(Fornecedor.nome).ilike(item)
-    filter2 = Fornecedor.nome.ilike(item)
-
-    return Fornecedor.query \
-    .filter(
-        db.or_(filter1, filter2)
-    ).all()
-
-
+    
 def save_changes(data: Fornecedor) -> None:
     db.session.add(data)
     db.session.commit()

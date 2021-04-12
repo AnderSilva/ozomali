@@ -105,3 +105,4 @@ ENV/
 # mypy
 .mypy_cache/
 migrations/
+backend/app/test/testedb.py

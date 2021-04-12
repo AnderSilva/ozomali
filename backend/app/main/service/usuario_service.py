@@ -55,8 +55,30 @@ def get_all_users(ativo=False):
     #return Usuario.query.filter_by(ativo=ativo).all()
 
 
-def get_a_user(id):
-    return Usuario.query.filter_by(id=id).first()
+def get_a_user(tipo, id):
+    item = '%{}%'.format(id)
+
+    if tipo=='id':
+        return Usuario.query.filter_by(id=id).first()
+    
+    if tipo=='login':
+        return Usuario.query.filter(
+            unaccent(Usuario.login)
+            .ilike( item )
+        ).all()
+
+    if tipo=='nome':
+        return Usuario.query.filter(
+            unaccent(Usuario.nome)
+            .ilike( item )
+        ).all()
+
+    if tipo=='perfil_id':
+        return Usuario.query.filter_by(perfil_id=id).all()
+    
+    if tipo=='ativo':
+        return Usuario.query.filter_by(ativo=id).all()
+
 
 def get_some_user(login):
     return Usuario.query \

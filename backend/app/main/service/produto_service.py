@@ -71,6 +71,9 @@ def get_a_product(tipo, id):
     if tipo=='fornecedor_id':
         return Produto.query.filter_by(fornecedor_id=id).all()
 
+    if tipo=='ativo':
+        return Produto.query.filter_by(ativo=id).all()
+
 
 def save_changes(data: Produto) -> None:
     db.session.add(data)

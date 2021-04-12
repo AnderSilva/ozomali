@@ -63,29 +63,6 @@ class Fornecedor(Resource):
                 
         return update_vendor(fornecedor,data=data)
 
-@api.route('/inativos')
-class FornecedorInvativos(Resource):
-    @api.doc('lista fornecedores inativos')
-    # @admin_token_required
-    @api.marshal_list_with(_fornecedorlista, envelope='data')
-    def get(self,ativo=False):
-        """Lista todos os fornecedores inativos"""
-        return get_all_vendors(ativo)
-
-@api.route('/<string:nome>')
-@api.param('nome', 'parte do nome do fornecedor')
-@api.response(404, 'Nenhum fornecedor foi encontrado.')
-class FornecedorNome(Resource):    
-    @api.marshal_with(_fornecedorlista, envelope='data')
-    def get(self, nome):
-        """Lista de fornecedores filtrados por nome"""
-        fornecedor = get_some_vendor(nome)
-        if not fornecedor:
-            api.abort(404, 'Nenhum fornecedor foi encontrado.')
-        else:
-            return fornecedor
-
-
 @api.route('/<string:campo>/<string:valor>')
 @api.response(404, 'Nenhum fornecedor foi encontrado.')
 class Fornecedor(Resource):    
