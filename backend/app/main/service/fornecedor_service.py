@@ -48,8 +48,34 @@ def update_vendor(fornecedor: Fornecedor,data):
 def get_all_vendors(ativo=False):    
     return Fornecedor.query.filter_by(ativo=ativo).all()
 
-def get_a_vendor(id):
-    return Fornecedor.query.filter_by(id=id).first()
+def get_a_vendor(tipo, id):
+    item = '%{}%'.format(id)
+
+    if tipo=='id':
+        return Fornecedor.query.filter_by(id=id).first()
+
+    if tipo=='cnpj':
+        return Fornecedor.query.filter_by(cnpj=id).first()
+
+    if tipo=='bairro':
+        return Fornecedor.query.filter(
+            unaccent(Fornecedor.bairro).ilike(item)
+        ).all()
+
+    if tipo=='cidade':        
+        return Fornecedor.query.filter(
+            unaccent(Fornecedor.cidade).ilike(item)
+        ).all()
+
+    if tipo=='estado':
+        return Fornecedor.query.filter(
+            unaccent(Fornecedor.estado).ilike(item)
+        ).all()
+
+    if tipo=='cep':
+        return Fornecedor.query.filter_by(cep=id).all()
+    
+    
 
 def get_some_vendor(nome):
     item = '%{}%'.format(nome)

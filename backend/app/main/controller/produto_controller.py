@@ -98,3 +98,18 @@ class ProdutoNome(Resource):
         else:
             return produtos
 
+
+@api.route('/<string:campo>/<string:valor>')
+@api.doc('Atualiza um Produto',responses={
+    200: 'Lista dos Produtos encontrados.',
+    404: 'Nenhum produto encontrado com o filtro informado.'
+})
+class ProdutoCampoValor(Resource):    
+    @api.marshal_with(_produtolist, envelope='data')
+    def get(self, campo, valor):
+        """Lista de Produtos filtrados por campo/valor"""
+        produtos = get_a_product(campo,valor)
+        if not produtos:
+            api.abort(404, 'Nenhum produto foi encontrado.')
+        else:
+            return produtos

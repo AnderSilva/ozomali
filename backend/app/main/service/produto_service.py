@@ -44,9 +44,9 @@ def save_new_product(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         return response_object, 409
 
 
-def update_product(produto: Produto,data):       
+def update_product(produto: Produto,data):
     update_changes(produto,data)
-    return produto    
+    return produto
 
 
 def get_all_products(ativo=False):
@@ -54,17 +54,22 @@ def get_all_products(ativo=False):
     # return produto.join(Perfil).all()
     return Produto.query.filter_by(ativo=ativo).all()
 
-def get_a_product(id):
-    return Produto.query.filter_by(id=id).first()
+def get_a_product(tipo, id):
 
-def get_some_product(nome):
-    item = '%{}%'.format(nome)
-    filter1 = unaccent(Produto.nome).ilike(item)
-    filter2 = unaccent(Produto.codigo_barra).ilike(item)
-    filter3 = Produto.nome.ilike(item)
-    filter4 = Produto.codigo_barra.ilike(item)
+    if tipo=='id':
+        return Produto.query.filter_by(id=id).first()
 
-    return Produto.query.filter( db.or_(filter1,filter2,filter3,filter4) ).all()
+    if tipo=='nome':
+        item = '%{}%'.format(id)
+        filter1 = unaccent(Produto.nome).ilike(item)
+        filter2 = Produto.nome.ilike(item)
+        return Produto.query.filter( db.or_(filter1,filter2) ).all()
+
+    if tipo=='codigo_barra':
+        return Produto.query.filter_by(id=id).all()
+
+    if tipo=='fornecedor_id':
+        return Produto.query.filter_by(fornecedor_id=id).all()
 
 
 def save_changes(data: Produto) -> None:
@@ -76,5 +81,5 @@ def update_changes(produto: Produto, data) -> None:
     produto.codigo_barra = data.get('codigo_barra' , produto.codigo_barra)
     produto.ativo        = data.get('ativo'        , produto.ativo)
     produto.fornecedor_id= data.get('fornecedor_id', produto.fornecedor_id)
-    
+
     db.session.commit()
