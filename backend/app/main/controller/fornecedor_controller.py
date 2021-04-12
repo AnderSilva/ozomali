@@ -84,3 +84,6 @@ class FornecedorNome(Resource):
             api.abort(404, 'Nenhum fornecedor foi encontrado.')
         else:
             return fornecedor
+
+
+

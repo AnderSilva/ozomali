@@ -5,6 +5,10 @@ from flask_bcrypt import Bcrypt
 from .config import config_by_name
 from flask.app import Flask
 
+from sqlalchemy.sql.functions import ReturnTypeFromArgs
+class unaccent(ReturnTypeFromArgs):
+    pass
+
 db = SQLAlchemy()
 flask_bcrypt = Bcrypt()
 

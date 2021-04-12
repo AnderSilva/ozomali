@@ -3,6 +3,7 @@ import datetime
 
 from app.main import db
 from app.main.model.fornecedor import Fornecedor
+from app.main.model import unaccent
 from typing import Dict, Tuple
 
 
@@ -44,20 +45,20 @@ def update_vendor(fornecedor: Fornecedor,data):
     update_changes(fornecedor,data)        
     return fornecedor
 
-
 def get_all_vendors(ativo=False):    
     return Fornecedor.query.filter_by(ativo=ativo).all()
-
 
 def get_a_vendor(id):
     return Fornecedor.query.filter_by(id=id).first()
 
-
 def get_some_vendor(nome):
+    item = '%{}%'.format(nome)
+    filter1 = unaccent(Fornecedor.nome).ilike(item)
+    filter2 = Fornecedor.nome.ilike(item)
+
     return Fornecedor.query \
     .filter(
-        Fornecedor.nome \
-        .like( '%{}%'.format(nome) )
+        db.or_(filter1, filter2)
     ).all()
 
 

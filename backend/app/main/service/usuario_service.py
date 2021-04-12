@@ -2,6 +2,7 @@ import uuid
 import datetime
 
 from app.main import db
+from app.main.model import unaccent
 from app.main.model.usuario import Usuario
 from app.main.model.perfil import Perfil
 from typing import Dict, Tuple
@@ -60,8 +61,8 @@ def get_a_user(id):
 def get_some_user(login):
     return Usuario.query \
     .filter(
-        Usuario.login \
-        .like( '%{}%'.format(login) )
+        unaccent(Usuario.login) \
+        .ilike( '%{}%'.format(login) )
     ).all()
 
 

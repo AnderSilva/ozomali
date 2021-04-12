@@ -3,6 +3,7 @@ import datetime
 
 from app.main import db
 from typing import Dict, Tuple
+from app.main.model import unaccent
 from app.main.model.produto import Produto
 from app.main.model.fornecedor import Fornecedor
 
@@ -58,10 +59,12 @@ def get_a_product(id):
 
 def get_some_product(nome):
     item = '%{}%'.format(nome)
-    filter1 = Produto.nome.like(item)
-    filter2 = Produto.codigo_barra.like(item)
+    filter1 = unaccent(Produto.nome).ilike(item)
+    filter2 = unaccent(Produto.codigo_barra).ilike(item)
+    filter3 = Produto.nome.ilike(item)
+    filter4 = Produto.codigo_barra.ilike(item)
 
-    return Produto.query.filter( db.or_(filter1,filter2) ).all()
+    return Produto.query.filter( db.or_(filter1,filter2,filter3,filter4) ).all()
 
 
 def save_changes(data: Produto) -> None:
