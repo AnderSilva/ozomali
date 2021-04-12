@@ -53,7 +53,7 @@ class UsuarioId(Resource):
     @api.doc('Atualiza um usuário',responses={
         200: 'Sucesso',
         400: 'Erro na Atualização',
-        404: 'Perfil não encontrado'
+        404: 'Perfil/Usuário não encontrado'
     })
     @api.expect(_usuarioupdate, validate=True)
     @api.response(201, 'Usuário atualizado com sucesso.')

@@ -41,19 +41,8 @@ def save_new_vendor(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         return response_object, 409
 
 def update_vendor(fornecedor: Fornecedor,data):    
-    if data:
-        update_changes(fornecedor,data)        
-        response_object = {
-            'status': 'success',
-            'message': 'Fornecedor atualizado com sucesso.'
-        }
-        return response_object, 201 #fornecedor para retornar o objeto
-    else:
-        response_object = {
-            'status': 'Falha',
-            'message': 'Fornecedor inválido.',
-        }
-        return response_object, 404
+    update_changes(fornecedor,data)        
+    return fornecedor
 
 
 def get_all_vendors(ativo=False):    
@@ -62,6 +51,15 @@ def get_all_vendors(ativo=False):
 
 def get_a_vendor(id):
     return Fornecedor.query.filter_by(id=id).first()
+
+
+def get_some_vendor(nome):
+    return Fornecedor.query \
+    .filter(
+        Fornecedor.nome \
+        .like( '%{}%'.format(nome) )
+    ).all()
+
 
 def save_changes(data: Fornecedor) -> None:
     db.session.add(data)
