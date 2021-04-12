@@ -35,7 +35,7 @@ class ProdutoLista(Resource):
 class ProdutoInativos(Resource):    
     @api.marshal_list_with(_produtolist, envelope='data')
     def get(self,ativo=False):
-        """Lista todos usuários inativos"""
+        """Lista todos produtos inativos"""
         return get_all_products(ativo)
 
 

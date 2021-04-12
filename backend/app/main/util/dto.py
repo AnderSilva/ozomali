@@ -55,14 +55,14 @@ class ProdutoDto:
         'codigo_barra': fields.String(description='Código de barra do Produto'),
         'uri' : fields.Url('api.produtos_produto_id'),
         'fornecedor_id' : fields.Integer( description='id do fornecedor'),
-        'ativo': fields.Boolean(required=False,description='inativa/ativa usuário'),
+        'ativo': fields.Boolean(required=False,description='inativa/ativa produto'),
     })
     produtoupdate = api.model('produtoupdate', {
         'nome': fields.String(required=False, description='nome do produto'),
         'codigo_barra': fields.String(required=False,description='Código de barra do Produto'),
         'fornecedor_id' : fields.Integer(required=False, description='id do fornecedor'),
         'uri' : fields.Url('api.produtos_produto_id', readonly=True),
-        'ativo': fields.Boolean(required=False,description='inativa/ativa usuário')
+        'ativo': fields.Boolean(required=False,description='inativa/ativa produto')
     })
 
 class PrecoDto:

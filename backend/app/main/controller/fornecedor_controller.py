@@ -35,7 +35,7 @@ class Fornecedor(Resource):
     @api.doc('obter o fornecedor')
     @api.marshal_with(_fornecedorlista)
     def get(self, id):
-        """Obtem informações de um usuário com base no seu id"""
+        """Obtem informações de um fornecedor com base no seu id"""
         fornecedor = get_a_vendor(id)
         if not fornecedor:
             api.abort(404)
