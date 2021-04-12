@@ -1,0 +1,66 @@
+.vendor-register {
+  display: flex;
+  background-color: #e7eced;
+  width: 80%;
+
+  &__search {
+    display: flex;
+    background-color: #e7eced;
+    width: 80%;
+  }
+
+  &__form {
+    width: 100%;
+
+    &-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      padding: 72px 48px;
+      width: 100%;
+    }
+
+    &-field {
+      &--wrapper {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      &--cnpj {
+        width: 50%;
+      }
+      &--name {
+        width: 100%;
+      }
+      &--cep {
+        width: 30%;
+      }
+      &--address {
+        width: 65%;
+      }
+      &--others {
+        width: 22%;
+      }
+
+      ::ng-deep .mat-form-field {
+        display: unset;
+
+        &-outline {
+          background-color: #c4c4c4;
+        }
+      }
+    }
+  }
+
+  &__button {
+    color: #e5e5e5;
+    background-color: #3372eb;
+    font-size: 24px;
+    padding: 15px 45px;
+    margin: 24px 0 0 24px;
+    border-radius: 5px;
+    border: unset;
+    user-select: none;
+    cursor: pointer;
+  }
+}

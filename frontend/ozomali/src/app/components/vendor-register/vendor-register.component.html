@@ -1,0 +1,90 @@
+<div class="vendor-register" *ngIf="isSearch ? (vendor ? true : false) : true">
+  <form [formGroup]="vendorRegisterForm" class="vendor-register__form-wrapper">
+    <div class="vendor-register__form">
+      <mat-form-field appearance="outline" class="vendor-register__form-field vendor-register__form-field--cnpj">
+        <mat-label>CNPJ</mat-label>
+        <input matInput placeholder="" mask="CPF_CNPJ" formControlName="cnpj" />
+        <mat-error *ngIf="vendorRegisterForm.get('cnpj').hasError('required')"> Digite um CNPJ válido </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="vendor-register__form-field vendor-register__form-field--name">
+        <mat-label>Nome</mat-label>
+        <input matInput placeholder="" formControlName="nome" />
+        <mat-error *ngIf="vendorRegisterForm.get('nome').hasError('required')"> Digite o nome do fornecedor </mat-error>
+      </mat-form-field>
+
+      <div class="vendor-register__form-field--wrapper">
+        <mat-form-field appearance="outline" class="vendor-register__form-field vendor-register__form-field--cep">
+          <mat-label>CEP</mat-label>
+          <input matInput placeholder="" mask="00000-000" formControlName="cep" />
+          <mat-error *ngIf="vendorRegisterForm.get('cep').hasError('required')"> Digite um CEP válido </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="vendor-register__form-field vendor-register__form-field--address">
+          <mat-label>Endereço</mat-label>
+          <input matInput placeholder="" formControlName="endereco" />
+          <mat-error *ngIf="vendorRegisterForm.get('endereco').hasError('required')">
+            Digite o endereço do fornecedor
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="vendor-register__form-field--wrapper">
+        <mat-form-field appearance="outline" class="vendor-register__form-field vendor-register__form-field--others">
+          <mat-label>Número</mat-label>
+          <input matInput placeholder="" mask="9999999999" formControlName="numero" />
+          <mat-error *ngIf="vendorRegisterForm.get('numero').hasError('required')">
+            Digite o número do endereço
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="vendor-register__form-field vendor-register__form-field--others">
+          <mat-label>Complemento</mat-label>
+          <input matInput placeholder="" formControlName="complemento" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="vendor-register__form-field vendor-register__form-field--others">
+          <mat-label>Cidade</mat-label>
+          <input matInput placeholder="" formControlName="cidade" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="vendor-register__form-field vendor-register__form-field--others">
+          <mat-label>Estado</mat-label>
+          <input matInput placeholder="" mask="SS" formControlName="estado" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div matRipple class="vendor-register__button" *ngIf="isSearch" (click)="clearForm()">
+      <span *ngIf="!isRegisterLoading">Nova busca</span>
+      <mat-spinner [diameter]="30" *ngIf="isRegisterLoading"></mat-spinner>
+    </div>
+    <div matRipple class="vendor-register__button" (click)="isSearch ? deleteVendor() : clearForm()">
+      <span *ngIf="!isRegisterLoading"> {{ isSearch ? 'Deletar' : 'Limpar' }}</span>
+      <mat-spinner [diameter]="30" *ngIf="isRegisterLoading"></mat-spinner>
+    </div>
+    <div matRipple class="vendor-register__button" (click)="isSearch ? updateVendor() : registerVendor()">
+      <span *ngIf="!isRegisterLoading"> {{ isSearch ? 'Atualizar' : 'Cadastrar' }}</span>
+      <mat-spinner [diameter]="30" *ngIf="isRegisterLoading"></mat-spinner>
+    </div>
+  </form>
+</div>
+
+<ng-container *ngIf="isSearch ? (vendor ? false : true) : false">
+  <div class="vendor-register__search">
+    <form [formGroup]="vendorSearchForm" class="vendor-register__form-wrapper">
+      <div class="vendor-register__form">
+        <mat-form-field appearance="outline" class="vendor-register__form-field">
+          <mat-label>ID</mat-label>
+          <input matInput placeholder="" mask="99999" formControlName="id" />
+          <mat-error *ngIf="vendorSearchForm.get('id').hasError('required')"> Digite um ID </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div matRipple class="vendor-register__button" (click)="onSearchVendor()">
+        <span *ngIf="!isRegisterLoading">Buscar</span>
+        <mat-spinner [diameter]="30" *ngIf="isRegisterLoading"></mat-spinner>
+      </div>
+    </form>
+  </div>
+</ng-container>

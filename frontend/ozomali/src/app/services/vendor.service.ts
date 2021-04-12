@@ -3,17 +3,21 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class VendorService {
   private readonly baseUrl: string;
 
   constructor(private http: HttpClient) {
-    this.baseUrl = 'https://ozomali-api.herokuapp.com/providers';
+    this.baseUrl = 'https://ozomali.herokuapp.com/providers';
   }
 
   public createVendor(params: any): Observable<any> {
     return this.http.post(this.baseUrl, params);
+  }
+
+  public updateVendor(params: any): Observable<any> {
+    return this.http.put(this.baseUrl, params);
   }
 
   public getVendors(): Observable<any> {
@@ -21,14 +25,10 @@ export class VendorService {
   }
 
   public getVendorById(id: string): Observable<any> {
-    const params = new HttpParams({ fromString: 'id' });
-
-    return this.http.get(`${this.baseUrl}/1`, { params });
+    return this.http.get(`${this.baseUrl}/${id}`);
   }
 
-  public deleteVendorById(id: string): Observable<any> {
-    const params = new HttpParams({ fromString: 'id' });
-
-    return this.http.delete(`${this.baseUrl}/1`, { params });
+  public deleteVendorById(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${id}`);
   }
 }

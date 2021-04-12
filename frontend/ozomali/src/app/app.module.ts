@@ -15,6 +15,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { HttpClientModule } from '@angular/common/http';
+import { NgxMaskModule } from 'ngx-mask';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,9 @@ import { HttpClientModule } from '@angular/common/http';
     MatInputModule,
     MatMenuModule,
     HttpClientModule,
+    NgxMaskModule.forRoot(),
+    MatTabsModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
