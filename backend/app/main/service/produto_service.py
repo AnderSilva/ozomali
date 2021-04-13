@@ -55,7 +55,6 @@ def get_all_products(ativo=False):
     return Produto.query.filter_by(ativo=ativo).all()
 
 def get_a_product(tipo, id):
-
     if tipo=='id':
         return Produto.query.filter_by(id=id).first()
 

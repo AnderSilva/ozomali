@@ -39,7 +39,7 @@ class ProdutoID(Resource):
     @api.marshal_with(_produtolist)
     def get(self, id):
         """Obtem informações de um produto com base no seu id"""
-        produto = get_a_product(id)
+        produto = get_a_product('id',id)
         if not produto:
             api.abort(404)
         else:
@@ -56,7 +56,7 @@ class ProdutoID(Resource):
     def patch(self,id):
         """Atualiza um produto  Obs: para inativar, coloque 'ativo': false """
 
-        produto = get_a_product(id)
+        produto = get_a_product('id',id)
         data = request.json
         if not produto :
             api.abort(404,'Produto não Encontrado.')

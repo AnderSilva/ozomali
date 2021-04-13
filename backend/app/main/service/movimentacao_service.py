@@ -20,7 +20,7 @@ def save_new_moviment(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         }
         return response_object, 409
 
-    produto = get_a_product(data.get('produto_id', 0))
+    produto = get_a_product('id', data.get('produto_id', 0))
     if not produto:
         response_object = {
             'status': 'Falha',
