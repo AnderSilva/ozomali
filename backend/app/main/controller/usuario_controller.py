@@ -35,7 +35,7 @@ class UsuarioId(Resource):
     @api.marshal_with(_usuariolist)
     def get(self, id):
         """Obtem informações de um usuário com base no seu id"""
-        usuario = get_a_user(id)
+        usuario = get_a_user('id',id)
         if not usuario:
             api.abort(404)
         else:
@@ -53,7 +53,7 @@ class UsuarioId(Resource):
     def patch(self,id):
         """Atualiza um usuário  Obs: para inativar, coloque 'ativo': false """
         
-        usuario = get_a_user(id)
+        usuario = get_a_user('id',id)
         data = request.json
         if not usuario:
             api.abort(404, 'Usuario não encontrado.')

@@ -12,7 +12,7 @@ from ..service.produto_service import get_a_product
 def save_new_moviment(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
     
     #Validacao dos ids           
-    usuario = get_a_user(data.get('usuario_id', 0))
+    usuario = get_a_user('id',data.get('usuario_id', 0))
     if not usuario:
         response_object = {
             'status': 'Falha',
@@ -65,7 +65,7 @@ def Validation(data: Dict[str, str])-> str:
         return 'local_estoque deve ser informado.'
     if data['tipo_movimentacao'] not in ('E', 'S'):        
         return 'tipo_movimentacao - Informe a LETRA E - Entrada ou S - Saida.'
-    qtde = get_net_by_product(data['produto_id'], True)
+    qtde = get_net_by_product(data['produto_id'], True).quantidade
     if qtde < data['quantidade']:
         return 'quantidade - Quantidade de produto insulficiente. Estoque tem {}.'.format(qtde)
     return ""
