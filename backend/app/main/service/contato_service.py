@@ -11,9 +11,8 @@ from typing import Dict, Tuple
 def save_new_contact(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
     
     tipocontato = TipoContato.query.filter(
-        db.or_(
-             TipoContato.id == data['tipocontato_id'],
-        )
+        TipoContato.id == data['tipocontato_id'],
+        TipoContato.ativo == True
     ).first()
     if not tipocontato:
         response_object = {
@@ -23,9 +22,7 @@ def save_new_contact(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         return response_object, 404
     
     fornecedor = Fornecedor.query.filter(
-        db.or_(
-            Fornecedor.id == data['fornecedor_id'],
-        )
+        Fornecedor.id == data['fornecedor_id']
     ).first()
     if not fornecedor:
         response_object = {
@@ -73,9 +70,8 @@ def update_contact(contato: Contato,data):
         # validando se esse tipo contato existe
         if data.get('tipocontato_id',-1) != -1:
             tipocontato = TipoContato.query.filter(
-                db.or_(
-                    TipoContato.id == data['tipocontato_id'],
-                )
+                TipoContato.id == data['tipocontato_id'],
+                TipoContato.status == True
             ).first()
             if not tipocontato:
                 response_object = {
