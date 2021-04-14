@@ -28,14 +28,6 @@ class UsuarioList(Resource):
         data = request.json
         return save_new_user(data=data)
 
-@api.route('/inativos')
-class UsuarioInativos(Resource):        
-    @api.marshal_list_with(_usuariolist, envelope='data')
-    def get(self,ativo=False):
-        """Lista todos usuários inativos"""
-        return get_all_users(ativo)
-
-
 @api.route('/<int:id>')
 @api.param('id', 'Identificador do usuário')
 @api.response(404, 'Usuário não encontrado.')
@@ -43,7 +35,7 @@ class UsuarioId(Resource):
     @api.marshal_with(_usuariolist)
     def get(self, id):
         """Obtem informações de um usuário com base no seu id"""
-        usuario = get_a_user(id)
+        usuario = get_a_user('id',id)
         if not usuario:
             api.abort(404)
         else:
@@ -61,7 +53,7 @@ class UsuarioId(Resource):
     def patch(self,id):
         """Atualiza um usuário  Obs: para inativar, coloque 'ativo': false """
         
-        usuario = get_a_user(id)
+        usuario = get_a_user('id',id)
         data = request.json
         if not usuario:
             api.abort(404, 'Usuario não encontrado.')
@@ -76,15 +68,14 @@ class UsuarioId(Resource):
         return update_user(usuario,data=data)
 
 
-@api.route('/<string:login>')
-@api.param('login', 'parte do login do usuário')
-@api.response(404, 'Nenhum login encontrado.')
-class UsuarioNome(Resource):    
+@api.route('/<string:campo>/<string:valor>')
+@api.response(404, 'Nenhum usuário foi encontrado.')
+class Usuario(Resource):    
     @api.marshal_with(_usuariolist, envelope='data')
-    def get(self, login):
-        """Lista de usuário filtrados por login"""
-        usuarios = get_some_user(login)
+    def get(self, campo, valor):
+        """Lista de usuários filtrados por campo/valor"""
+        usuarios = get_a_user(campo,valor)
         if not usuarios:
-            api.abort(404)
+            api.abort(404, 'Nenhum usuário foi encontrado.')
         else:
             return usuarios

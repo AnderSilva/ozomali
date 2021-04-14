@@ -31,14 +31,6 @@ class ProdutoLista(Resource):
         return save_new_product(data=data)
 
 
-@api.route('/inativos')
-class ProdutoInativos(Resource):    
-    @api.marshal_list_with(_produtolist, envelope='data')
-    def get(self,ativo=False):
-        """Lista todos produtos inativos"""
-        return get_all_products(ativo)
-
-
 @api.route('/<int:id>')
 @api.param('id', 'Identificador do produto')
 @api.response(404, 'Produto não encontrado.')
@@ -47,7 +39,7 @@ class ProdutoID(Resource):
     @api.marshal_with(_produtolist)
     def get(self, id):
         """Obtem informações de um produto com base no seu id"""
-        produto = get_a_product(id)
+        produto = get_a_product('id',id)
         if not produto:
             api.abort(404)
         else:
@@ -64,7 +56,7 @@ class ProdutoID(Resource):
     def patch(self,id):
         """Atualiza um produto  Obs: para inativar, coloque 'ativo': false """
 
-        produto = get_a_product(id)
+        produto = get_a_product('id',id)
         data = request.json
         if not produto :
             api.abort(404,'Produto não Encontrado.')
@@ -79,22 +71,17 @@ class ProdutoID(Resource):
         return update_product(produto,data=data)
 
 
-
-@api.route('/<string:nome>')
-@api.param('nome', 'parte do nome do produto')
+@api.route('/<string:campo>/<string:valor>')
 @api.doc('Atualiza um Produto',responses={
     200: 'Lista dos Produtos encontrados.',
     404: 'Nenhum produto encontrado com o filtro informado.'
 })
-class ProdutoNome(Resource):
-    @api.doc('obtem produto com base no nome')
+class ProdutoCampoValor(Resource):    
     @api.marshal_with(_produtolist, envelope='data')
-    def get(self, nome):
-        """Lista de produtos filtrados por nome"""
-        
-        produtos = get_some_product(nome)
+    def get(self, campo, valor):
+        """Lista de Produtos filtrados por campo/valor"""
+        produtos = get_a_product(campo,valor)
         if not produtos:
-            api.abort(404)
+            api.abort(404, 'Nenhum produto foi encontrado.')
         else:
             return produtos
-

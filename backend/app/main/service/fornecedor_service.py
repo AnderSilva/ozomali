@@ -3,6 +3,7 @@ import datetime
 
 from app.main import db
 from app.main.model.fornecedor import Fornecedor
+from app.main.model import unaccent
 from typing import Dict, Tuple
 
 
@@ -44,23 +45,47 @@ def update_vendor(fornecedor: Fornecedor,data):
     update_changes(fornecedor,data)        
     return fornecedor
 
-
 def get_all_vendors(ativo=False):    
     return Fornecedor.query.filter_by(ativo=ativo).all()
 
+def get_a_vendor(tipo, id):
+    item = '%{}%'.format(id)
 
-def get_a_vendor(id):
-    return Fornecedor.query.filter_by(id=id).first()
+    if tipo=='id':
+        return Fornecedor.query.filter_by(id=id).first()
 
+    if tipo=='nome':
+        filter1 = unaccent(Fornecedor.nome).ilike(item)
+        filter2 = Fornecedor.nome.ilike(item)
+        return Fornecedor.query.filter(
+            db.or_(filter1, filter2)
+        ).all()
 
-def get_some_vendor(nome):
-    return Fornecedor.query \
-    .filter(
-        Fornecedor.nome \
-        .like( '%{}%'.format(nome) )
-    ).all()
+    if tipo=='cnpj':
+        return Fornecedor.query.filter_by(cnpj=id).first()
 
+    if tipo=='bairro':
+        return Fornecedor.query.filter(
+            unaccent(Fornecedor.bairro).ilike(item)
+        ).all()
 
+    if tipo=='cidade':        
+        return Fornecedor.query.filter(
+            unaccent(Fornecedor.cidade).ilike(item)
+        ).all()
+
+    if tipo=='estado':
+        return Fornecedor.query.filter(
+            unaccent(Fornecedor.estado).ilike(item)
+        ).all()
+
+    if tipo=='cep':
+        return Fornecedor.query.filter_by(cep=id).all()
+    
+    if tipo=='ativo':
+        return Fornecedor.query.filter_by(ativo=id).all()
+    
+    
 def save_changes(data: Fornecedor) -> None:
     db.session.add(data)
     db.session.commit()

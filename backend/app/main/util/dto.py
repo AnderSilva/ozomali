@@ -86,7 +86,7 @@ class PrecoDto:
     })
 
 class MovimentacaoDto:
-    api = Namespace('movimentacoes', description='Operações com Movimentacoes')
+    api = Namespace('movimentacoes', description='Operações com Movimentacoes (tipo_movimentação "E"(Entrada) / "S" (Saida)')
     movimentacaoinsert = api.model('movimentacaoinsert', {
         'local_estoque': fields.String(required=True, description='Local de estoque'),
         'tipo_movimentacao': fields.String(required=True, description='Tipo movimentação a LETRA de E - Entrada ou S - Saida.'),

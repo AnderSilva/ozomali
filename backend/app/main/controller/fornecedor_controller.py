@@ -36,7 +36,7 @@ class Fornecedor(Resource):
     @api.marshal_with(_fornecedorlista)
     def get(self, id):
         """Obtem informações de um fornecedor com base no seu id"""
-        fornecedor = get_a_vendor(id)
+        fornecedor = get_a_vendor('id',id)
         if not fornecedor:
             api.abort(404)
         else:
@@ -54,7 +54,7 @@ class Fornecedor(Resource):
     def patch(self,id):
         """Atualiza um fornecedor  Obs: para inativar, coloque 'ativo': false """
 
-        fornecedor = get_a_vendor(id)
+        fornecedor = get_a_vendor('id',id)
         data = request.json
         if not fornecedor:
             api.abort(404, 'Fornecedor não encontrado.')
@@ -63,23 +63,13 @@ class Fornecedor(Resource):
                 
         return update_vendor(fornecedor,data=data)
 
-@api.route('/inativos')
-class FornecedorInvativos(Resource):
-    @api.doc('lista fornecedores inativos')
-    # @admin_token_required
-    @api.marshal_list_with(_fornecedorlista, envelope='data')
-    def get(self,ativo=False):
-        """Lista todos os fornecedores inativos"""
-        return get_all_vendors(ativo)
-
-@api.route('/<string:nome>')
-@api.param('nome', 'parte do nome do fornecedor')
+@api.route('/<string:campo>/<string:valor>')
 @api.response(404, 'Nenhum fornecedor foi encontrado.')
-class FornecedorNome(Resource):    
+class Fornecedor(Resource):    
     @api.marshal_with(_fornecedorlista, envelope='data')
-    def get(self, nome):
-        """Lista de fornecedores filtrados por nome"""
-        fornecedor = get_some_vendor(nome)
+    def get(self, campo, valor):
+        """Lista de fornecedores filtrados por campo/valor"""
+        fornecedor = get_a_vendor(campo,valor)
         if not fornecedor:
             api.abort(404, 'Nenhum fornecedor foi encontrado.')
         else:
