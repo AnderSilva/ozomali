@@ -12,7 +12,7 @@ def save_new_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
     usuario = Usuario.query.filter(
             Usuario.login == data['login']
     ).first()
-    print(usuario)
+    
     perfil = Perfil.query.filter_by(id=data['perfil_id'], ativo=True).first()
     if not perfil:
         response_object = {
@@ -116,4 +116,9 @@ def update_changes(usuario: Usuario, data) -> None:
     if data.get('senha', 0) != 0:
         usuario.senha = data['senha']
     usuario.ativo = data.get('ativo', usuario.ativo)
+    db.session.commit()
+
+def update_password(usuario: Usuario, newpassword: str) -> None:
+    if newpassword.__len__() >3:
+        usuario.senha = newpassword
     db.session.commit()

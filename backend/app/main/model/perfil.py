@@ -8,7 +8,6 @@ class Perfil(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(50), index=False, unique=True, nullable=False)
-    usuarios = db.relationship('Usuario', backref='usuario2')
     ativo = db.Column(db.Boolean,default=True)    
 
     def __repr__(self):

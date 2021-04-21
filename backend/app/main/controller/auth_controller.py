@@ -8,7 +8,8 @@ from typing import Dict, Tuple
 
 api = AuthDto.api
 usuario_auth = AuthDto.usuario_auth
-
+usuario_auth_reset_password = AuthDto.usuario_auth_reset_password
+usuario_auth_change_password = AuthDto.usuario_auth_change_password
 
 @api.route('/login')
 class UsuarioLogin(Resource):
@@ -35,3 +36,31 @@ class LogoutAPI(Resource):
         # get auth token
         auth_header = request.headers.get('Authorization')
         return Auth.logout_user(data=auth_header)
+
+@api.route('/changepassword')
+class TrocaSenhaAPI(Resource):
+    """
+    Change Password
+    """
+    @api.expect(usuario_auth_change_password, validate=True)
+    @api.doc('change a user''s password')
+    @api.doc(security='apikey')
+    @token_required
+    def post(self) -> Tuple[Dict[str, str], int]:
+        # get auth token
+        post_data = request.json
+        return Auth.change_password(data=post_data)
+
+@api.route('/resetpassword')
+class ResetSenhaAPI(Resource):
+    """
+    Reset Password
+    """
+    @api.expect(usuario_auth_reset_password, validate=True)
+    @api.doc('reset a user''s password')
+    @api.doc(security='apikey')
+    @admin_token_required
+    def post(self) -> Tuple[Dict[str, str], int]:
+        # get auth token
+        post_data = request.json
+        return Auth.reset_password(data=post_data)

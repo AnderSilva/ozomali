@@ -1,5 +1,6 @@
 from app.main.model.usuario import Usuario
 from ..service.blacklist_service import save_token
+from ..service.usuario_service import update_password
 from typing import Dict, Tuple
 
 class Auth:
@@ -18,6 +19,74 @@ class Auth:
                         'Authorization': auth_token
                     }
                     return response_object, 200
+            else:
+                response_object = {
+                    'status': 'falha',
+                    'message': 'login / senha incorretos.'
+                }
+                return response_object, 401
+
+        except Exception as e:
+            print(e)
+            response_object = {
+                'status': 'falha',
+                'message': 'Tente novamente'
+            }
+            return response_object, 500
+
+    @staticmethod
+    def change_password(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
+        try:
+            novasenha =data.get('novasenha')
+            if not novasenha or novasenha.__len__()<4:
+                response_object = {
+                    'status': 'falha',
+                    'message': 'Senha nova deve ser informada com pelo menos 4 digitos.'
+                }
+                return response_object, 400
+            # fetch the usuario data
+            usuario = Usuario.query.filter_by(login=data.get('login')).first()
+            if usuario and usuario.check_senha(data.get('senha')):
+                update_password(usuario, novasenha)
+                response_object = {
+                    'status': 'sucesso',
+                    'message': 'Senha alterada com sucesso.'
+                }
+                return response_object, 200
+            else:
+                response_object = {
+                    'status': 'falha',
+                    'message': 'login / senha incorretos.'
+                }
+                return response_object, 401
+
+        except Exception as e:
+            print(e)
+            response_object = {
+                'status': 'falha',
+                'message': 'Tente novamente'
+            }
+            return response_object, 500
+
+    @staticmethod
+    def reset_password(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
+        try:
+            novasenha =data.get('novasenha')
+            if not novasenha or novasenha.__len__()>5:
+                response_object = {
+                    'status': 'falha',
+                    'message': 'Senha nova deve ser informada com pelo menos 4 digitos.'
+                }
+                return response_object, 400
+            # fetch the usuario data
+            usuario = Usuario.query.filter_by(login=data.get('login')).first()
+            if usuario:
+                update_password(usuario, novasenha)
+                response_object = {
+                    'status': 'sucesso',
+                    'message': 'Senha alterada com sucesso.'
+                }
+                return response_object, 200
             else:
                 response_object = {
                     'status': 'falha',
