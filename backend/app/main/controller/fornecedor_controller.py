@@ -1,7 +1,7 @@
 from flask import request
 from flask_restx import Resource
 
-# from app.main.util.decorator import admin_token_required
+from app.main.util.decorator import admin_token_required, token_required
 from ..util.dto import FornecedorDto
 from ..service.fornecedor_service import *
 from typing import Dict, Tuple
@@ -15,7 +15,8 @@ _fornecedorupdate = FornecedorDto.fornecedorupdate
 class FornecedorAPI(Resource):
 
     @api.doc('lista os registros de fornecedores')
-    # @admin_token_required
+    @api.doc(security='apikey')
+    @token_required
     @api.marshal_list_with(_fornecedorlista, envelope='data')
     def get(self,ativo=True):
         """Lista todos fornecedores"""
@@ -24,6 +25,8 @@ class FornecedorAPI(Resource):
     @api.expect(_fornecedorinsert, validate=True)
     @api.response(201, 'Fornecedor criado com sucesso.')
     @api.doc('cria um novo fornecedor')
+    @api.doc(security='apikey')
+    @token_required
     def post(self) -> Tuple[Dict[str, str], int]:
         data = request.json
         return save_new_vendor(data=data)
@@ -34,6 +37,8 @@ class FornecedorAPI(Resource):
 class Fornecedor(Resource):
     @api.doc('obter o fornecedor')
     @api.marshal_with(_fornecedorlista)
+    @api.doc(security='apikey')
+    @token_required
     def get(self, id):
         """Obtem informações de um fornecedor com base no seu id"""
         fornecedor = get_a_vendor('id',id)
@@ -51,6 +56,8 @@ class Fornecedor(Resource):
     @api.expect(_fornecedorupdate, validate=True)
     @api.response(201, 'Fornecedor atualizado com sucesso.')
     @api.marshal_with(_fornecedorlista)
+    @api.doc(security='apikey')
+    @admin_token_required
     def patch(self,id):
         """Atualiza um fornecedor  Obs: para inativar, coloque 'ativo': false """
 
@@ -67,6 +74,8 @@ class Fornecedor(Resource):
 @api.response(404, 'Nenhum fornecedor foi encontrado.')
 class Fornecedor(Resource):    
     @api.marshal_with(_fornecedorlista, envelope='data')
+    @api.doc(security='apikey')
+    @token_required
     def get(self, campo, valor):
         """Lista de fornecedores filtrados por campo/valor"""
         fornecedor = get_a_vendor(campo,valor)

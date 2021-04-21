@@ -1,7 +1,7 @@
 from flask import request
 from flask_restx import Resource
 
-# from app.main.util.decorator import admin_token_required
+from app.main.util.decorator import admin_token_required, token_required
 from ..util.dto import PerfilDto
 from ..service.perfil_service import * 
 from typing import Dict, Tuple
@@ -15,6 +15,8 @@ _perfilupdate = PerfilDto.perfilupdate
 class PerfilList(Resource):
     @api.doc('list_of_registered_users')
     @api.marshal_list_with(_perfil, envelope='data')
+    @api.doc(security='apikey')
+    @token_required
     def get(self,ativo=True):
         """Lista todos perfis de usuário"""
         return get_all_profiles(ativo)
@@ -22,6 +24,8 @@ class PerfilList(Resource):
     @api.expect(_perfilinsert, validate=True)
     @api.response(201, 'Perfil criado com sucesso.')
     @api.doc('cria um novo perfil')
+    @api.doc(security='apikey')
+    @admin_token_required
     def post(self) -> Tuple[Dict[str, str], int]:        
         data = request.json
         return save_new_profile(data=data)
@@ -30,6 +34,8 @@ class PerfilList(Resource):
 class PerfilListas(Resource):
     @api.doc('list_of_inactive_registered_users')
     @api.marshal_list_with(_perfil, envelope='data')
+    @api.doc(security='apikey')
+    @token_required
     def get(self,ativo=False):
         """Lista todos Perfis inativos"""
         return get_all_profiles(ativo)
@@ -41,6 +47,8 @@ class PerfilListas(Resource):
 class Perfil(Resource):
     @api.doc('get a profile')
     @api.marshal_with(_perfil)
+    @api.doc(security='apikey')
+    @token_required
     def get(self, id):
         """Obtem informações de um perfil com base no seu id"""
         perfil = get_a_profile(id)
@@ -54,6 +62,8 @@ class Perfil(Resource):
     @api.expect(_perfilupdate)
     @api.response(201, 'Perfil atualizado com sucesso.')
     @api.marshal_with(_perfil)
+    @api.doc(security='apikey')
+    @admin_token_required
     def patch(self,id): # -> Tuple[Dict[str, str], int]:        
         """Atualiza um Perfil  Obs: para inativar, coloque 'ativo': false """
         

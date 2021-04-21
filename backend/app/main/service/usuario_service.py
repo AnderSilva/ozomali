@@ -10,9 +10,9 @@ from typing import Dict, Tuple
 
 def save_new_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
     usuario = Usuario.query.filter(
-            db.or_(Usuario.login == data['login']
-                  ,Usuario.nome == data['nome'])
+            Usuario.login == data['login']
     ).first()
+    print(usuario)
     perfil = Perfil.query.filter_by(id=data['perfil_id'], ativo=True).first()
     if not perfil:
         response_object = {
@@ -91,7 +91,7 @@ def get_some_user(login):
 def generate_token(user: Usuario) -> Tuple[Dict[str, str], int]:
     try:
         # generate the auth token
-        auth_token = Usuario.encode_auth_token(usuario.id)
+        auth_token = Usuario.encode_auth_token(usuario.id, usuario.nome, usuario.login)
         response_object = {
             'status': 'success',
             'message': 'Registrado com sucesso.',
