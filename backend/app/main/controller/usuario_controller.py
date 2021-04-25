@@ -1,7 +1,7 @@
 from flask import request
 from flask_restx import Resource
 
-# from app.main.util.decorator import admin_token_required
+from app.main.util.decorator import admin_token_required, token_required
 from ..util.dto import UsuarioDto
 from ..service.usuario_service import * 
 from typing import Dict, Tuple
@@ -12,16 +12,19 @@ _usuariolist = UsuarioDto.usuariolist
 _usuarioupdate = UsuarioDto.usuarioupdate
 
 
-@api.route('') #,'/')
+@api.route('') 
 class UsuarioList(Resource):
     @api.doc('list_of_registered_users')
-    # @admin_token_required
+    @api.doc(security='apikey')
+    @token_required
     @api.marshal_list_with(_usuariolist, envelope='data')
     def get(self,ativo=True):
         """Lista todos usuários"""
         return get_all_users(ativo)
 
     @api.expect(_usuarioinsert, validate=True)
+    @api.doc(security='apikey')
+    @admin_token_required
     @api.response(201, 'Usuário criado com sucesso.')
     @api.doc('cria um novo usuário')
     def post(self) -> Tuple[Dict[str, str], int]:        
@@ -33,6 +36,8 @@ class UsuarioList(Resource):
 @api.response(404, 'Usuário não encontrado.')
 class UsuarioId(Resource):    
     @api.marshal_with(_usuariolist)
+    @api.doc(security='apikey')
+    @token_required
     def get(self, id):
         """Obtem informações de um usuário com base no seu id"""
         usuario = get_a_user('id',id)
@@ -50,6 +55,8 @@ class UsuarioId(Resource):
     @api.expect(_usuarioupdate, validate=True)
     @api.response(201, 'Usuário atualizado com sucesso.')
     @api.marshal_with(_usuariolist)
+    @api.doc(security='apikey')
+    @admin_token_required
     def patch(self,id):
         """Atualiza um usuário  Obs: para inativar, coloque 'ativo': false """
         
@@ -72,6 +79,8 @@ class UsuarioId(Resource):
 @api.response(404, 'Nenhum usuário foi encontrado.')
 class Usuario(Resource):    
     @api.marshal_with(_usuariolist, envelope='data')
+    @api.doc(security='apikey')
+    @token_required
     def get(self, campo, valor):
         """Lista de usuários filtrados por campo/valor"""
         usuarios = get_a_user(campo,valor)
