@@ -1,12 +1,7 @@
 .login-screen {
   height: 100vh;
   background: rgb(51, 114, 235);
-  background: linear-gradient(
-    45deg,
-    rgba(51, 114, 235, 1) 15%,
-    rgba(93, 143, 240, 1) 75%,
-    rgba(255, 255, 255, 1) 100%
-  );
+  background: linear-gradient(45deg, rgba(51, 114, 235, 1) 15%, rgba(93, 143, 240, 1) 75%, rgba(255, 255, 255, 1) 100%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,7 +32,7 @@
   }
 
   &__button {
-    color: #E5E5E5;
+    color: #e5e5e5;
     background-color: #3372eb;
     font-size: 24px;
     padding: 20px 90px;

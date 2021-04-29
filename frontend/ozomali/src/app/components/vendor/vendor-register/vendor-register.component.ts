@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, SimpleChange
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, filter, switchMap, take, takeUntil } from 'rxjs/operators';
-import { vendor } from 'src/app/interfaces/vendor.interface';
 import { AddressService } from 'src/app/services/address/address.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { VendorService } from 'src/app/services/vendor/vendor.service';
