@@ -1,6 +1,7 @@
 <div class="feedback-modal">
   <p class="feedback-modal__text">{{ data.text }}</p>
-  <p class="feedback-modal__warning">{{ data.warning }}</p>
+  <p *ngIf="data.isError" class="feedback-modal__error">{{ data.feedback }}</p>
+  <p *ngIf="!data.isError" class="feedback-modal__feedback">{{ data.feedback }}</p>
 
   <div class="feedback-modal__button-wrapper">
     <button matRipple class="feedback-modal__continue" (click)="onContinue()">{{ data.continueText }}</button>
