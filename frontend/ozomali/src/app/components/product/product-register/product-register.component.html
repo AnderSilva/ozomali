@@ -1,0 +1,97 @@
+<div class="product-register" *ngIf="isSearch ? (product ? true : false) : true">
+  <form [formGroup]="productRegisterForm" class="product-register__form-wrapper">
+    <div class="product-register__form">
+      <div class="product-register__form-field--wrapper">
+        <mat-form-field
+          appearance="outline"
+          class="product-register__form-field"
+          [ngClass]="isSearch ? 'product-register__form-field--others' : 'product-register__form-field--name'"
+        >
+          <mat-label>Nome</mat-label>
+          <input matInput placeholder="" formControlName="nome" />
+          <mat-error *ngIf="productRegisterForm.get('nome').hasError('required')"> Digite o nome do produto </mat-error>
+        </mat-form-field>
+
+        <mat-form-field
+          *ngIf="isSearch"
+          appearance="outline"
+          class="product-register__form-field product-register__form-field--others"
+        >
+          <mat-label>Status</mat-label>
+          <mat-select placeholder="" formControlName="ativo">
+            <mat-option [value]="true"> Ativo </mat-option>
+            <mat-option [value]="false"> Inativo </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field
+          *ngIf="isSearch"
+          appearance="outline"
+          class="product-register__form-field product-register__form-field--others"
+        >
+          <mat-label>ID do Produto</mat-label>
+          <input matInput placeholder="" formControlName="id" />
+        </mat-form-field>
+      </div>
+
+      <div class="product-register__form-field--wrapper">
+        <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--others">
+          <mat-label>Código de barras</mat-label>
+          <input matInput placeholder="" mask="999999999999999999999999" formControlName="codigo_barra" />
+          <mat-error *ngIf="productRegisterForm.get('codigo_barra').hasError('required')">
+            Digite o código de barras do produto
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--others">
+          <mat-label>ID do fornecedor</mat-label>
+          <input matInput placeholder="" mask="9999" formControlName="fornecedor_id" />
+          <mat-error *ngIf="productRegisterForm.get('fornecedor_id').hasError('required')">
+            Digite o ID do fornecedor do produto
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--others">
+          <mat-label>Preço</mat-label>
+          <input matInput placeholder="" mask="99999999" formControlName="preco" />
+          <mat-error *ngIf="productRegisterForm.get('preco').hasError('required')">
+            Digite o preco do produto
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div matRipple class="product-register__button" (click)="clearForm()">
+      <span *ngIf="!isRegisterLoading"> {{ isSearch ? 'Nova busca' : 'Limpar' }}</span>
+      <mat-spinner [diameter]="30" *ngIf="isRegisterLoading"></mat-spinner>
+    </div>
+    <div matRipple class="product-register__button" (click)="isSearch ? updateProduct() : registerProduct()">
+      <span *ngIf="!isRegisterLoading"> {{ isSearch ? 'Atualizar' : 'Cadastrar' }}</span>
+      <mat-spinner [diameter]="30" *ngIf="isRegisterLoading"></mat-spinner>
+    </div>
+  </form>
+</div>
+
+<ng-container *ngIf="isSearch ? (product ? false : true) : false">
+  <div class="product-register__search">
+    <form [formGroup]="productSearchForm" class="product-register__form-wrapper">
+      <div class="product-register__form">
+        <mat-form-field appearance="outline" class="product-register__form-field">
+          <mat-label>ID</mat-label>
+          <input matInput placeholder="" mask="99999" formControlName="id" />
+          <mat-error *ngIf="productSearchForm.get('id').hasError('required')"> Digite um ID </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div matRipple class="product-register__button" (click)="onSearchProduct()">
+        <span *ngIf="!isRegisterLoading">Buscar por ID</span>
+        <mat-spinner [diameter]="30" *ngIf="isRegisterLoading"></mat-spinner>
+      </div>
+
+      <div matRipple class="product-register__button" (click)="getProducts()">
+        <span *ngIf="!isRegisterLoading">Buscar Todos Produtos</span>
+        <mat-spinner [diameter]="30" *ngIf="isRegisterLoading"></mat-spinner>
+      </div>
+    </form>
+  </div>
+</ng-container>
