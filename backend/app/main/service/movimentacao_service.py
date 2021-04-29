@@ -12,7 +12,7 @@ from ..service.produto_service import get_a_product
 def save_new_moviment(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
     
     #Validacao dos ids           
-    usuario = get_a_user(data.get('usuario_id', 0))
+    usuario = get_a_user('id',data.get('usuario_id', 0))
     if not usuario:
         response_object = {
             'status': 'Falha',
@@ -20,7 +20,7 @@ def save_new_moviment(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         }
         return response_object, 409
 
-    produto = get_a_product(data.get('produto_id', 0))
+    produto = get_a_product('id', data.get('produto_id', 0))
     if not produto:
         response_object = {
             'status': 'Falha',
@@ -64,10 +64,10 @@ def Validation(data: Dict[str, str])-> str:
     if not data['local_estoque'].strip():        
         return 'local_estoque deve ser informado.'
     if data['tipo_movimentacao'] not in ('E', 'S'):        
-        return 'tipo_movimentacao - Informe a LETRA E - Entrada ou S - Saida.'
-    qtde = get_net_by_product(data['produto_id'], True)
+        return 'tipo_movimentacao - Informe a LETRA "E" para Entrada ou "S" para Saida.'
+    qtde = get_net_by_product(data['produto_id'], True).quantidade
     if qtde < data['quantidade']:
-        return 'quantidade - Quantidade de produto insulficiente. Estoque tem {}.'.format(qtde)
+        return 'quantidade - Quantidade de produto insuficiente. Estoque tem {}.'.format(qtde)
     return ""
 
 def save_changes(data: Movimentacao) -> None:

@@ -193,3 +193,12 @@ class AuthDto:
         'login': fields.String(required=True, description='login do usuário'),
         'senha': fields.String(required=True, description='senha do usuário'),
     })
+    usuario_auth_reset_password = api.model('usuario_auth_reset_password', {
+        'login': fields.String(required=True, description='login do usuário'),
+        'novasenha': fields.String(required=True, description='nova senha do usuário'),
+    })
+    usuario_auth_change_password = api.model('usuario_auth_change_password', {
+        'login': fields.String(required=True, description='login do usuário'),
+        'senha': fields.String(required=True, description='senha do usuário'),
+        'novasenha': fields.String(required=True, description='nova senha do usuário'),
+    })

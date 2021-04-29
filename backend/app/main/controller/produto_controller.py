@@ -4,6 +4,7 @@ from flask_restx import Resource
 from ..util.dto import ProdutoDto
 from ..service.produto_service import *
 from typing import Dict, Tuple
+from app.main.util.decorator import admin_token_required, token_required
 
 api = ProdutoDto.api
 _produtolist = ProdutoDto.produtolist
@@ -14,7 +15,8 @@ _produtoupdate = ProdutoDto.produtoupdate
 @api.route('')
 class ProdutoLista(Resource):
     @api.doc('lista_de_produtos_registrados')
-    # @admin_token_required
+    @api.doc(security='apikey')
+    @token_required
     @api.marshal_list_with(_produtolist, envelope='data')
     def get(self,ativo=True):
         """Lista todos produtos"""
@@ -25,7 +27,9 @@ class ProdutoLista(Resource):
         200: 'Criado com Sucesso.',
         404: 'Fornecedor não encontrado.',
         409: 'Produto já existente.'
-    })    
+    })
+    @api.doc(security='apikey')
+    @token_required
     def post(self) -> Tuple[Dict[str, str], int]:
         data = request.json
         return save_new_product(data=data)
@@ -37,9 +41,11 @@ class ProdutoLista(Resource):
 class ProdutoID(Resource):
     @api.doc('get a produto')
     @api.marshal_with(_produtolist)
+    @api.doc(security='apikey')
+    @token_required
     def get(self, id):
         """Obtem informações de um produto com base no seu id"""
-        produto = get_a_product(id)
+        produto = get_a_product('id',id)
         if not produto:
             api.abort(404)
         else:
@@ -53,10 +59,12 @@ class ProdutoID(Resource):
     })
     @api.expect(_produtoupdate, validate=True)    
     @api.marshal_with(_produtoupdate)
+    @api.doc(security='apikey')
+    @token_required
     def patch(self,id):
         """Atualiza um produto  Obs: para inativar, coloque 'ativo': false """
 
-        produto = get_a_product(id)
+        produto = get_a_product('id',id)
         data = request.json
         if not produto :
             api.abort(404,'Produto não Encontrado.')
@@ -78,6 +86,8 @@ class ProdutoID(Resource):
 })
 class ProdutoCampoValor(Resource):    
     @api.marshal_with(_produtolist, envelope='data')
+    @api.doc(security='apikey')
+    @token_required
     def get(self, campo, valor):
         """Lista de Produtos filtrados por campo/valor"""
         produtos = get_a_product(campo,valor)
