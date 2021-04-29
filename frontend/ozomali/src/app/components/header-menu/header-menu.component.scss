@@ -8,8 +8,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 90px 20px 30px;
+    padding: 0 90px 0 30px;
     color: white;
+    height: 15vh;
 
     &-title {
       font-size: 36px;
@@ -19,8 +20,8 @@
     }
 
     &-image {
-      height: 90px;
-      width: 90px;
+      height: 80px;
+      width: 80px;
       cursor: pointer;
     }
   }
@@ -37,14 +38,14 @@
 
   &__menu {
     background-color: #3372eb;
-    padding: 30px 25px;
+    padding: 0 25px;
     width: fit-content;
-    height: 79vh;
+    height: 85vh;
     color: white;
 
     &-title {
-      margin: 0;
-      padding: 15px 5px;
+      margin: 30px 0 0;
+      padding: 5px 5px 35px;
       font-size: 36px;
       cursor: pointer;
     }
@@ -63,8 +64,8 @@
 
       &-text {
         font-size: 36px;
-        padding: 15px 5px;
-        margin: 0 0 0 20px;
+        padding: 0 5px;
+        margin: 0 30 0 20px;
       }
     }
   }
