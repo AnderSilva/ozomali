@@ -1,0 +1,7 @@
+<div matRipple *ngIf="product" class="c-product-card" (click)="chooseCard()">
+  <span>Nome: {{ product.nome }}</span>
+  <span>ID: {{ product.id }}</span>
+  <span>Status: {{ product.ativo ? 'Ativo' : 'Inativo' }}</span>
+  <span>Código de Barras: {{ product.codigo_barra }}</span>
+  <span>ID do Fornecedor: {{ product.fornecedor_id }}</span>
+</div>
