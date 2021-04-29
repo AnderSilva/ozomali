@@ -1,26 +1,28 @@
-<div class="login-screen" *ngIf="!isAuthenticated; else authenticated">
-  <div class="login-screen__content">
-    <img class="login-screen__icon" src="../../../assets/tcc.svg" />
-
-    <form class="login-screen__form" [formGroup]="loginForm">
-      <mat-form-field appearance="outline" class="login-screen__form-field">
-        <mat-label>Login</mat-label>
-        <input matInput placeholder="Escreva seu nome de usuário" formControlName="login" />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="login-screen__form-field">
-        <mat-label>Senha</mat-label>
-        <input matInput placeholder="Digite sua senha" [type]="'password'" formControlName="senha" />
-      </mat-form-field>
-
-      <button matRipple class="login-screen__button" (click)="login()">
-        <span *ngIf="!isAuthLoading">Entrar</span>
-        <mat-spinner [diameter]="30" *ngIf="isAuthLoading"></mat-spinner>
-      </button>
-    </form>
-  </div>
+<div *ngIf="isAuthenticated$ | async; else unAuthenticated">
+  <app-header-menu (shouldLogout)="logoff()"></app-header-menu>
 </div>
 
-<ng-template #authenticated>
-  <app-header-menu (shouldLogout)="logoff()"></app-header-menu>
+<ng-template #unAuthenticated>
+  <div class="login-screen" >
+    <div class="login-screen__content">
+      <img class="login-screen__icon" src="../../../assets/tcc.svg" />
+
+      <form class="login-screen__form" [formGroup]="loginForm">
+        <mat-form-field appearance="outline" class="login-screen__form-field">
+          <mat-label>Login</mat-label>
+          <input matInput placeholder="Escreva seu nome de usuário" formControlName="login" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="login-screen__form-field">
+          <mat-label>Senha</mat-label>
+          <input matInput placeholder="Digite sua senha" [type]="'password'" formControlName="senha" />
+        </mat-form-field>
+
+        <button matRipple class="login-screen__button" (click)="login()">
+          <span *ngIf="!isAuthLoading">Entrar</span>
+          <mat-spinner [diameter]="30" *ngIf="isAuthLoading"></mat-spinner>
+        </button>
+      </form>
+    </div>
+  </div>
 </ng-template>

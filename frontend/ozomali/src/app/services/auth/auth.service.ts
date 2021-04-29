@@ -15,8 +15,4 @@ export class AuthService {
   public login(params: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/login`, params);
   }
-
-  // public createUser(params: any): Observable<any> {
-  //   return this.http.post(`${this.baseUrl}/users`, params);
-  // }
 }

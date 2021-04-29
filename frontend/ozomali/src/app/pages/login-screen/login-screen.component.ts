@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { FeedbackModalComponent } from 'src/app/components/feedback-modal/feedback-modal.component';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { UserService } from 'src/app/stores/user/user.service';
+import { UserQuery } from 'src/app/stores/user';
+import { NotificationService } from 'src/app/services/notification/notification.service';
 
 @Component({
   selector: 'app-login-screen',
@@ -11,12 +13,19 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./login-screen.component.scss'],
 })
 export class LoginScreenComponent implements OnInit {
-  public isAuthenticated: boolean = false;
+  public isAuthenticated$: Observable<boolean>;
   public isAuthLoading: boolean = false;
-
   public loginForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private dialog: MatDialog) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private userQuery: UserQuery,
+    private userService: UserService,
+    private notifications: NotificationService,
+  ) {
+    this.isAuthenticated$ = this.userQuery.isAuthenticated$;
+
     this.loginForm = this.formBuilder.group({
       login: ['', Validators.required],
       senha: ['', Validators.required],
@@ -37,69 +46,20 @@ export class LoginScreenComponent implements OnInit {
       .login(formValues)
       .pipe(take(1))
       .subscribe(
-        () => {
+        response => {
           this.isAuthLoading = false;
-          this.isAuthenticated = !this.isAuthenticated;
+          this.userService.updateAuthentication(true, response.Authorization);
           this.loginForm.reset();
-          const feedbackModal = this.dialog.open(FeedbackModalComponent, {
-            data: {
-              text: 'Bem vindo!',
-              continueText: 'Fechar',
-            },
-          });
+          this.notifications.feedbackModal(response);
         },
-        () => {
+        response => {
           this.isAuthLoading = false;
-          const feedbackModal = this.dialog.open(FeedbackModalComponent, {
-            data: {
-              text: 'Desculpe, ocorreu um erro!',
-              warning: 'Tente novamente ou entre em contado com nosso suporte.',
-              continueText: 'Fechar',
-            },
-          });
-        },
-      );
-  }
-
-  public createUser(): void {
-    if (this.loginForm.invalid) {
-      return;
-    }
-
-    this.isAuthLoading = true;
-    let formValues = this.loginForm.getRawValue();
-
-    formValues = { ...formValues, nome: 'Rubens de Andrade' };
-
-    this.authService
-      .createUser(formValues)
-      .pipe(take(1))
-      .subscribe(
-        () => {
-          this.isAuthLoading = false;
-          this.isAuthenticated = !this.isAuthenticated;
-          this.loginForm.reset();
-          const feedbackModal = this.dialog.open(FeedbackModalComponent, {
-            data: {
-              text: 'Usuário criado com Sucesso!',
-              continueText: 'Fechar',
-            },
-          });
-        },
-        () => {
-          this.isAuthLoading = false;
-          const feedbackModal = this.dialog.open(FeedbackModalComponent, {
-            data: {
-              text: 'Desculpe, ocorreu um erro!',
-              warning: 'Tente novamente ou entre em contado com nosso suporte.',
-              continueText: 'Fechar',
-            },
-          });
+          this.notifications.feedbackModal(response);
         },
       );
   }
 
   public logoff(): void {
-    this.isAuthenticated = !this.isAuthenticated;
+    this.userService.logout();
   }
 }
