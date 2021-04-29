@@ -9,26 +9,22 @@ export class ProductService {
   private readonly baseUrl: string;
 
   constructor(private http: HttpClient) {
-    this.baseUrl = 'https://ozomali.herokuapp.com/products';
+    this.baseUrl = 'https://ozomali-api.herokuapp.com/api/v1/produtos';
   }
 
   public createProduct(params: any): Observable<any> {
     return this.http.post(this.baseUrl, params);
   }
 
-  public updateProduct(params: any): Observable<any> {
-    return this.http.put(this.baseUrl, params);
+  public getProductById(id: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${id}`);
   }
 
   public getProducts(): Observable<any> {
     return this.http.get(this.baseUrl);
   }
 
-  public getProductById(id: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}`);
-  }
-
-  public deleteProductById(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`);
+  public updateProduct(id: any, params: any): Observable<any> {
+    return this.http.patch(`${this.baseUrl}/${id}`, params);
   }
 }
