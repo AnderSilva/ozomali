@@ -1,0 +1,13 @@
+<div matRipple *ngIf="vendor" class="c-vendor-card" (click)="chooseCard()">
+  <span>Nome: {{ vendor.nome }}</span>
+  <span>ID: {{ vendor.id }}</span>
+  <span>Status: {{ vendor.ativo ? 'Ativo' : 'Inativo' }}</span>
+  <span>CNPJ: {{ vendor.cnpj }}</span>
+  <span>CEP: {{ vendor.cep }}</span>
+  <span>Endereço: {{ vendor.logradouro }}</span>
+  <span>Número: {{ vendor.numero }}</span>
+  <span>Complemento: {{ vendor.complemento }}</span>
+  <span>Bairro: {{ vendor.bairro }}</span>
+  <span>Cidade: {{ vendor.cidade }}</span>
+  <span>Estado: {{ vendor.estado }}</span>
+</div>
