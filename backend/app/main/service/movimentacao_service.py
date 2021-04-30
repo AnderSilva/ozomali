@@ -66,7 +66,7 @@ def Validation(data: Dict[str, str])-> str:
     if data['tipo_movimentacao'] not in ('E', 'S'):        
         return 'tipo_movimentacao - Informe a LETRA "E" para Entrada ou "S" para Saida.'
     qtde = get_net_by_product(data['produto_id'], True).quantidade
-    if qtde < data['quantidade']:
+    if data['tipo_movimentacao'] == 'S' and qtde < data['quantidade']:
         return 'quantidade - Quantidade de produto insuficiente. Estoque tem {}.'.format(qtde)
     return ""
 
