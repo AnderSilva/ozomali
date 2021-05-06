@@ -11,8 +11,9 @@ export class FeedbackModalComponent {
     public dialogRef: MatDialogRef<FeedbackModalComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
+      isError: boolean;
       text: string;
-      warning: string;
+      feedback: string;
       continueText: string;
     },
   ) {}

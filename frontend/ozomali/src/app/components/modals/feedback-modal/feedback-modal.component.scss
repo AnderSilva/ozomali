@@ -3,8 +3,13 @@
     font-size: 24px;
   }
 
-  &__warning {
+  &__error {
     color: #ff3737;
+    margin-bottom: 50px;
+  }
+
+  &__feedback {
+    color: #00563f;
     margin-bottom: 50px;
   }
 

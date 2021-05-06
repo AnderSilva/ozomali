@@ -28,7 +28,7 @@ class PrecoAPI(Resource):
     @token_required
     def post(self) -> Tuple[Dict[str, str], int]:        
         data = request.json
-        return save_new_price(data=data)
+        return save_new_price(data=data, usuario_id=self.uid)
 
 @api.route('/inativos')
 class PrecoInativos(Resource):

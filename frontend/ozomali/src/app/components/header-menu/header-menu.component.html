@@ -3,7 +3,7 @@
     <div matRipple class="header-menu__text-wrapper">
       <p class="header-menu__header-title" [routerLink]="['']">Ozomali Vendas</p>
     </div>
-    <img [matMenuTriggerFor]="menu" class="header-menu__header-image" src="../../../assets/user_picture_mock.svg" />
+    <img [matMenuTriggerFor]="menu" class="header-menu__header-image" src="../../../assets/images/user_picture_mock.svg" />
   </div>
   <div class="header-menu__wrapper">
     <div class="header-menu__menu">
@@ -11,11 +11,11 @@
         <p class="header-menu__menu-title" [routerLink]="['']">Menu principal</p>
       </div>
       <div matRipple class="header-menu__menu-buttons" [routerLink]="['vendors']">
-        <img class="header-menu__menu-buttons-image" src="../../../assets/icone-fornecedor-menu.svg" />
+        <img class="header-menu__menu-buttons-image" src="../../../assets/images/icone-fornecedor-menu.svg" />
         <p class="header-menu__menu-buttons-text">Fornecedor</p>
       </div>
       <div matRipple class="header-menu__menu-buttons" [routerLink]="['products']">
-        <img class="header-menu__menu-buttons-image" src="../../../assets/icone-produtos-menu.svg" />
+        <img class="header-menu__menu-buttons-image" src="../../../assets/images/icone-produtos-menu.svg" />
         <p class="header-menu__menu-buttons-text">Produtos</p>
       </div>
     </div>
@@ -27,5 +27,5 @@
 </div>
 
 <mat-menu #menu="matMenu">
-  <button mat-menu-item (click)="logout()">log out</button>
+  <button mat-menu-item (click)="logout()">Logout</button>
 </mat-menu>

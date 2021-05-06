@@ -2,14 +2,35 @@
   <mat-tab-group class="product-screen__tabs">
     <mat-tab>
       <ng-template mat-tab-label>
-        <img class="product-screen__icons" src="../../../assets/busca.svg" />
+        <img class="product-screen__icons" src="../../../assets/images/busca.svg" />
         Consultar Produto
       </ng-template>
-      <app-product-register [isSearch]="true" class="product-screen__component"></app-product-register>
+      <app-product-register
+        [isSearch]="true"
+        (results)="setProducts($event)"
+        (clearSearch)="clearSearch()"
+        class="product-screen__component"
+        [product]="resultProduct"
+      ></app-product-register>
+
+      <div class="product-screen__search" *ngIf="products && shouldSearch">
+        <h3>Resultados da Busca</h3>
+        <div class="product-screen__search-results">
+          <ng-container *ngIf="products?.length > 1; else singleProduct">
+            <div class="product-screen__search-results--cards" *ngFor="let product of products">
+              <app-product-card [product]="product" (clickProduct)="loadProduct($event)"></app-product-card>
+            </div>
+          </ng-container>
+
+          <ng-template #singleProduct>
+            <app-product-card [product]="products" (clickProduct)="loadProduct($event)"></app-product-card>
+          </ng-template>
+        </div>
+      </div>
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>
-        <img class="product-screen__icons" src="../../../assets/produto.svg" />
+        <img class="product-screen__icons" src="../../../assets/images/produto.svg" />
         Cadastrar Produto
       </ng-template>
       <app-product-register class="product-screen__component"></app-product-register>

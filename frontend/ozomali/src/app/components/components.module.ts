@@ -4,16 +4,19 @@ import { HeaderMenuComponent } from './header-menu/header-menu.component';
 import { RouterModule } from '@angular/router';
 import { MatRippleModule } from '@angular/material/core';
 import { MatMenuModule } from '@angular/material/menu';
-import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
-import { FeedbackModalComponent } from './feedback-modal/feedback-modal.component';
+import { ConfirmationModalComponent } from './modals/confirmation-modal/confirmation-modal.component';
+import { FeedbackModalComponent } from './modals/feedback-modal/feedback-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { VendorRegisterComponent } from './vendor-register/vendor-register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NgxMaskModule } from 'ngx-mask';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ProductRegisterComponent } from './product-register/product-register.component';
+import { ProductCardComponent } from './product/product-card/product-card.component';
+import { VendorCardComponent } from './vendor/vendor-card/vendor-card.component';
+import { MatSelectModule } from '@angular/material/select';
+import { ProductRegisterComponent } from './product/product-register/product-register.component';
+import { VendorRegisterComponent } from './vendor/vendor-register/vendor-register.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +25,8 @@ import { ProductRegisterComponent } from './product-register/product-register.co
     FeedbackModalComponent,
     VendorRegisterComponent,
     ProductRegisterComponent,
+    ProductCardComponent,
+    VendorCardComponent,
   ],
   imports: [
     CommonModule,
@@ -35,6 +40,7 @@ import { ProductRegisterComponent } from './product-register/product-register.co
     MatInputModule,
     NgxMaskModule,
     MatProgressSpinnerModule,
+    MatSelectModule,
   ],
   exports: [
     HeaderMenuComponent,
@@ -42,6 +48,8 @@ import { ProductRegisterComponent } from './product-register/product-register.co
     FeedbackModalComponent,
     VendorRegisterComponent,
     ProductRegisterComponent,
+    ProductCardComponent,
+    VendorCardComponent,
   ],
 })
 export class ComponentsModule {}

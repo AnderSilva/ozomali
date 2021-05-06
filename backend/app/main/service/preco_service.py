@@ -8,17 +8,7 @@ from app.main.model.produto import Produto
 from typing import Dict, Tuple
 
 
-def save_new_price(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
-    usuario = Usuario.query.filter(
-        Usuario.id == data['usuario_id']
-    ).first()
-    if not usuario:
-        response_object = {
-            'status': 'Falha',
-            'message': 'Id usuário inválido.',
-        }
-        return response_object, 409
-
+def save_new_price(data: Dict[str, str], usuario_id: int) -> Tuple[Dict[str, str], int]:    
     produto = Produto.query.filter(
         Produto.id == data['produto_id']
     ).first()
@@ -39,7 +29,7 @@ def save_new_price(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
             preco_venda=data['preco_venda'],
             data_emissao=datetime.datetime.today(),
             ativo=True,
-            usuario_id=data['usuario_id'],
+            usuario_id=usuario_id,
             produto_id=data['produto_id'],
         )
         save_changes(novo_preco)        

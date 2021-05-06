@@ -29,6 +29,23 @@
     }
   }
 
+  &__search {
+    display: flex;
+    margin-top: 25px;
+    align-items: center;
+    flex-direction: column;
+
+    &-results {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      &--cards {
+        margin: 5px 5px;
+      }
+    }
+  }
+
   &__icons {
     margin-right: 20px;
     width: 35px;
@@ -39,6 +56,5 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
   }
 }

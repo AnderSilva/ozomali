@@ -9,9 +9,11 @@ const routes: Routes = [
   {
     path: '',
     component: LoginScreenComponent,
-    children: [{ path: 'vendors', component: VendorScreenComponent },
+    children: [
+      { path: 'vendors', component: VendorScreenComponent },
       { path: 'products', component: ProductScreenComponent },
-      { path: '', component: DefaultScreenComponent }],
+      { path: '', component: DefaultScreenComponent },
+    ],
   },
 ];
 
