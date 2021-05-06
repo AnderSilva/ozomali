@@ -8,14 +8,14 @@ from typing import Callable
 
 def token_required(f) -> Callable:
     @wraps(f)
-    def decorated(*args, **kwargs):
-        data, status = Auth.get_logged_in_user(request)
+    def decorated(self, *args, **kwargs):
+        data, status = Auth.get_logged_in_user(request)        
         token = data.get('data')
-
+        self.uid = token.get('uid')
         if not token:
             return data, status
 
-        return f(*args, **kwargs)
+        return f(self, *args, **kwargs)
 
     return decorated
 
