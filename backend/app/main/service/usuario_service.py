@@ -89,9 +89,9 @@ def get_some_user(login):
 
 
 def generate_token(user: Usuario) -> Tuple[Dict[str, str], int]:
-    try:
+    try:        
         # generate the auth token
-        auth_token = Usuario.encode_auth_token(usuario.id, usuario.nome, usuario.login)
+        auth_token = Usuario.encode_auth_token(usuario.id, usuario.nome, usuario.login, usurio.perfil.nome)
         response_object = {
             'status': 'success',
             'message': 'Registrado com sucesso.',

@@ -7,11 +7,11 @@ class Auth:
 
     @staticmethod
     def login_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
-        try:
+        try:           
             # fetch the usuario data
             usuario = Usuario.query.filter_by(login=data.get('login')).first()
             if usuario and usuario.check_senha(data.get('senha')):
-                auth_token = Usuario.encode_auth_token(usuario.id, usuario.nome, usuario.login)
+                auth_token = Usuario.encode_auth_token(usuario.id, usuario.nome, usuario.login, usuario.perfil.nome)
                 if auth_token:
                     response_object = {
                         'status': 'sucesso',
@@ -136,9 +136,10 @@ class Auth:
             if not isinstance(resp, str):
                 usuario = Usuario.query.filter_by(id=resp).first()
                 response_object = {
-                    'status': 'successo',
+                    'status': 'sucesso',
                     'data': {                        
                         'nome': usuario.nome,
+                        'uid': usuario.id,
                         'login': usuario.login,
                         'perfil': usuario.perfil.nome                 
                     }

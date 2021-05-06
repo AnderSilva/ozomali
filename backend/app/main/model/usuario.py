@@ -32,7 +32,7 @@ class Usuario(db.Model):
 
 
     @staticmethod
-    def encode_auth_token(user_id: int, user_name:str, user_login:str) -> bytes:
+    def encode_auth_token(user_id: int, user_name:str, user_login:str, perfil_nome:str) -> bytes:
         """
         Generates the Auth Token
         :return: string
@@ -43,7 +43,8 @@ class Usuario(db.Model):
                 'iat': datetime.datetime.utcnow(),
                 'uid': user_id,
                 'name': user_name,
-                'login': user_login
+                'login': user_login,
+                'perfil': perfil_nome,
             }
             return jwt.encode(
                 payload,

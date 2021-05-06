@@ -68,8 +68,7 @@ class ProdutoDto:
 class PrecoDto:
     api = Namespace('precos', description='Operações com Precos')
     precoinsert = api.model('preco', {
-        'preco_venda': fields.Float(required=True, description='Preço de venda'),
-        'usuario_id': fields.Integer(required=True, description='Id do usuario'),
+        'preco_venda': fields.Float(required=True, description='Preço de venda'),        
         'produto_id': fields.Integer(required=True, description='Id do produto'),
     })
     precolista = api.model('precolista', {
@@ -91,8 +90,7 @@ class MovimentacaoDto:
         'local_estoque': fields.String(required=True, description='Local de estoque'),
         'tipo_movimentacao': fields.String(required=True, description='Tipo movimentação a LETRA de E - Entrada ou S - Saida.'),
         'preco_total': fields.Float(required=True, description='Preço Total'),
-        'quantidade': fields.Integer(required=True, description='Quantidade de produto.'),
-        'usuario_id': fields.Integer(required=True, description='Id do usuario'),
+        'quantidade': fields.Integer(required=True, description='Quantidade de produto.'),        
         'produto_id': fields.Integer(required=True, description='Id do produto'),
     })    
     movimentacao_lista = api.model('movimentacaolista', {
