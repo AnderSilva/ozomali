@@ -2,6 +2,7 @@
 from .. import db
 import datetime
 from ..config import key
+from sqlalchemy.ext.hybrid import hybrid_property
 from typing import Union
 from .. model.fornecedor import Fornecedor
 
@@ -12,9 +13,15 @@ class Produto(db.Model):
     nome = db.Column(db.String(100), unique=True, nullable=False)
     codigo_barra = db.Column(db.String(50), unique=True, nullable=True)
     fornecedor_id = db.Column(db.Integer,db.ForeignKey('fornecedor.id'))
+    precos = db.relationship("Preco")
+    @hybrid_property
+    def preco_venda(self):        
+        for p in self.precos:
+            if p.ativo:
+                return p.preco_venda
+        return 0
 
-    ativo = db.Column(db.Boolean,default=True, nullable=False)
-        
-    
-    def __repr__(self):
-        return "<Produto '{}'>".format(self.nome)
+    ativo = db.Column(db.Boolean,default=True, nullable=False)                
+
+    def __repr__(self):    
+        return f'Produto(id:"{self.id}",nome:"{self.nome}",codigo_barra:"{self.codigo_barra}",fornecedor_id:"{self.fornecedor_id},ativo:"{self.ativo}")'    

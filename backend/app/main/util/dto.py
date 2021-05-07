@@ -42,12 +42,12 @@ class UsuarioDto:
         'ativo': fields.Boolean(required=False,description='inativa/ativa usuário'),
     })
 
-class ProdutoDto:
+class ProdutoDto:    
     api = Namespace('produtos', description='Operações com Produtos')
     produtoinsert = api.model('produto', {
         'nome': fields.String(required=True, description='nome do produto'),
-        'codigo_barra': fields.String(required=True,description='Código de barra do Produto'),
-        'fornecedor_id' : fields.Integer(required=True, description='id do fornecedor')
+        'codigo_barra': fields.String(required=True,description='Código de barra do Produto'),        
+        'fornecedor_id' : fields.Integer(required=True, description='id do fornecedor'),        
     })
     produtolist = api.model('produtolist', {
         'id'  : fields.Integer(readonly=True),
@@ -55,13 +55,14 @@ class ProdutoDto:
         'codigo_barra': fields.String(description='Código de barra do Produto'),
         'uri' : fields.Url('api.produtos_produto_id'),
         'fornecedor_id' : fields.Integer( description='id do fornecedor'),
+        'preco_venda' : fields.Float(description='preco de venda do produto'),
         'ativo': fields.Boolean(required=False,description='inativa/ativa produto'),
     })
     produtoupdate = api.model('produtoupdate', {
         'nome': fields.String(required=False, description='nome do produto'),
         'codigo_barra': fields.String(required=False,description='Código de barra do Produto'),
         'fornecedor_id' : fields.Integer(required=False, description='id do fornecedor'),
-        'uri' : fields.Url('api.produtos_produto_id', readonly=True),
+        'uri' : fields.Url('api.produtos_produto_id', readonly=True),        
         'ativo': fields.Boolean(required=False,description='inativa/ativa produto')
     })
 
