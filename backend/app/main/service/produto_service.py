@@ -50,9 +50,8 @@ def update_product(produto: Produto,data):
 
 
 def get_all_products(ativo=False):
-    produto = Produto.query.filter_by(ativo=ativo)
-    # return produto.join(Perfil).all()
-    return Produto.query.filter_by(ativo=ativo).all()
+    p = Produto.query.filter_by(ativo=ativo).all()    
+    return p
 
 def get_a_product(tipo, id):
     if tipo=='id':
