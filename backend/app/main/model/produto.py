@@ -14,12 +14,22 @@ class Produto(db.Model):
     codigo_barra = db.Column(db.String(50), unique=True, nullable=True)
     fornecedor_id = db.Column(db.Integer,db.ForeignKey('fornecedor.id'))
     precos = db.relationship("Preco")
+    movimentacoes = db.relationship("Movimentacao")
     @hybrid_property
     def preco_venda(self):        
         for p in self.precos:
             if p.ativo:
                 return p.preco_venda
         return 0
+    @hybrid_property
+    def saldo(self):        
+        _saldo = 0
+        for p in self.movimentacoes:
+            if p.tipo_movimentacao == "S":
+                _saldo -= p.quantidade
+            else:
+                _saldo += p.quantidade
+        return _saldo
 
     ativo = db.Column(db.Boolean,default=True, nullable=False)                
 

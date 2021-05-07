@@ -56,6 +56,7 @@ class ProdutoDto:
         'uri' : fields.Url('api.produtos_produto_id'),
         'fornecedor_id' : fields.Integer( description='id do fornecedor'),
         'preco_venda' : fields.Float(description='preco de venda do produto'),
+        'saldo' : fields.Float(description='quantidade do produto em estoque'),
         'ativo': fields.Boolean(required=False,description='inativa/ativa produto'),
     })
     produtoupdate = api.model('produtoupdate', {
