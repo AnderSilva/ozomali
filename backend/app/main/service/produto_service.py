@@ -1,5 +1,6 @@
 import uuid
 import datetime
+import unidecode
 
 from app.main import db
 from typing import Dict, Tuple
@@ -93,9 +94,14 @@ def get_all_products(ativo=False):
     return p
 
 def get_search_products(data):
-    filters = ''
+    filters = ''    
     if data.get('nome',''):
-        filters += "LOWER(nome) like '%" + data.get('nome','').lower() + "%'"
+        filters += "LOWER(unaccent(produto.nome)) like '%" + unidecode.unidecode(data.get('nome','')).lower() + "%'"
+
+    if data.get('id',0) != 0:
+        if filters:
+            filters += " AND "
+        filters += "produto.id = " + str(data.get('id',0))
 
     if data.get('codigo_barra',''):
         if filters:
@@ -105,13 +111,13 @@ def get_search_products(data):
     if data.get('ativo','') == False or data.get('ativo','')== True:
         if filters:
             filters += " AND "
-        filters += "ativo =" 
+        filters += "produto.ativo =" 
         filters += "'true'" if data.get('ativo','')== True else "'false'"
 
     if data.get('nome_fornecedor',''):
         if filters:
             filters += " AND "
-        filters += "fornecedor.id in (SELECT ID FROM FORNECEDOR WHERE NOME LIKE '%" + data.get('nome_fornecedor','') + "%')"
+        filters += "fornecedor.id in (SELECT ID FROM FORNECEDOR WHERE LOWER(unaccent(NOME)) LIKE '%" + unidecode.unidecode(data.get('nome_fornecedor','')).lower() + "%')"
 
     if data.get('preco_venda_ini',0)>0 or data.get('preco_venda_fin',0)>0:
         if filters:
