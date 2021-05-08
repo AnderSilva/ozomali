@@ -46,7 +46,8 @@ class ProdutoDto:
     api = Namespace('produtos', description='Operações com Produtos')
     produtoinsert = api.model('produto', {
         'nome': fields.String(required=True, description='nome do produto'),
-        'codigo_barra': fields.String(required=True,description='Código de barra do Produto'),        
+        'codigo_barra': fields.String(required=True,description='Código de barra do Produto'),  
+        'preco_venda' : fields.Float(description='preco de venda do produto'),      
         'fornecedor_id' : fields.Integer(required=True, description='id do fornecedor'),        
     })
     produtolist = api.model('produtolist', {
@@ -63,7 +64,8 @@ class ProdutoDto:
         'nome': fields.String(required=False, description='nome do produto'),
         'codigo_barra': fields.String(required=False,description='Código de barra do Produto'),
         'fornecedor_id' : fields.Integer(required=False, description='id do fornecedor'),
-        'uri' : fields.Url('api.produtos_produto_id', readonly=True),        
+        'uri' : fields.Url('api.produtos_produto_id', readonly=True),
+        'preco_venda' : fields.Float(description='preco de venda do produto'),
         'ativo': fields.Boolean(required=False,description='inativa/ativa produto')
     })
 

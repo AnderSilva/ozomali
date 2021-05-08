@@ -5,10 +5,11 @@ from app.main import db
 from typing import Dict, Tuple
 from app.main.model import unaccent
 from app.main.model.produto import Produto
+from app.main.model.preco import Preco
 from app.main.model.fornecedor import Fornecedor
+from app.main.service.preco_service import save_changes as save_price
 
-
-def save_new_product(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
+def save_new_product(data: Dict[str, str], usuario_id: int) -> Tuple[Dict[str, str], int]:
     produto = Produto.query.filter(
             db.or_(Produto.nome == data['nome']
                   ,Produto.codigo_barra == data['codigo_barra'])
@@ -30,6 +31,15 @@ def save_new_product(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
             fornecedor_id=data['fornecedor_id'],
         )
         save_changes(novo_produto)
+        if data.get('preco_venda'):
+            novo_preco = Preco(
+                preco_venda=data['preco_venda'],
+                data_emissao=datetime.datetime.today(),
+                ativo=True,
+                usuario_id=usuario_id,
+                produto_id=novo_produto.id,
+            )
+            save_price(novo_preco)
         response_object = {
             'status': 'success',
             'message': 'Produto registrado com sucesso.',
@@ -44,8 +54,23 @@ def save_new_product(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         return response_object, 409
 
 
-def update_product(produto: Produto,data):
+def update_product(produto: Produto,data, usuario_id: int):
     update_changes(produto,data)
+    if data.get('preco_venda'):
+        preco = Preco.query.filter(
+            Preco.preco_venda == data['preco_venda'],
+            Preco.produto_id == produto.id,
+            Preco.ativo == True      
+        ).first()
+        if not preco:
+            novo_preco = Preco(
+                preco_venda=data['preco_venda'],
+                data_emissao=datetime.datetime.today(),
+                ativo=True,
+                usuario_id=usuario_id,
+                produto_id=produto.id,
+            )
+            save_price(novo_preco)
     return produto
 
 

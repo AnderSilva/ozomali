@@ -32,7 +32,7 @@ class ProdutoLista(Resource):
     @token_required
     def post(self) -> Tuple[Dict[str, str], int]:
         data = request.json
-        return save_new_product(data=data)
+        return save_new_product(data=data, usuario_id=self.uid)
 
 
 @api.route('/<int:id>')
@@ -76,7 +76,7 @@ class ProdutoID(Resource):
             if not fornecedor:
                 api.abort(404,'Fornecedor Não Encontrado.')
 
-        return update_product(produto,data=data)
+        return update_product(produto,data=data, usuario_id= self.uid)
 
 
 @api.route('/<string:campo>/<string:valor>')
