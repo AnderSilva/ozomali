@@ -1,6 +1,10 @@
 from flask_restx import Namespace, fields
 from .. model.perfil import Perfil
 
+class NullableBoolean(fields.Boolean):
+    __schema_type__ = ['boolean', 'null']
+    __schema_example__ = 'nullable boolean'
+
 class PerfilDto:
     api = Namespace('perfis', description='Operações com Perfis de Usuario')
     perfil = api.model('perfil', {
@@ -60,10 +64,11 @@ class ProdutoDto:
         'saldo' : fields.Float(required=False, description='quantidade do produto em estoque'),
         'ativo': fields.Boolean(required=False,description='inativa/ativa produto'),
     })
-    produtolistPesquisa = api.model('produtolistpesquisa', {        
+    produtolistPesquisa = api.model('produtolistpesquisa', {   
+        'id'  : fields.Integer(description='id do produto'),
         'nome': fields.String(required=False, description='nome do produto'),
         'codigo_barra': fields.String(required=False, description='Código de barra do Produto'),        
-        'ativo': fields.Boolean(required=False,description='inativa/ativa produto'),
+        'ativo': NullableBoolean(description='ativo'),
         'nome_fornecedor': fields.String(required=False,description='nome do fornecedor'),
         'preco_venda_ini': fields.Float(required=False, description ='preco inicial'),
         'preco_venda_fin': fields.Float(required=False, description ='preco final')
@@ -159,6 +164,20 @@ class FornecedorDto:
         'cep': fields.String(description='cep'),
         'ativo': fields.Boolean(description='ativo'),
     })
+    fornecedorlistaPesquisa = api.model('fornecedoresPesquisa', {
+        'id'  : fields.Integer(description='id do fornecedor'),
+        'cnpj': fields.String(description='cpnj do fornecedor'),
+        'nome': fields.String(description='nome fornecedor'),
+        'logradouro': fields.String(description='rua, avenida, estrada, etc'),
+        'numero': fields.String(description='numero do endereço'),
+        'complemento': fields.String(description='complemento do endereço'),
+        'bairro': fields.String(description='bairro'),
+        'cidade': fields.String(description='cidade'),
+        'estado': fields.String(description='estado'),
+        'cep': fields.String(description='cep'),
+        'ativo': NullableBoolean(description='ativo'),
+    })
+
     fornecedorupdate = api.model('fornecedorupdate', {
         'nome': fields.String(description='nome fornecedor'),
         'logradouro': fields.String(description='rua, avenida, estrada, etc'),

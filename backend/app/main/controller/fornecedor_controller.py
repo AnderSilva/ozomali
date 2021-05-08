@@ -11,6 +11,7 @@ _fornecedorinsert = FornecedorDto.fornecedorinsert
 _fornecedorlista = FornecedorDto.fornecedorlista
 _fornecedorupdate = FornecedorDto.fornecedorupdate
 _fornecedorupdateRetorno = FornecedorDto.fornecedorupdateRetorno
+_fornecedorlistaPesquisa = FornecedorDto.fornecedorlistaPesquisa
 
 @api.route('') #,'/')
 class FornecedorAPI(Resource):
@@ -31,6 +32,18 @@ class FornecedorAPI(Resource):
     def post(self) -> Tuple[Dict[str, str], int]:
         data = request.json
         return save_new_vendor(data=data)
+
+@api.route('/pesquisa')
+class FornecedorListaPesquisa(Resource):
+    @api.doc('lista_de_fornecedor_registrados_pesquisa')
+    @api.doc(security='apikey')
+    @token_required
+    @api.expect(_fornecedorlistaPesquisa, validate=True)
+    @api.marshal_list_with(_fornecedorlista, envelope='data')
+    def post(self,ativo=True):
+        """Lista todos fornecedor pesquisados"""
+        data = request.json
+        return get_search_vendors(data=data)
 
 @api.route('/<int:id>')
 @api.param('id', 'Identificador do fornecedor')
