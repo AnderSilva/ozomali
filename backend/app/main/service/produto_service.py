@@ -102,7 +102,7 @@ def get_a_product(tipo, id):
         return Produto.query.filter( db.or_(filter1,filter2) ).all()
 
     if tipo=='codigo_barra':
-        return Produto.query.filter_by(id=id).all()
+        return Produto.query.filter_by(codigo_barra=id).all()
 
     if tipo=='fornecedor_id':
         return Produto.query.filter_by(fornecedor_id=id).all()
