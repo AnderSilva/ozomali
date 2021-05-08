@@ -7,7 +7,7 @@ from app.main.model import unaccent
 from app.main.model.produto import Produto
 from app.main.model.preco import Preco
 from app.main.model.fornecedor import Fornecedor
-from app.main.service.preco_service import save_changes as save_price
+from app.main.service.preco_service import save_changes as save_price, InactiveOldPrice
 
 def save_new_product(data: Dict[str, str], usuario_id: int) -> Tuple[Dict[str, str], int]:
     produto = Produto.query.filter(
@@ -38,8 +38,8 @@ def save_new_product(data: Dict[str, str], usuario_id: int) -> Tuple[Dict[str, s
                 ativo=True,
                 usuario_id=usuario_id,
                 produto_id=novo_produto.id,
-            )
-            save_price(novo_preco)
+            )            
+            save_price(novo_preco)            
         response_object = {
             'status': 'success',
             'message': 'Produto registrado com sucesso.',
@@ -54,7 +54,7 @@ def save_new_product(data: Dict[str, str], usuario_id: int) -> Tuple[Dict[str, s
         return response_object, 409
 
 
-def update_product(produto: Produto,data, usuario_id: int):
+def update_product(produto: Produto,data, usuario_id: int) -> Tuple[Dict[str, str], int]:
     update_changes(produto,data)
     if data.get('preco_venda'):
         preco = Preco.query.filter(
@@ -71,8 +71,21 @@ def update_product(produto: Produto,data, usuario_id: int):
                 produto_id=produto.id,
             )
             save_price(novo_preco)
-    return produto
-
+            InactiveOldPrice(novo_preco)
+            
+    produtoUpdated = get_a_product(tipo='id',id=produto.id)
+    response_object = {
+            'status': 'success',
+            'message': 'Produto registrado com sucesso.',
+            'id' : produtoUpdated.id,
+            'nome' : produtoUpdated.nome,
+            'codigo_barra' : produtoUpdated.codigo_barra,
+            'fornecedor_id' : produtoUpdated.fornecedor_id,
+            'preco_venda' : produtoUpdated.preco_venda,
+            'saldo' : produtoUpdated.saldo,
+            'ativo' : produtoUpdated.ativo,
+        }
+    return response_object, 201    
 
 def get_all_products(ativo=False):
     p = Produto.query.filter_by(ativo=ativo).all()    

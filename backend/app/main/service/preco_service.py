@@ -53,10 +53,10 @@ def InactiveOldPrice(data: Preco):
             Preco.produto_id == data.produto_id,
             Preco.id != data.id,
             Preco.ativo == True      
-    ).first()
-    if preco:
-        preco.ativo = False
-        update_changes(preco)
+    ).all()
+    for t in preco:
+        t.ativo = False
+        update_changes(t)    
 
 
 def get_all_prices(ativo=False):    

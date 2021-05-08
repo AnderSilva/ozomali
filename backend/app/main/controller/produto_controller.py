@@ -10,6 +10,7 @@ api = ProdutoDto.api
 _produtolist = ProdutoDto.produtolist
 _produtoinsert = ProdutoDto.produtoinsert
 _produtoupdate = ProdutoDto.produtoupdate
+_produtoupdateretorno = ProdutoDto.produtoupdateretorno
 
 
 @api.route('')
@@ -58,7 +59,7 @@ class ProdutoID(Resource):
         400: 'Payload Vazio'
     })
     @api.expect(_produtoupdate, validate=True)    
-    @api.marshal_with(_produtoupdate)
+    @api.marshal_with(_produtoupdateretorno)
     @api.doc(security='apikey')
     @token_required
     def patch(self,id):
