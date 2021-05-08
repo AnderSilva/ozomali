@@ -1,11 +1,12 @@
 import uuid
 import datetime
+import unidecode
 
 from app.main import db
 from app.main.model.fornecedor import Fornecedor
 from app.main.model import unaccent
 from typing import Dict, Tuple
-
+from sqlalchemy.sql import text
 
 def save_new_vendor(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
     fornecedor = Fornecedor.query.filter(
@@ -39,7 +40,7 @@ def save_new_vendor(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
             'status': 'Falha',
             'message': 'CNPJ já existe.',
         }
-        return response_object, 409
+        return response_object, 400
 
 def update_vendor(fornecedor: Fornecedor,data)-> Tuple[Dict[str, str], int]:
     update_changes(fornecedor,data)
@@ -62,6 +63,64 @@ def update_vendor(fornecedor: Fornecedor,data)-> Tuple[Dict[str, str], int]:
 
 def get_all_vendors(ativo=False):    
     return Fornecedor.query.filter_by(ativo=ativo).all()
+
+def get_search_vendors(data):
+    filters = ''
+    if data.get('nome',''):
+        filters += "LOWER(unaccent(nome)) like '%" + unidecode.unidecode(data.get('nome','')).lower() + "%'"
+
+    if data.get('id',0) != 0:
+        if filters:
+            filters += " AND "
+        filters += "id = " + str(data.get('id',0))
+
+    if data.get('cnpj',''):
+        if filters:
+            filters += " AND "
+        filters += "cnpj like '%" + data.get('cnpj','') + "%'"
+    
+    if data.get('logradouro',''):
+        if filters:
+            filters += " AND "
+        filters += "LOWER(unaccent(logradouro)) like '%" + unidecode.unidecode(data.get('logradouro','')).lower() + "%'"
+    
+    if data.get('numero',''):
+        if filters:
+            filters += " AND "
+        filters += "LOWER(unaccent(numero)) like '%" + unidecode.unidecode(data.get('numero','')).lower() + "%'"
+
+    if data.get('complemento',''):
+        if filters:
+            filters += " AND "
+        filters += "LOWER(unaccent(complemento)) like '%" + unidecode.unidecode(data.get('complemento','')).lower() + "%'"
+    
+    if data.get('bairro',''):
+        if filters:
+            filters += " AND "
+        filters += "LOWER(unaccent(bairro)) like '%" + unidecode.unidecode(data.get('bairro','')).lower() + "%'"
+
+    if data.get('cidade',''):
+        if filters:
+            filters += " AND "
+        filters += "LOWER(unaccent(cidade)) like '%" + unidecode.unidecode(data.get('cidade','')).lower() + "%'"
+
+    if data.get('estado',''):
+        if filters:
+            filters += " AND "
+        filters += "LOWER(unaccent(estado)) like '%" + unidecode.unidecode(data.get('estado','')).lower() + "%'"
+
+    if data.get('cep',''):
+        if filters:
+            filters += " AND "
+        filters += "LOWER(unaccent(cep)) like '%" + unidecode.unidecode(data.get('cep','')).lower() + "%'"
+
+    if data.get('ativo','') == False or data.get('ativo','')== True:
+        if filters:
+            filters += " AND "
+        filters += "ativo =" 
+        filters += "'true'" if data.get('ativo','')== True else "'false'"    
+
+    return Fornecedor.query.filter(text(filters)).all()
 
 def get_a_vendor(tipo, id):
     item = '%{}%'.format(id)
