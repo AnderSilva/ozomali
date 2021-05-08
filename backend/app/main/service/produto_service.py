@@ -5,10 +5,12 @@ from app.main import db
 from typing import Dict, Tuple
 from app.main.model import unaccent
 from app.main.model.produto import Produto
+from app.main.model.preco import Preco
 from app.main.model.fornecedor import Fornecedor
+from app.main.service.preco_service import save_changes as save_price, InactiveOldPrice
+from sqlalchemy.sql import text
 
-
-def save_new_product(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
+def save_new_product(data: Dict[str, str], usuario_id: int) -> Tuple[Dict[str, str], int]:
     produto = Produto.query.filter(
             db.or_(Produto.nome == data['nome']
                   ,Produto.codigo_barra == data['codigo_barra'])
@@ -30,6 +32,15 @@ def save_new_product(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
             fornecedor_id=data['fornecedor_id'],
         )
         save_changes(novo_produto)
+        if data.get('preco_venda'):
+            novo_preco = Preco(
+                preco_venda=data['preco_venda'],
+                data_emissao=datetime.datetime.today(),
+                ativo=True,
+                usuario_id=usuario_id,
+                produto_id=novo_produto.id,
+            )            
+            save_price(novo_preco)            
         response_object = {
             'status': 'success',
             'message': 'Produto registrado com sucesso.',
@@ -44,14 +55,77 @@ def save_new_product(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         return response_object, 409
 
 
-def update_product(produto: Produto,data):
+def update_product(produto: Produto,data, usuario_id: int) -> Tuple[Dict[str, str], int]:
     update_changes(produto,data)
-    return produto
-
+    if data.get('preco_venda'):
+        preco = Preco.query.filter(
+            Preco.preco_venda == data['preco_venda'],
+            Preco.produto_id == produto.id,
+            Preco.ativo == True      
+        ).first()
+        if not preco:
+            novo_preco = Preco(
+                preco_venda=data['preco_venda'],
+                data_emissao=datetime.datetime.today(),
+                ativo=True,
+                usuario_id=usuario_id,
+                produto_id=produto.id,
+            )
+            save_price(novo_preco)
+            InactiveOldPrice(novo_preco)
+            
+    produtoUpdated = get_a_product(tipo='id',id=produto.id)
+    response_object = {
+            'status': 'success',
+            'message': 'Produto atualizado com sucesso.',
+            'id' : produtoUpdated.id,
+            'nome' : produtoUpdated.nome,
+            'codigo_barra' : produtoUpdated.codigo_barra,
+            'fornecedor_id' : produtoUpdated.fornecedor_id,
+            'preco_venda' : produtoUpdated.preco_venda,
+            'saldo' : produtoUpdated.saldo,
+            'ativo' : produtoUpdated.ativo,
+        }
+    return response_object, 200   
 
 def get_all_products(ativo=False):
     p = Produto.query.filter_by(ativo=ativo).all()    
     return p
+
+def get_search_products(data):
+    filters = ''
+    if data.get('nome',''):
+        filters += "LOWER(nome) like '%" + data.get('nome','').lower() + "%'"
+
+    if data.get('codigo_barra',''):
+        if filters:
+            filters += " AND "
+        filters += "codigo_barra like '%" + data.get('codigo_barra','') + "%'"
+
+    if data.get('ativo','') == False or data.get('ativo','')== True:
+        if filters:
+            filters += " AND "
+        filters += "ativo =" 
+        filters += "'true'" if data.get('ativo','')== True else "'false'"
+
+    if data.get('nome_fornecedor',''):
+        if filters:
+            filters += " AND "
+        filters += "fornecedor.id in (SELECT ID FROM FORNECEDOR WHERE NOME LIKE '%" + data.get('nome_fornecedor','') + "%')"
+
+    if data.get('preco_venda_ini','') or data.get('preco_venda_fin',''):
+        if filters:
+            filters += " AND "
+        subWhere = ''
+        if data.get('preco_venda_ini',''):            
+            subWhere += "p.preco_venda >= " + str(data.get('preco_venda_ini',''))
+        if data.get('preco_venda_fin',''):
+            if subWhere:
+                subWhere += ' and '
+            subWhere += "p.preco_venda <= " + str(data.get('preco_venda_fin',''))
+        filters += "produto.id in (SELECT produto_id FROM preco p WHERE p.ativo = 'true' and " + subWhere + ")"
+
+    return Produto.query.join(Fornecedor).filter(text(filters)).all()
 
 def get_a_product(tipo, id):
     if tipo=='id':
@@ -64,7 +138,7 @@ def get_a_product(tipo, id):
         return Produto.query.filter( db.or_(filter1,filter2) ).all()
 
     if tipo=='codigo_barra':
-        return Produto.query.filter_by(id=id).all()
+        return Produto.query.filter_by(codigo_barra=id).all()
 
     if tipo=='fornecedor_id':
         return Produto.query.filter_by(fornecedor_id=id).all()

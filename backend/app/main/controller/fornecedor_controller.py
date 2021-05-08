@@ -10,6 +10,7 @@ api = FornecedorDto.api
 _fornecedorinsert = FornecedorDto.fornecedorinsert
 _fornecedorlista = FornecedorDto.fornecedorlista
 _fornecedorupdate = FornecedorDto.fornecedorupdate
+_fornecedorupdateRetorno = FornecedorDto.fornecedorupdateRetorno
 
 @api.route('') #,'/')
 class FornecedorAPI(Resource):
@@ -55,7 +56,7 @@ class Fornecedor(Resource):
     })
     @api.expect(_fornecedorupdate, validate=True)
     @api.response(201, 'Fornecedor atualizado com sucesso.')
-    @api.marshal_with(_fornecedorlista)
+    @api.marshal_with(_fornecedorupdateRetorno)
     @api.doc(security='apikey')
     @admin_token_required
     def patch(self,id):

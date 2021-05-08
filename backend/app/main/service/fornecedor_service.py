@@ -41,9 +41,24 @@ def save_new_vendor(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         }
         return response_object, 409
 
-def update_vendor(fornecedor: Fornecedor,data):    
-    update_changes(fornecedor,data)        
-    return fornecedor
+def update_vendor(fornecedor: Fornecedor,data)-> Tuple[Dict[str, str], int]:
+    update_changes(fornecedor,data)
+    response_object = {
+            'status': 'success',
+            'message': 'Fornecedor atualizado com sucesso.',
+            'id' : fornecedor.id,
+            'cnpj':fornecedor.cnpj,
+            'nome' : fornecedor.nome,
+            'logradouro' : fornecedor.logradouro,
+            'numero' : fornecedor.numero,
+            'complemento' : fornecedor.complemento,
+            'bairro' : fornecedor.bairro,
+            'cidade' : fornecedor.cidade,
+            'estado' : fornecedor.estado,
+            'cep' : fornecedor.cep,
+            'ativo' : fornecedor.ativo,
+        }
+    return response_object, 200    
 
 def get_all_vendors(ativo=False):    
     return Fornecedor.query.filter_by(ativo=ativo).all()
