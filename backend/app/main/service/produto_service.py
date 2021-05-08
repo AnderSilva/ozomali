@@ -113,13 +113,13 @@ def get_search_products(data):
             filters += " AND "
         filters += "fornecedor.id in (SELECT ID FROM FORNECEDOR WHERE NOME LIKE '%" + data.get('nome_fornecedor','') + "%')"
 
-    if data.get('preco_venda_ini','') or data.get('preco_venda_fin',''):
+    if data.get('preco_venda_ini',0)>0 or data.get('preco_venda_fin',0)>0:
         if filters:
             filters += " AND "
         subWhere = ''
-        if data.get('preco_venda_ini',''):            
+        if data.get('preco_venda_ini',0)>0:
             subWhere += "p.preco_venda >= " + str(data.get('preco_venda_ini',''))
-        if data.get('preco_venda_fin',''):
+        if data.get('preco_venda_fin',0)>0:
             if subWhere:
                 subWhere += ' and '
             subWhere += "p.preco_venda <= " + str(data.get('preco_venda_fin',''))
