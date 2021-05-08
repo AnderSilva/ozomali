@@ -76,7 +76,7 @@ def update_product(produto: Produto,data, usuario_id: int) -> Tuple[Dict[str, st
     produtoUpdated = get_a_product(tipo='id',id=produto.id)
     response_object = {
             'status': 'success',
-            'message': 'Produto registrado com sucesso.',
+            'message': 'Produto atualizado com sucesso.',
             'id' : produtoUpdated.id,
             'nome' : produtoUpdated.nome,
             'codigo_barra' : produtoUpdated.codigo_barra,
@@ -85,7 +85,7 @@ def update_product(produto: Produto,data, usuario_id: int) -> Tuple[Dict[str, st
             'saldo' : produtoUpdated.saldo,
             'ativo' : produtoUpdated.ativo,
         }
-    return response_object, 201    
+    return response_object, 200   
 
 def get_all_products(ativo=False):
     p = Produto.query.filter_by(ativo=ativo).all()    

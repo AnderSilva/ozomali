@@ -162,6 +162,19 @@ class FornecedorDto:
         'cep': fields.String(description='cep'),
         'ativo': fields.Boolean(description='ativo'),
     })
+    fornecedorupdateRetorno = api.model('fornecedorupdate', {
+        'nome': fields.String(description='nome fornecedor'),
+        'logradouro': fields.String(description='rua, avenida, estrada, etc'),
+        'numero': fields.String(description='numero do endereço'),
+        'complemento': fields.String(description='complemento do endereço'),
+        'bairro': fields.String(description='bairro'),
+        'cidade': fields.String(description='cidade'),
+        'estado': fields.String(description='estado'),
+        'cep': fields.String(description='cep'),
+        'ativo': fields.Boolean(description='ativo'),
+        'status': fields.String(description='status da operacao'),
+        'message': fields.String(description='mensagem da operacao'),
+    })
 
 class TipoContatoDto:
     api = Namespace('tipocontatos', description='Operações com Tipo Contato dos Contatos')
