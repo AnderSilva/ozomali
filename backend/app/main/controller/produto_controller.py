@@ -11,6 +11,7 @@ _produtolist = ProdutoDto.produtolist
 _produtoinsert = ProdutoDto.produtoinsert
 _produtoupdate = ProdutoDto.produtoupdate
 _produtoupdateretorno = ProdutoDto.produtoupdateretorno
+_produtolistPesquisa = ProdutoDto.produtolistPesquisa
 
 
 @api.route('')
@@ -35,6 +36,17 @@ class ProdutoLista(Resource):
         data = request.json
         return save_new_product(data=data, usuario_id=self.uid)
 
+@api.route('/pesquisa')
+class ProdutoListaPesquisa(Resource):
+    @api.doc('lista_de_produtos_registrados_pesquisa')
+    @api.doc(security='apikey')
+    @token_required
+    @api.expect(_produtolistPesquisa, validate=True)
+    @api.marshal_list_with(_produtolist, envelope='data')
+    def post(self,ativo=True):
+        """Lista todos produtos pesquisados"""
+        data = request.json
+        return get_search_products(data=data)
 
 @api.route('/<int:id>')
 @api.param('id', 'Identificador do produto')
@@ -58,7 +70,7 @@ class ProdutoID(Resource):
         404: 'Produto/Fornecedor não encontrado',
         400: 'Payload Vazio'
     })
-    @api.expect(_produtoupdate, validate=True)    
+    @api.expect(_produtoupdate, validate=True)
     @api.marshal_with(_produtoupdateretorno)
     @api.doc(security='apikey')
     @token_required

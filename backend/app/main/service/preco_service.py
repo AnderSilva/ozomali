@@ -8,7 +8,7 @@ from app.main.model.produto import Produto
 from typing import Dict, Tuple
 
 
-def save_new_price(data: Dict[str, str], usuario_id: int) -> Tuple[Dict[str, str], int]:    
+def save_new_price(data: Dict[str, str], usuario_id: int) -> Tuple[Dict[str, str], int]:
     produto = Produto.query.filter(
         Produto.id == data['produto_id']
     ).first()
@@ -65,7 +65,7 @@ def get_all_prices(ativo=False):
 def get_a_price(id):
     return Preco.query.filter_by(id=id).first()
 
-def get_some_price(produto_id):
+def get_some_price(produto_id) -> Tuple[Dict[str, str], int]:
     preco = Preco.query.filter(
         Preco.produto_id == produto_id,
         Preco.ativo == True,
@@ -77,8 +77,22 @@ def get_some_price(produto_id):
         }
         return response_object, 404
     else:
-        return preco
+        response_object = {
+            'id': preco.id,
+            'preco_venda': preco.preco_venda,
+            'data_emissao': preco.data_emissao,
+            'usuario_id': preco.usuario_id,
+            'produto_id': preco.produto_id,
+            'ativo': preco.ativo,
+        }
+        return response_object, 200
 
+def get_active_price(produto_id):
+    preco = Preco.query.filter(
+        Preco.produto_id == produto_id,
+        Preco.ativo == True,
+    ).first()
+    return preco
 
 def save_changes(data: Preco) -> None:
     db.session.add(data)

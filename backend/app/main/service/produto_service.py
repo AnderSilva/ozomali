@@ -8,6 +8,7 @@ from app.main.model.produto import Produto
 from app.main.model.preco import Preco
 from app.main.model.fornecedor import Fornecedor
 from app.main.service.preco_service import save_changes as save_price, InactiveOldPrice
+from sqlalchemy.sql import text
 
 def save_new_product(data: Dict[str, str], usuario_id: int) -> Tuple[Dict[str, str], int]:
     produto = Produto.query.filter(
@@ -90,6 +91,41 @@ def update_product(produto: Produto,data, usuario_id: int) -> Tuple[Dict[str, st
 def get_all_products(ativo=False):
     p = Produto.query.filter_by(ativo=ativo).all()    
     return p
+
+def get_search_products(data):
+    filters = ''
+    if data.get('nome',''):
+        filters += "LOWER(nome) like '%" + data.get('nome','').lower() + "%'"
+
+    if data.get('codigo_barra',''):
+        if filters:
+            filters += " AND "
+        filters += "codigo_barra like '%" + data.get('codigo_barra','') + "%'"
+
+    if data.get('ativo','') == False or data.get('ativo','')== True:
+        if filters:
+            filters += " AND "
+        filters += "ativo =" 
+        filters += "'true'" if data.get('ativo','')== True else "'false'"
+
+    if data.get('nome_fornecedor',''):
+        if filters:
+            filters += " AND "
+        filters += "fornecedor.id in (SELECT ID FROM FORNECEDOR WHERE NOME LIKE '%" + data.get('nome_fornecedor','') + "%')"
+
+    if data.get('preco_venda_ini','') or data.get('preco_venda_fin',''):
+        if filters:
+            filters += " AND "
+        subWhere = ''
+        if data.get('preco_venda_ini',''):            
+            subWhere += "p.preco_venda >= " + str(data.get('preco_venda_ini',''))
+        if data.get('preco_venda_fin',''):
+            if subWhere:
+                subWhere += ' and '
+            subWhere += "p.preco_venda <= " + str(data.get('preco_venda_fin',''))
+        filters += "produto.id in (SELECT produto_id FROM preco p WHERE p.ativo = 'true' and " + subWhere + ")"
+
+    return Produto.query.join(Fornecedor).filter(text(filters)).all()
 
 def get_a_product(tipo, id):
     if tipo=='id':

@@ -13,6 +13,7 @@ class Produto(db.Model):
     nome = db.Column(db.String(100), unique=True, nullable=False)
     codigo_barra = db.Column(db.String(50), unique=True, nullable=True)
     fornecedor_id = db.Column(db.Integer,db.ForeignKey('fornecedor.id'))
+    fornecedor = db.relationship('Fornecedor', backref='fornecedor2')
     precos = db.relationship("Preco")
     movimentacoes = db.relationship("Movimentacao")
     @hybrid_property

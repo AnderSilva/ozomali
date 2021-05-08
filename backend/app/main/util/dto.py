@@ -51,14 +51,22 @@ class ProdutoDto:
         'fornecedor_id' : fields.Integer(required=True, description='id do fornecedor'),        
     })
     produtolist = api.model('produtolist', {
-        'id'  : fields.Integer(readonly=True),
-        'nome': fields.String(required=True, description='nome do produto'),
-        'codigo_barra': fields.String(description='Código de barra do Produto'),
-        'uri' : fields.Url('api.produtos_produto_id'),
-        'fornecedor_id' : fields.Integer( description='id do fornecedor'),
-        'preco_venda' : fields.Float(description='preco de venda do produto'),
-        'saldo' : fields.Float(description='quantidade do produto em estoque'),
+        'id'  : fields.Integer(readonly=False),
+        'nome': fields.String(required=False, description='nome do produto'),
+        'codigo_barra': fields.String(required=False, description='Código de barra do Produto'),        
+        'fornecedor_id' : fields.Integer(required=False, description='id do fornecedor'),
+        'nome_fornecedor' : fields.String(required=False, description='nome do fornecedor', attribute='fornecedor.nome'),
+        'preco_venda' : fields.Float(required=False, description='preco de venda do produto'),
+        'saldo' : fields.Float(required=False, description='quantidade do produto em estoque'),
         'ativo': fields.Boolean(required=False,description='inativa/ativa produto'),
+    })
+    produtolistPesquisa = api.model('produtolistpesquisa', {        
+        'nome': fields.String(required=False, description='nome do produto'),
+        'codigo_barra': fields.String(required=False, description='Código de barra do Produto'),        
+        'ativo': fields.Boolean(required=False,description='inativa/ativa produto'),
+        'nome_fornecedor': fields.String(required=False,description='nome do fornecedor'),
+        'preco_venda_ini': fields.Float(required=False, description ='preco inicial'),
+        'preco_venda_fin': fields.Float(required=False, description ='preco final')
     })
     produtoupdate = api.model('produtoupdate', {
         'nome': fields.String(required=False, description='nome do produto'),
@@ -104,7 +112,7 @@ class MovimentacaoDto:
     movimentacaoinsert = api.model('movimentacaoinsert', {
         'local_estoque': fields.String(required=True, description='Local de estoque'),
         'tipo_movimentacao': fields.String(required=True, description='Tipo movimentação a LETRA de E - Entrada ou S - Saida.'),
-        'preco_total': fields.Float(required=True, description='Preço Total'),
+        'preco_total': fields.Float(required=False, description='Preço Total'),
         'quantidade': fields.Integer(required=True, description='Quantidade de produto.'),        
         'produto_id': fields.Integer(required=True, description='Id do produto'),
     })    
@@ -118,8 +126,8 @@ class MovimentacaoDto:
         'produto_id': fields.Integer(description='Id do produto'),
         'data_movimentacao': fields.DateTime(),
         'ativo': fields.Boolean(description='inativa/ativa movimento'),
-        'produto.nome':fields.String(description='Nome do produto'),
-        'usuario.nome':fields.String(description='Nome do usuario'),
+        'nome_produto':fields.String(description='Nome do produto', attribute='produto.nome'),
+        'nome_usuario':fields.String(description='Nome do usuario', attribute='usuario.nome'),
     })
     movimentacao_saldo = api.model('movimentacaosaldo', {
         'quantidade': fields.Integer(description='Quantidade que existe no estoque')
