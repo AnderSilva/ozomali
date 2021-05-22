@@ -5,13 +5,14 @@ from app.main import db
 from app.main.model.movimentacao import Movimentacao
 from app.main.model.usuario import Usuario
 from app.main.model.produto import Produto
+from app.main.model.authenticate import Authenticate
 from app.main.model.preco import Preco
 from typing import Dict, Tuple
 from ..service.usuario_service import get_a_user
 from ..service.produto_service import get_a_product
 from ..service.preco_service import get_active_price
 
-def save_new_moviment(data: Dict[str, str], usuario_id:int) -> Tuple[Dict[str, str], int]:
+def save_new_moviment(data: Dict[str, str], authenticate:Authenticate) -> Tuple[Dict[str, str], int]:
     
     #Validacao dos ids
     produto = get_a_product('id', data.get('produto_id', 0))
@@ -53,7 +54,7 @@ def save_new_moviment(data: Dict[str, str], usuario_id:int) -> Tuple[Dict[str, s
             tipo_movimentacao=data['tipo_movimentacao'],
             data_movimentacao=datetime.datetime.today(),
             ativo=True,
-            usuario_id=usuario_id,
+            usuario_id=authenticate.uid,
             produto_id=produto.id,
         )
     save_changes(nova_mov)

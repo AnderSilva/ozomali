@@ -155,4 +155,4 @@ class Auth:
                 'status': 'falha',
                 'message': 'Forneça um token de autenticação válido.'
             }
-            return response_object, 401
+            return response_object, 401    
