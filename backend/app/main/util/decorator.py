@@ -4,6 +4,7 @@ from flask import request
 
 from app.main.service.auth_helper import Auth
 from typing import Callable
+from app.main.model.authenticate import Authenticate
 
 
 def token_required(f) -> Callable:
@@ -11,7 +12,7 @@ def token_required(f) -> Callable:
     def decorated(self, *args, **kwargs):
         data, status = Auth.get_logged_in_user(request)        
         token = data.get('data')
-        self.uid = token.get('uid')
+        get_authenticate(self, token)        
         if not token:
             return data, status
 
@@ -41,3 +42,6 @@ def admin_token_required(f: Callable) -> Callable:
         return f(*args, **kwargs)
 
     return decorated
+
+def get_authenticate(self, token):
+    self.authenticate = Authenticate(token.get('exp'), token.get('iat'), token.get('uid'), token.get('name'), token.get('login'), token.get('perfil'))
