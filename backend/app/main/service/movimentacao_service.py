@@ -5,13 +5,14 @@ from app.main import db
 from app.main.model.movimentacao import Movimentacao
 from app.main.model.usuario import Usuario
 from app.main.model.produto import Produto
+from app.main.model.authenticate import Authenticate
 from app.main.model.preco import Preco
 from typing import Dict, Tuple
 from ..service.usuario_service import get_a_user
 from ..service.produto_service import get_a_product
 from ..service.preco_service import get_active_price
 
-def save_new_moviment(data: Dict[str, str], usuario_id:int) -> Tuple[Dict[str, str], int]:
+def save_new_moviment(data: Dict[str, str], authenticate:Authenticate) -> Tuple[Dict[str, str], int]:
     
     #Validacao dos ids
     produto = get_a_product('id', data.get('produto_id', 0))
@@ -23,7 +24,7 @@ def save_new_moviment(data: Dict[str, str], usuario_id:int) -> Tuple[Dict[str, s
         return response_object, 400
 
     #Validando a movimentacao
-    msg = Validation(data)
+    msg = Validation(data, authenticate)
     if msg:
         response_object = {
             'status': 'Falha',
@@ -53,7 +54,7 @@ def save_new_moviment(data: Dict[str, str], usuario_id:int) -> Tuple[Dict[str, s
             tipo_movimentacao=data['tipo_movimentacao'],
             data_movimentacao=datetime.datetime.today(),
             ativo=True,
-            usuario_id=usuario_id,
+            usuario_id=authenticate.uid,
             produto_id=produto.id,
         )
     save_changes(nova_mov)
@@ -66,7 +67,7 @@ def save_new_moviment(data: Dict[str, str], usuario_id:int) -> Tuple[Dict[str, s
         }
     return response_object, 201    
 
-def Validation(data: Dict[str, str])-> str:
+def Validation(data: Dict[str, str], authenticate:Authenticate)-> str:
     if data['tipo_movimentacao'] not in ('E', 'S'):        
         return 'tipo_movimentacao - Informe a LETRA "E" para Entrada ou "S" para Saida.'
     if data['tipo_movimentacao'] =='E' :
@@ -74,6 +75,12 @@ def Validation(data: Dict[str, str])-> str:
             return 'preco_total deve ser informado quando for entrada no estoque.'
         if data['preco_total'] <= 0:
             return 'preco_total deve ser maior que zero.'
+        if not authenticate.perfil in ('admin', 'estoque'):
+            return 'Não autorizado, verifique com o administrador.'
+    if data['tipo_movimentacao'] =='S' :
+        if not authenticate.perfil in ('admin', 'venda'):
+            return 'Não autorizado, verifique com o administrador.'
+
     if data['quantidade'] <= 0:
         return 'quantidade deve ser maior que zero.'
     if not data['local_estoque'].strip():        

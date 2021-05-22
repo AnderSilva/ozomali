@@ -5,10 +5,11 @@ from app.main import db
 from app.main.model.preco import Preco
 from app.main.model.usuario import Usuario
 from app.main.model.produto import Produto
+from app.main.model.authenticate import Authenticate
 from typing import Dict, Tuple
 
 
-def save_new_price(data: Dict[str, str], usuario_id: int) -> Tuple[Dict[str, str], int]:
+def save_new_price(data: Dict[str, str], authenticate: Authenticate) -> Tuple[Dict[str, str], int]:
     produto = Produto.query.filter(
         Produto.id == data['produto_id']
     ).first()
@@ -29,7 +30,7 @@ def save_new_price(data: Dict[str, str], usuario_id: int) -> Tuple[Dict[str, str
             preco_venda=data['preco_venda'],
             data_emissao=datetime.datetime.today(),
             ativo=True,
-            usuario_id=usuario_id,
+            usuario_id=authenticate.uid,
             produto_id=data['produto_id'],
         )
         save_changes(novo_preco)        
@@ -39,8 +40,7 @@ def save_new_price(data: Dict[str, str], usuario_id: int) -> Tuple[Dict[str, str
             'message': 'Preço registrado com sucesso.',
             'id': novo_preco.id
         }
-        return response_object, 201
-        # return generate_token(new_user)
+        return response_object, 201        
     else:
         response_object = {
             'status': 'Falha',

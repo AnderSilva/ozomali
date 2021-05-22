@@ -11,7 +11,7 @@ from app.main.model import usuario, blacklist
 app = create_app(os.getenv('FLASK_ENV') or 'dev')
 app.register_blueprint(blueprint)
 
-app.app_context().push()
+app.app_context().push() 
 
 migrate = Migrate(app, db)
 manager = Manager(app)
