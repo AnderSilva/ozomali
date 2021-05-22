@@ -27,8 +27,7 @@ authorizations = {
 }
 
 diretorio = Path('.')
-arquivo = diretorio/'manage.py'
-dt_release = datetime.fromtimestamp(arquivo.stat().st_mtime)
+dt_release = datetime.fromtimestamp(diretorio.stat().st_mtime)
 
 api = Api(blueprint,
           title='OZOMALI API RESTFULL', # WITH JWT AUTH',
