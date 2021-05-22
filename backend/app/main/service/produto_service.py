@@ -13,6 +13,13 @@ from app.main.service.preco_service import save_changes as save_price, InactiveO
 from sqlalchemy.sql import text
 
 def save_new_product(data: Dict[str, str], authenticate: Authenticate) -> Tuple[Dict[str, str], int]:
+    if not authenticate.perfil in ('admin', 'estoque'):
+        response_object = {
+            'status': 'Falha',
+            'message': 'Não autorizado, verifique com o administrador.',
+        }
+        return response_object, 400
+
     produto = Produto.query.filter(
             db.or_(Produto.nome == data['nome']
                   ,Produto.codigo_barra == data['codigo_barra'])
@@ -58,6 +65,12 @@ def save_new_product(data: Dict[str, str], authenticate: Authenticate) -> Tuple[
 
 
 def update_product(produto: Produto,data, authenticate: Authenticate) -> Tuple[Dict[str, str], int]:
+    if not authenticate.perfil in ('admin', 'estoque'):
+        response_object = {
+            'status': 'Falha',
+            'message': 'Não autorizado, verifique com o administrador.',
+        }
+        return response_object, 400
     update_changes(produto,data)
     if data.get('preco_venda'):
         preco = Preco.query.filter(

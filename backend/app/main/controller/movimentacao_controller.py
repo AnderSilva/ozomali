@@ -29,7 +29,7 @@ class MovimentacaoRoute(Resource):
     @token_required
     def post(self) -> Tuple[Dict[str, str], int]:        
         data = request.json
-        return save_new_moviment(data=data, usuario_id=self.uid)
+        return save_new_moviment(data=data, authenticate=self.authenticate)
 
 @api.route('/<int:produto_id>')
 class MovimentacaoPorProduto(Resource):
