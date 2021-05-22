@@ -32,11 +32,11 @@ dt_release = datetime.fromtimestamp(diretorio.stat().st_mtime)
 api = Api(blueprint,
           title='OZOMALI API RESTFULL', # WITH JWT AUTH',
           version='2.0',
-          description='By Ozomali development team | last update: ' + dt_release.strftime("%m/%d/%Y, %H:%M:%S"),
+          description='By Ozomali development team | last update: ' + dt_release.strftime("%d/%m/%Y, %H:%M:%S"),
           security = 'apiKey',
           authorizations=authorizations
           )
-
+ 
 api.add_namespace(auth_ns, path='/auth')
 api.add_namespace(usuario_ns, path='/usuarios')
 api.add_namespace(perfil_ns, path='/perfis')
