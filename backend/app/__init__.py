@@ -10,6 +10,8 @@ from .main.controller.tipocontato_controller import api as tipocontato_ns
 from .main.controller.contato_controller import api as contato_ns
 from .main.controller.movimentacao_controller import api as movimentacao_ns
 from .main.controller.auth_controller import api as auth_ns
+from pathlib import Path
+from datetime import datetime
 
 # from .main.controller.auth_controller import api as auth_ns
 
@@ -24,10 +26,14 @@ authorizations = {
     },
 }
 
+diretorio = Path('.')
+arquivo = diretorio/'manage.py'
+dt_release = datetime.fromtimestamp(arquivo.stat().st_mtime)
+
 api = Api(blueprint,
           title='OZOMALI API RESTFULL', # WITH JWT AUTH',
           version='2.0',
-          description='By Ozomali development team',
+          description='By Ozomali development team | last update: ' + dt_release.strftime("%m/%d/%Y, %H:%M:%S"),
           security = 'apiKey',
           authorizations=authorizations
           )
