@@ -78,7 +78,7 @@
       <div class="product-register__form">
         <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--search">
           <mat-label>Buscar por:</mat-label>
-          <mat-select placeholder="" formControlName="filter">
+          <mat-select placeholder="" formControlName="filter" (selectionChange)="updateMask($event.value)">
             <mat-option value="id"> ID </mat-option>
             <mat-option value="nome"> Nome </mat-option>
             <mat-option value="codigo_barra"> Código de barras </mat-option>
@@ -106,8 +106,8 @@
           appearance="outline"
           class="product-register__form-field product-register__form-field--search"
         >
-          <mat-label>ID, nome, código, preço...</mat-label>
-          <input matInput placeholder="" formControlName="param" />
+          <mat-label>ID, Nome, Código, Preço...</mat-label>
+          <input matInput [mask]="mask" placeholder="" formControlName="param" />
           <mat-error *ngIf="productSearchForm.get('param').hasError('required')">
             Digite um parâmetro para a busca
           </mat-error>

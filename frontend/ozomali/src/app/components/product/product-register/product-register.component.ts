@@ -19,6 +19,7 @@ export class ProductRegisterComponent implements OnInit {
   public productRegisterForm: FormGroup;
   public productSearchForm: FormGroup;
   public isRegisterLoading: boolean;
+  public mask: string;
 
   constructor(
     private formBuider: FormBuilder,
@@ -54,6 +55,20 @@ export class ProductRegisterComponent implements OnInit {
     this.clearSearch.emit();
     this.productRegisterForm.reset();
     this.product = undefined;
+  }
+
+  public updateMask(filter: string): void {
+    switch (filter) {
+      case 'id':
+      case 'codigo_barra':
+      case 'preco_venda_ini':
+      case 'preco_venda_fin':
+        this.mask = '999999999999999999999999';
+        break;
+      default:
+        this.mask = '';
+        break;
+    }
   }
 
   public registerProduct(): void {
