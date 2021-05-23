@@ -19,6 +19,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { MovingsScreenComponent } from './pages/movings-screen/movings-screen.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     VendorScreenComponent,
     ProductScreenComponent,
     LoginScreenComponent,
+    MovingsScreenComponent,
   ],
   imports: [
     BrowserModule,
