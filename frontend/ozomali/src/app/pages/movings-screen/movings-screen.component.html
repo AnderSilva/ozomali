@@ -1,1 +1,34 @@
-<p>movings-screen works!</p>
+<div class="movings-screen">
+  <mat-tab-group class="movings-screen__tabs">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <img class="movings-screen__icons" src="./assets/images/busca.svg" />
+        Consultar movimentações
+      </ng-template>
+
+      <app-moving-register
+        [isSearch]="true"
+        (results)="setMovings($event)"
+        class="movings-screen__component"
+      ></app-moving-register>
+
+      <div class="movings-screen__search" *ngIf="movings">
+        <h3>{{ movings?.length < 1 ? 'Não encontramos nenhum resultado para essa busca' : 'Resultados da Busca' }}</h3>
+        <div class="movings-screen__search-results">
+          <ng-container *ngIf="movings?.length >= 1">
+            <div class="movings-screen__search-results--cards" *ngFor="let moving of movings">
+              <app-moving-card [moving]="moving"></app-moving-card>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <img class="movings-screen__icons" src="./assets/images/produto.svg" />
+        Registrar movimentação
+      </ng-template>
+      <app-moving-register class="movings-screen__component"></app-moving-register>
+    </mat-tab>
+  </mat-tab-group>
+</div>
