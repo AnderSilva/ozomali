@@ -34,6 +34,8 @@ export class ProductRegisterComponent implements OnInit {
 
       ativo: [''],
       id: [{ value: '', disabled: true }],
+      nome_fornecedor: [{ value: '', disabled: true }],
+      saldo: [{ value: '', disabled: true }],
     });
 
     this.productSearchForm = this.formBuider.group({
@@ -119,8 +121,10 @@ export class ProductRegisterComponent implements OnInit {
     this.productRegisterForm.get('fornecedor_id').setValue(product.fornecedor_id);
     this.productRegisterForm.get('preco_venda').setValue(product.preco_venda);
 
-    this.productRegisterForm.get('id').setValue(product.id);
     this.productRegisterForm.get('ativo').setValue(product.ativo);
+    this.productRegisterForm.get('id').setValue(product.id);
+    this.productRegisterForm.get('nome_fornecedor').setValue(product.nome_fornecedor);
+    this.productRegisterForm.get('saldo').setValue(product.saldo);
   }
 
   public onSearchProduct(): void {

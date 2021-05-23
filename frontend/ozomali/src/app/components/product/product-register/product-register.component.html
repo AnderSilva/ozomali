@@ -23,15 +23,6 @@
             <mat-option [value]="false"> Inativo </mat-option>
           </mat-select>
         </mat-form-field>
-
-        <mat-form-field
-          *ngIf="isSearch"
-          appearance="outline"
-          class="product-register__form-field product-register__form-field--others"
-        >
-          <mat-label>ID do Produto</mat-label>
-          <input matInput placeholder="" formControlName="id" />
-        </mat-form-field>
       </div>
 
       <div class="product-register__form-field--wrapper">
@@ -57,6 +48,23 @@
           <mat-error *ngIf="productRegisterForm.get('preco_venda').hasError('required')">
             Digite o preco do produto
           </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="product-register__form-field--wrapper" *ngIf="isSearch">
+        <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--others">
+          <mat-label>ID do Produto</mat-label>
+          <input matInput placeholder="" formControlName="id" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--others">
+          <mat-label>Nome do fornecedor</mat-label>
+          <input matInput placeholder="" formControlName="nome_fornecedor" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--others">
+          <mat-label>Saldo em estoque</mat-label>
+          <input matInput placeholder="" formControlName="saldo" />
         </mat-form-field>
       </div>
     </div>
