@@ -9,7 +9,7 @@ import { UserQuery } from 'src/app/stores/user';
 })
 export class HeaderMenuComponent implements OnInit {
   @Output() public shouldLogout: EventEmitter<void> = new EventEmitter();
-  user$: Observable<unknown>;
+  user$: Observable<any>;
 
   constructor(private userQuery: UserQuery) {
     this.user$ = this.userQuery.user$;

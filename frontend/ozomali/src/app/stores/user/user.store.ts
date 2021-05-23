@@ -4,7 +4,7 @@ import { Store, StoreConfig } from '@datorama/akita';
 export interface UserState {
   key: string;
   isAuthenticated: boolean;
-  user: unknown;
+  user: any;
   token: string;
 }
 
