@@ -1,0 +1,10 @@
+.c-moving-card {
+  display: flex;
+  flex-direction: column;
+  background-color: #5d8ff0;
+  padding: 10px;
+  width: fit-content;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 10px;
+}
