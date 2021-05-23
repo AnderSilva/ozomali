@@ -129,7 +129,7 @@ class MovimentacaoDto:
         'quantidade': fields.Integer(description='Quantidade de produto.'),
         'usuario_id': fields.Integer(description='Id do usuario'),
         'produto_id': fields.Integer(description='Id do produto'),
-        'data_movimentacao': fields.DateTime(),
+        'data_movimentacao': fields.String(attribute = 'data_movimentacao_format'),
         'ativo': fields.Boolean(description='inativa/ativa movimento'),
         'nome_produto':fields.String(description='Nome do produto', attribute='produto.nome'),
         'nome_usuario':fields.String(description='Nome do usuario', attribute='usuario.nome'),
