@@ -1,4 +1,4 @@
-<div *ngIf="isAuthenticated$ | async; else unAuthenticated">
+<div *ngIf="isAuthenticated$ | async; else unAuthenticated" class="login-screen__logged">
   <app-header-menu (shouldLogout)="logoff()"></app-header-menu>
 </div>
 
