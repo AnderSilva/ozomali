@@ -34,6 +34,11 @@
         width: 30%;
       }
 
+      &--search {
+        width: 30%;
+        margin-right: 15px;
+      }
+
       ::ng-deep .mat-form-field {
         display: unset;
 

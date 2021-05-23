@@ -29,14 +29,16 @@ export class ProductRegisterComponent implements OnInit {
       nome: ['', Validators.required],
       codigo_barra: ['', Validators.required],
       fornecedor_id: ['', Validators.required],
-      preco: ['', Validators.required],
+      preco_venda: ['', Validators.required],
 
       ativo: [''],
       id: [{ value: '', disabled: true }],
     });
 
     this.productSearchForm = this.formBuider.group({
-      id: ['', Validators.required],
+      filter: ['', Validators.required],
+      status: [''],
+      param: [''],
     });
   }
 
@@ -75,6 +77,7 @@ export class ProductRegisterComponent implements OnInit {
           const formValues = this.productRegisterForm.getRawValue();
 
           formValues.fornecedor_id = Number(formValues.fornecedor_id);
+          formValues.preco_venda = Number(formValues.preco_venda);
 
           return this.productService.createProduct(formValues);
         }),
@@ -97,7 +100,7 @@ export class ProductRegisterComponent implements OnInit {
     this.productRegisterForm.get('nome').setValue(product.nome);
     this.productRegisterForm.get('codigo_barra').setValue(product.codigo_barra);
     this.productRegisterForm.get('fornecedor_id').setValue(product.fornecedor_id);
-    this.productRegisterForm.get('preco').setValue(product.preco);
+    this.productRegisterForm.get('preco_venda').setValue(product.preco_venda);
 
     this.productRegisterForm.get('id').setValue(product.id);
     this.productRegisterForm.get('ativo').setValue(product.ativo);
@@ -110,15 +113,30 @@ export class ProductRegisterComponent implements OnInit {
     }
 
     this.isRegisterLoading = true;
-    const id = this.productSearchForm.get('id').value;
+
+    let search: any = {};
+    search[this.productSearchForm.get('filter').value] = this.productSearchForm.get('param').value;
+
+    if ('id' in search) {
+      search.id = Number(search.id);
+    }
+    if ('ativo' in search) {
+      search.ativo = this.productSearchForm.get('status').value;
+    }
+    if ('preco_venda_ini' in search) {
+      search.preco_venda_ini = Number(search.preco_venda_ini);
+    }
+    if ('preco_venda_fin' in search) {
+      search.preco_venda_fin = Number(search.preco_venda_fin);
+    }
 
     this.productService
-      .getProductById(id)
+      .searchProduct(search)
       .pipe(take(1))
       .subscribe(
         product => {
           this.isRegisterLoading = false;
-          this.results.emit(product);
+          this.results.emit(product.data);
         },
         response => {
           this.isRegisterLoading = false;

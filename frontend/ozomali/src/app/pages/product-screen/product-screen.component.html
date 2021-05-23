@@ -16,15 +16,11 @@
       <div class="product-screen__search" *ngIf="products && shouldSearch">
         <h3>Resultados da Busca</h3>
         <div class="product-screen__search-results">
-          <ng-container *ngIf="products?.length > 1; else singleProduct">
+          <ng-container *ngIf="products?.length >= 1">
             <div class="product-screen__search-results--cards" *ngFor="let product of products">
               <app-product-card [product]="product" (clickProduct)="loadProduct($event)"></app-product-card>
             </div>
           </ng-container>
-
-          <ng-template #singleProduct>
-            <app-product-card [product]="products" (clickProduct)="loadProduct($event)"></app-product-card>
-          </ng-template>
         </div>
       </div>
     </mat-tab>

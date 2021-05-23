@@ -16,8 +16,8 @@ export class ProductService {
     return this.http.post(this.baseUrl, params);
   }
 
-  public getProductById(id: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}`);
+  public searchProduct(params: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/pesquisa`, params);
   }
 
   public getProducts(): Observable<any> {

@@ -53,8 +53,8 @@
 
         <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--others">
           <mat-label>Preço</mat-label>
-          <input matInput placeholder="" mask="99999999" formControlName="preco" />
-          <mat-error *ngIf="productRegisterForm.get('preco').hasError('required')">
+          <input matInput placeholder="" mask="99999999" formControlName="preco_venda" />
+          <mat-error *ngIf="productRegisterForm.get('preco_venda').hasError('required')">
             Digite o preco do produto
           </mat-error>
         </mat-form-field>
@@ -76,20 +76,51 @@
   <div class="product-register__search">
     <form [formGroup]="productSearchForm" class="product-register__form-wrapper">
       <div class="product-register__form">
-        <mat-form-field appearance="outline" class="product-register__form-field">
-          <mat-label>ID</mat-label>
-          <input matInput placeholder="" mask="99999" formControlName="id" />
-          <mat-error *ngIf="productSearchForm.get('id').hasError('required')"> Digite um ID </mat-error>
+        <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--search">
+          <mat-label>Buscar por:</mat-label>
+          <mat-select placeholder="" formControlName="filter">
+            <mat-option value="id"> ID </mat-option>
+            <mat-option value="nome"> Nome </mat-option>
+            <mat-option value="codigo_barra"> Código de barras </mat-option>
+            <mat-option value="ativo"> Status </mat-option>
+            <mat-option value="nome_fornecedor"> Fornecedor </mat-option>
+            <mat-option value="preco_venda_ini"> Preço mínimo </mat-option>
+            <mat-option value="preco_venda_fin"> Preço máximo </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field
+          *ngIf="productSearchForm.get('filter').value === 'ativo'"
+          appearance="outline"
+          class="product-register__form-field product-register__form-field--search"
+        >
+          <mat-label>Selecione um status</mat-label>
+          <mat-select placeholder="" formControlName="status">
+            <mat-option [value]="true"> Ativo </mat-option>
+            <mat-option [value]="false"> Inativo </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field
+          *ngIf="productSearchForm.get('filter').value !== 'ativo'"
+          appearance="outline"
+          class="product-register__form-field product-register__form-field--search"
+        >
+          <mat-label>ID, nome, código, preço...</mat-label>
+          <input matInput placeholder="" formControlName="param" />
+          <mat-error *ngIf="productSearchForm.get('param').hasError('required')">
+            Digite um parâmetro para a busca
+          </mat-error>
         </mat-form-field>
       </div>
 
       <div matRipple class="product-register__button" (click)="onSearchProduct()">
-        <span *ngIf="!isRegisterLoading">Buscar por ID</span>
+        <span *ngIf="!isRegisterLoading">Buscar produto</span>
         <mat-spinner [diameter]="30" *ngIf="isRegisterLoading"></mat-spinner>
       </div>
 
       <div matRipple class="product-register__button" (click)="getProducts()">
-        <span *ngIf="!isRegisterLoading">Buscar Todos Produtos</span>
+        <span *ngIf="!isRegisterLoading">Listar todos produtos</span>
         <mat-spinner [diameter]="30" *ngIf="isRegisterLoading"></mat-spinner>
       </div>
     </form>
