@@ -17,6 +17,8 @@ import { VendorCardComponent } from './vendor/vendor-card/vendor-card.component'
 import { MatSelectModule } from '@angular/material/select';
 import { ProductRegisterComponent } from './product/product-register/product-register.component';
 import { VendorRegisterComponent } from './vendor/vendor-register/vendor-register.component';
+import { MovingRegisterComponent } from './movings/moving-register/moving-register.component';
+import { MovingCardComponent } from './movings/moving-card/moving-card.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { VendorRegisterComponent } from './vendor/vendor-register/vendor-registe
     ProductRegisterComponent,
     ProductCardComponent,
     VendorCardComponent,
+    MovingRegisterComponent,
+    MovingCardComponent,
   ],
   imports: [
     CommonModule,
@@ -50,6 +54,8 @@ import { VendorRegisterComponent } from './vendor/vendor-register/vendor-registe
     ProductRegisterComponent,
     ProductCardComponent,
     VendorCardComponent,
+    MovingRegisterComponent,
+    MovingCardComponent,
   ],
 })
 export class ComponentsModule {}

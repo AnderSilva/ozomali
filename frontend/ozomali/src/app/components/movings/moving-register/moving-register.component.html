@@ -1,0 +1,117 @@
+<div class="moving-register" *ngIf="!isSearch; else search">
+  <form [formGroup]="productMovingForm" class="moving-register__form-wrapper">
+    <div class="moving-register__form">
+      <div class="moving-register__form-field--wrapper">
+        <mat-form-field appearance="outline" class="moving-register__form-field moving-register__form-field--name">
+          <mat-label>Local de estoque</mat-label>
+          <input matInput placeholder="" formControlName="local_estoque" />
+          <mat-error *ngIf="productMovingForm.get('local_estoque').hasError('required')">
+            Digite o local de estoque
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="moving-register__form-field moving-register__form-field--others">
+          <mat-label>Tipo de movimentação</mat-label>
+          <mat-select
+            placeholder=""
+            formControlName="tipo_movimentacao"
+            (selectionChange)="updateValidity($event.value)"
+          >
+            <mat-option value="E"> Entrada </mat-option>
+            <mat-option value="S"> Saída </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="moving-register__form-field--wrapper">
+        <mat-form-field appearance="outline" class="moving-register__form-field moving-register__form-field--others">
+          <mat-label>Quantidade</mat-label>
+          <input mask="999999999999" matInput placeholder="" formControlName="quantidade" />
+          <mat-error *ngIf="productMovingForm.get('quantidade').hasError('required')">
+            Digite a quantidade de peças
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="moving-register__form-field moving-register__form-field--others">
+          <mat-label>ID do produto</mat-label>
+          <input mask="999999999999" matInput placeholder="" formControlName="produto_id" />
+          <mat-error *ngIf="productMovingForm.get('produto_id').hasError('required')">
+            Digite o ID do produto
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field
+          *ngIf="productMovingForm.get('tipo_movimentacao').value === 'E'"
+          appearance="outline"
+          class="moving-register__form-field moving-register__form-field--others"
+        >
+          <mat-label>Preço da compra</mat-label>
+          <input mask="999999999999" matInput placeholder="" formControlName="preco_total" />
+          <mat-error *ngIf="productMovingForm.get('preco_total').hasError('required')">
+            Digite o valor dessa compra de estoque
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div matRipple class="moving-register__button" (click)="clearForm()">
+      <span *ngIf="!isMovingLoading">Limpar</span>
+      <mat-spinner [diameter]="30" *ngIf="isMovingLoading"></mat-spinner>
+    </div>
+    <div matRipple class="moving-register__button" (click)="registerMoving()">
+      <span *ngIf="!isMovingLoading">Registrar</span>
+      <mat-spinner [diameter]="30" *ngIf="isMovingLoading"></mat-spinner>
+    </div>
+  </form>
+</div>
+
+<ng-template #search>
+  <div class="moving-register__search">
+    <form [formGroup]="productMovingSearchForm" class="moving-register__form-wrapper">
+      <div class="moving-register__form">
+        <!-- <mat-form-field appearance="outline" class="moving-register__form-field moving-register__form-field--search">
+          <mat-label>Buscar por:</mat-label>
+          <mat-select placeholder="" formControlName="filter" (selectionChange)="updateMask($event.value)">
+            <mat-option value="id"> ID </mat-option>
+            <mat-option value="nome"> Nome </mat-option>
+            <mat-option value="codigo_barra"> Código de barras </mat-option>
+            <mat-option value="ativo"> Status </mat-option>
+            <mat-option value="nome_fornecedor"> Fornecedor </mat-option>
+            <mat-option value="preco_venda_ini"> Preço mínimo </mat-option>
+            <mat-option value="preco_venda_fin"> Preço máximo </mat-option>
+          </mat-select>
+        </mat-form-field> -->
+
+        <!-- <mat-form-field
+          *ngIf="productSearchForm.get('filter').value === 'ativo'"
+          appearance="outline"
+          class="moving-register__form-field moving-register__form-field--search"
+        >
+          <mat-label>Selecione um status</mat-label>
+          <mat-select placeholder="" formControlName="status">
+            <mat-option [value]="true"> Ativo </mat-option>
+            <mat-option [value]="false"> Inativo </mat-option>
+          </mat-select>
+        </mat-form-field> -->
+
+        <!-- *ngIf="productSearchForm.get('filter').value !== 'ativo'" -->
+
+        <mat-form-field appearance="outline" class="moving-register__form-field moving-register__form-field--search">
+          <mat-label>ID do produto</mat-label>
+          <input matInput placeholder="" formControlName="id" />
+          <mat-error *ngIf="productMovingSearchForm.get('id').hasError('required')"> Digite o ID do produto </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div matRipple class="moving-register__button" (click)="onSearchProductMovings()">
+        <span *ngIf="!isMovingLoading">Buscar movimentações do produto</span>
+        <mat-spinner [diameter]="30" *ngIf="isMovingLoading"></mat-spinner>
+      </div>
+
+      <div matRipple class="moving-register__button" (click)="getMovings()">
+        <span *ngIf="!isMovingLoading">Listar todas movimentações</span>
+        <mat-spinner [diameter]="30" *ngIf="isMovingLoading"></mat-spinner>
+      </div>
+    </form>
+  </div>
+</ng-template>
