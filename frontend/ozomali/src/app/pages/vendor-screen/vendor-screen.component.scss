@@ -10,6 +10,7 @@
     align-items: center;
     height: 100%;
     width: 100%;
+    user-select: none;
 
     ::ng-deep .mat-tab {
       &-label {
@@ -21,6 +22,10 @@
         &-active {
           background-color: #3372eb !important;
         }
+      }
+
+      &-header-pagination-chevron {
+        display: none;
       }
 
       &-body-wrapper {

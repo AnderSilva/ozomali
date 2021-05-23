@@ -106,20 +106,55 @@
   <div class="vendor-register__search">
     <form [formGroup]="vendorSearchForm" class="vendor-register__form-wrapper">
       <div class="vendor-register__form">
-        <mat-form-field appearance="outline" class="vendor-register__form-field">
-          <mat-label>ID</mat-label>
-          <input matInput placeholder="" mask="99999" formControlName="id" />
-          <mat-error *ngIf="vendorSearchForm.get('id').hasError('required')"> Digite um ID </mat-error>
+        <mat-form-field appearance="outline" class="vendor-register__form-field vendor-register__form-field--search">
+          <mat-label>Buscar por:</mat-label>
+          <mat-select placeholder="" formControlName="filter" (selectionChange)="updateMask($event.value)">
+            <mat-option value="id"> ID </mat-option>
+            <mat-option value="cnpj"> CNPJ </mat-option>
+            <mat-option value="nome"> Nome </mat-option>
+            <mat-option value="ativo"> Status </mat-option>
+            <mat-option value="logradouro"> Logradouro </mat-option>
+            <mat-option value="numero"> Número </mat-option>
+            <mat-option value="complemento"> Complemento </mat-option>
+            <mat-option value="bairro"> Bairro </mat-option>
+            <mat-option value="cidade"> Cidade </mat-option>
+            <mat-option value="estado"> Estado </mat-option>
+            <mat-option value="cep"> CEP </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field
+          *ngIf="vendorSearchForm.get('filter').value === 'ativo'"
+          appearance="outline"
+          class="vendor-register__form-field vendor-register__form-field--search"
+        >
+          <mat-label>Selecione um status</mat-label>
+          <mat-select placeholder="" formControlName="status">
+            <mat-option [value]="true"> Ativo </mat-option>
+            <mat-option [value]="false"> Inativo </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field
+          *ngIf="vendorSearchForm.get('filter').value !== 'ativo'"
+          appearance="outline"
+          class="vendor-register__form-field vendor-register__form-field--search"
+        >
+          <mat-label>ID, CNPJ, Nome, Endereço...</mat-label>
+          <input matInput [mask]="mask" placeholder="" formControlName="param" />
+          <mat-error *ngIf="vendorSearchForm.get('param').hasError('required')">
+            Digite um parâmetro para a busca
+          </mat-error>
         </mat-form-field>
       </div>
 
       <div matRipple class="vendor-register__button" (click)="onSearchVendor()">
-        <span *ngIf="!isRegisterLoading">Buscar por ID</span>
+        <span *ngIf="!isRegisterLoading">Buscar fornecedor</span>
         <mat-spinner [diameter]="30" *ngIf="isRegisterLoading"></mat-spinner>
       </div>
 
       <div matRipple class="vendor-register__button" (click)="getVendors()">
-        <span *ngIf="!isRegisterLoading">Buscar todos fornecedores</span>
+        <span *ngIf="!isRegisterLoading">Listar todos fornecedores</span>
         <mat-spinner [diameter]="30" *ngIf="isRegisterLoading"></mat-spinner>
       </div>
     </form>

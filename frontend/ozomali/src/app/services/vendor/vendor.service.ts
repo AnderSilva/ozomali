@@ -16,8 +16,8 @@ export class VendorService {
     return this.http.post(this.baseUrl, params);
   }
 
-  public getVendorById(id: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}`);
+  public searchVendor(params: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/pesquisa`, params);
   }
 
   public getVendors(): Observable<any> {

@@ -14,17 +14,13 @@
       ></app-vendor-register>
 
       <div class="vendor-screen__search" *ngIf="vendors && shouldSearch">
-        <h3>Resultados da Busca</h3>
+        <h3>{{ vendors?.length < 1 ? 'Não encontramos nenhum resultado para essa busca' : 'Resultados da Busca' }}</h3>
         <div class="vendor-screen__search-results">
-          <ng-container *ngIf="vendors?.length > 1; else singleVendor">
+          <ng-container *ngIf="vendors?.length >= 1">
             <div class="vendor-screen__search-results--cards" *ngFor="let vendor of vendors">
               <app-vendor-card [vendor]="vendor" (clickVendor)="loadVendor($event)"></app-vendor-card>
             </div>
           </ng-container>
-
-          <ng-template #singleVendor>
-            <app-vendor-card [vendor]="vendors" (clickVendor)="loadVendor($event)"></app-vendor-card>
-          </ng-template>
         </div>
       </div>
     </mat-tab>

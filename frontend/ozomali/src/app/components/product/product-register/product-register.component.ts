@@ -58,6 +58,8 @@ export class ProductRegisterComponent implements OnInit {
   }
 
   public updateMask(filter: string): void {
+    this.productSearchForm.get('param').reset();
+
     switch (filter) {
       case 'id':
       case 'codigo_barra':

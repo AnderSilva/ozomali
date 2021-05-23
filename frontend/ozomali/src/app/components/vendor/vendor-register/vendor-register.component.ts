@@ -17,6 +17,8 @@ export class VendorRegisterComponent implements OnInit, OnDestroy {
   public isRegisterLoading: boolean = false;
   public vendorRegisterForm: FormGroup;
   public vendorSearchForm: FormGroup;
+  public mask: string;
+
   @Input() public vendor: any;
   @Input() public isSearch: boolean;
   @Output() public results = new EventEmitter<any>();
@@ -44,7 +46,9 @@ export class VendorRegisterComponent implements OnInit, OnDestroy {
     });
 
     this.vendorSearchForm = this.formBuider.group({
-      id: ['', Validators.required],
+      filter: ['', Validators.required],
+      status: [''],
+      param: [''],
     });
   }
 
@@ -94,6 +98,29 @@ export class VendorRegisterComponent implements OnInit, OnDestroy {
     this.vendor = undefined;
   }
 
+  public updateMask(filter: string): void {
+    this.vendorSearchForm.get('param').reset();
+
+    switch (filter) {
+      case 'id':
+      case 'numero':
+        this.mask = '999999999999999999999999';
+        break;
+      case 'cnpj':
+        this.mask = 'CPF_CNPJ';
+        break;
+      case 'cep':
+        this.mask = '00000-000';
+        break;
+      case 'estado':
+        this.mask = 'SS';
+        break;
+      default:
+        this.mask = '';
+        break;
+    }
+  }
+
   public registerVendor(): void {
     if (this.vendorRegisterForm.invalid || this.isRegisterLoading) {
       this.vendorRegisterForm.markAllAsTouched();
@@ -138,15 +165,23 @@ export class VendorRegisterComponent implements OnInit, OnDestroy {
     }
 
     this.isRegisterLoading = true;
-    const id = this.vendorSearchForm.get('id').value;
+    let search: any = {};
+    search[this.vendorSearchForm.get('filter').value] = this.vendorSearchForm.get('param').value;
+
+    if ('id' in search) {
+      search.id = Number(search.id);
+    }
+    if ('ativo' in search) {
+      search.ativo = this.vendorSearchForm.get('status').value;
+    }
 
     this.vendorService
-      .getVendorById(id)
+      .searchVendor(search)
       .pipe(take(1))
       .subscribe(
         vendors => {
           this.isRegisterLoading = false;
-          this.results.emit(vendors);
+          this.results.emit(vendors.data);
         },
         response => {
           this.isRegisterLoading = false;

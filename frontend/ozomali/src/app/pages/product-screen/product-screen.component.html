@@ -14,7 +14,7 @@
       ></app-product-register>
 
       <div class="product-screen__search" *ngIf="products && shouldSearch">
-        <h3>Resultados da Busca</h3>
+        <h3>{{ products?.length < 1 ? 'Não encontramos nenhum resultado para essa busca' : 'Resultados da Busca' }}</h3>
         <div class="product-screen__search-results">
           <ng-container *ngIf="products?.length >= 1">
             <div class="product-screen__search-results--cards" *ngFor="let product of products">
