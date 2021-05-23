@@ -25,12 +25,12 @@ export class VendorRegisterComponent implements OnInit, OnDestroy {
   @Output() public clearSearch = new EventEmitter<any>();
 
   constructor(
-    private formBuider: FormBuilder,
+    private formBuilder: FormBuilder,
     private addressService: AddressService,
     private vendorService: VendorService,
     private notifications: NotificationService,
   ) {
-    this.vendorRegisterForm = this.formBuider.group({
+    this.vendorRegisterForm = this.formBuilder.group({
       cnpj: ['', Validators.required],
       nome: ['', Validators.required],
       cep: ['', Validators.required],
@@ -45,10 +45,10 @@ export class VendorRegisterComponent implements OnInit, OnDestroy {
       id: [{ value: '', disabled: true }],
     });
 
-    this.vendorSearchForm = this.formBuider.group({
+    this.vendorSearchForm = this.formBuilder.group({
       filter: ['', Validators.required],
       status: [''],
-      param: [''],
+      param: ['', Validators.required],
     });
   }
 
@@ -96,6 +96,21 @@ export class VendorRegisterComponent implements OnInit, OnDestroy {
     this.clearSearch.emit();
     this.vendorRegisterForm.reset();
     this.vendor = undefined;
+  }
+
+  public updateValidity(value: string): void {
+    const input = this.vendorSearchForm.get('param');
+
+    switch (value) {
+      case 'ativo':
+        input.setValidators(null);
+        break;
+      default:
+        input.setValidators(Validators.required);
+        break;
+    }
+
+    input.updateValueAndValidity();
   }
 
   public updateMask(filter: string): void {

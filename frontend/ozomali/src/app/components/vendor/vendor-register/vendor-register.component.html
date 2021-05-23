@@ -108,7 +108,11 @@
       <div class="vendor-register__form">
         <mat-form-field appearance="outline" class="vendor-register__form-field vendor-register__form-field--search">
           <mat-label>Buscar por:</mat-label>
-          <mat-select placeholder="" formControlName="filter" (selectionChange)="updateMask($event.value)">
+          <mat-select
+            placeholder=""
+            formControlName="filter"
+            (selectionChange)="updateMask($event.value); updateValidity($event.value)"
+          >
             <mat-option value="id"> ID </mat-option>
             <mat-option value="cnpj"> CNPJ </mat-option>
             <mat-option value="nome"> Nome </mat-option>
