@@ -37,6 +37,18 @@
     align-items: center;
   }
 
+  &__user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    &-name, &-access {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
   &__menu {
     background-color: #3372eb;
     padding: 0 25px;

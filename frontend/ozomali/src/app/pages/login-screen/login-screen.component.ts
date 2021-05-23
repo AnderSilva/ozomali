@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { UserService } from 'src/app/stores/user/user.service';
 import { UserQuery } from 'src/app/stores/user';
 import { NotificationService } from 'src/app/services/notification/notification.service';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-login-screen',
@@ -48,7 +49,8 @@ export class LoginScreenComponent implements OnInit {
       .subscribe(
         response => {
           this.isAuthLoading = false;
-          this.userService.updateAuthentication(true, response.Authorization);
+          const user = jwt_decode(response.Authorization)
+          this.userService.updateAuthentication(true, response.Authorization, user);
           this.loginForm.reset();
           this.notifications.feedbackModal(response);
         },

@@ -7,8 +7,8 @@ import { UserStore } from './user.store';
 export class UserService {
   constructor(private userStore: UserStore, private http: HttpClient) {}
 
-  updateAuthentication(isAuthenticated: boolean, token: string) {
-    this.userStore.update({ isAuthenticated: isAuthenticated, token: token });
+  updateAuthentication(isAuthenticated: boolean, token: string, user: unknown) {
+    this.userStore.update({ isAuthenticated: isAuthenticated, token: token, user: user });
   }
 
   logout() {

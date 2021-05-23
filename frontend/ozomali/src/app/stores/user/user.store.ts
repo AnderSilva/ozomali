@@ -4,7 +4,7 @@ import { Store, StoreConfig } from '@datorama/akita';
 export interface UserState {
   key: string;
   isAuthenticated: boolean;
-  userId: string;
+  user: unknown;
   token: string;
 }
 
@@ -12,7 +12,7 @@ export function createInitialState(): UserState {
   return {
     key: '',
     isAuthenticated: false,
-    userId: '',
+    user: {},
     token: '',
   };
 }

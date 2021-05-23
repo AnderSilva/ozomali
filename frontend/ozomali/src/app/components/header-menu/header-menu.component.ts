@@ -1,4 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Observable } from 'rxjs';
+import { UserQuery } from 'src/app/stores/user';
 
 @Component({
   selector: 'app-header-menu',
@@ -7,7 +9,11 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class HeaderMenuComponent implements OnInit {
   @Output() public shouldLogout: EventEmitter<void> = new EventEmitter();
-  constructor() {}
+  user$: Observable<unknown>;
+
+  constructor(private userQuery: UserQuery) {
+    this.user$ = this.userQuery.user$;
+  }
 
   ngOnInit(): void {}
 
