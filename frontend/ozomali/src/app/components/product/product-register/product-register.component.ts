@@ -22,11 +22,11 @@ export class ProductRegisterComponent implements OnInit {
   public mask: string;
 
   constructor(
-    private formBuider: FormBuilder,
+    private formBuilder: FormBuilder,
     private productService: ProductService,
     private notifications: NotificationService,
   ) {
-    this.productRegisterForm = this.formBuider.group({
+    this.productRegisterForm = this.formBuilder.group({
       nome: ['', Validators.required],
       codigo_barra: ['', Validators.required],
       fornecedor_id: ['', Validators.required],
@@ -38,10 +38,10 @@ export class ProductRegisterComponent implements OnInit {
       saldo: [{ value: '', disabled: true }],
     });
 
-    this.productSearchForm = this.formBuider.group({
+    this.productSearchForm = this.formBuilder.group({
       filter: ['', Validators.required],
       status: [''],
-      param: [''],
+      param: ['', Validators.required],
     });
   }
 
@@ -57,6 +57,21 @@ export class ProductRegisterComponent implements OnInit {
     this.clearSearch.emit();
     this.productRegisterForm.reset();
     this.product = undefined;
+  }
+
+  public updateValidity(value: string): void {
+    const input = this.productSearchForm.get('param');
+
+    switch (value) {
+      case 'ativo':
+        input.setValidators(null);
+        break;
+      default:
+        input.setValidators(Validators.required);
+        break;
+    }
+
+    input.updateValueAndValidity();
   }
 
   public updateMask(filter: string): void {
