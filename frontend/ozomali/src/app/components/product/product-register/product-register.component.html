@@ -44,7 +44,7 @@
 
         <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--others">
           <mat-label>Preço</mat-label>
-          <input matInput placeholder="" mask="99999999" formControlName="preco_venda" />
+          <input currencyMask matInput placeholder="" formControlName="preco_venda" />
           <mat-error *ngIf="productRegisterForm.get('preco_venda').hasError('required')">
             Digite o preco do produto
           </mat-error>
@@ -114,16 +114,36 @@
         </mat-form-field>
 
         <mat-form-field
-          *ngIf="productSearchForm.get('filter').value !== 'ativo'"
+          *ngIf="
+            productSearchForm.get('filter').value !== 'ativo' &&
+            productSearchForm.get('filter').value !== 'preco_venda_ini' &&
+            productSearchForm.get('filter').value !== 'preco_venda_fin'
+          "
           appearance="outline"
           class="product-register__form-field product-register__form-field--search"
         >
-          <mat-label>ID, Nome, Código, Preço...</mat-label>
+          <mat-label>ID, Nome, Código...</mat-label>
           <input matInput [mask]="mask" placeholder="" formControlName="param" />
           <mat-error *ngIf="productSearchForm.get('param').hasError('required')">
             Digite um parâmetro para a busca
           </mat-error>
         </mat-form-field>
+
+        <mat-form-field
+        *ngIf="
+          productSearchForm.get('filter').value !== 'ativo' &&
+          productSearchForm.get('filter').value == 'preco_venda_ini' ||
+          productSearchForm.get('filter').value == 'preco_venda_fin'
+        "
+        appearance="outline"
+        class="product-register__form-field product-register__form-field--search"
+      >
+        <mat-label>Preço</mat-label>
+        <input matInput currencyMask placeholder="" formControlName="price" />
+        <mat-error *ngIf="productSearchForm.get('price').hasError('required')">
+          Digite um preço para a busca
+        </mat-error>
+      </mat-form-field>
       </div>
 
       <div matRipple class="product-register__button" (click)="onSearchProduct()">

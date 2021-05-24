@@ -41,6 +41,7 @@ export class ProductRegisterComponent implements OnInit {
     this.productSearchForm = this.formBuilder.group({
       filter: ['', Validators.required],
       status: [''],
+      price: [''],
       param: ['', Validators.required],
     });
   }
@@ -60,18 +61,32 @@ export class ProductRegisterComponent implements OnInit {
   }
 
   public updateValidity(value: string): void {
-    const input = this.productSearchForm.get('param');
+    const paramInput = this.productSearchForm.get('param');
+    const priceInput = this.productSearchForm.get('price');
+    const statusInput = this.productSearchForm.get('status');
 
     switch (value) {
       case 'ativo':
-        input.setValidators(null);
+        paramInput.setValidators(null);
+        priceInput.setValidators(null);
+        statusInput.setValidators(Validators.required);
+        break;
+      case 'preco_venda_ini':
+      case 'preco_venda_fin':
+        paramInput.setValidators(null);
+        statusInput.setValidators(null);
+        priceInput.setValidators(Validators.required);
         break;
       default:
-        input.setValidators(Validators.required);
+        priceInput.setValidators(null);
+        statusInput.setValidators(null);
+        paramInput.setValidators(Validators.required);
         break;
     }
 
-    input.updateValueAndValidity();
+    paramInput.updateValueAndValidity();
+    priceInput.updateValueAndValidity();
+    statusInput.updateValueAndValidity();
   }
 
   public updateMask(filter: string): void {
@@ -80,8 +95,6 @@ export class ProductRegisterComponent implements OnInit {
     switch (filter) {
       case 'id':
       case 'codigo_barra':
-      case 'preco_venda_ini':
-      case 'preco_venda_fin':
         this.mask = '999999999999999999999999';
         break;
       default:
@@ -111,7 +124,6 @@ export class ProductRegisterComponent implements OnInit {
           const formValues = this.productRegisterForm.getRawValue();
 
           formValues.fornecedor_id = Number(formValues.fornecedor_id);
-          formValues.preco_venda = Number(formValues.preco_venda);
 
           return this.productService.createProduct(formValues);
         }),
@@ -160,10 +172,10 @@ export class ProductRegisterComponent implements OnInit {
       search.ativo = this.productSearchForm.get('status').value;
     }
     if ('preco_venda_ini' in search) {
-      search.preco_venda_ini = Number(search.preco_venda_ini);
+      search.preco_venda_ini = this.productSearchForm.get('price').value;
     }
     if ('preco_venda_fin' in search) {
-      search.preco_venda_fin = Number(search.preco_venda_fin);
+      search.preco_venda_fin = this.productSearchForm.get('price').value;
     }
 
     this.productService
