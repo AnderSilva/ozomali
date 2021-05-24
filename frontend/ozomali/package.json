@@ -33,6 +33,7 @@
     "@datorama/akita-cli": "^6.1.1",
     "commitizen": "^4.2.3",
     "jwt-decode": "^3.1.2",
+    "ng2-currency-mask": "^11.0.0",
     "ngx-mask": "^11.1.5",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

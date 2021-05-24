@@ -19,6 +19,7 @@ import { ProductRegisterComponent } from './product/product-register/product-reg
 import { VendorRegisterComponent } from './vendor/vendor-register/vendor-register.component';
 import { MovingRegisterComponent } from './movings/moving-register/moving-register.component';
 import { MovingCardComponent } from './movings/moving-card/moving-card.component';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { MovingCardComponent } from './movings/moving-card/moving-card.component
     NgxMaskModule,
     MatProgressSpinnerModule,
     MatSelectModule,
+    CurrencyMaskModule,
   ],
   exports: [
     HeaderMenuComponent,

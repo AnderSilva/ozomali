@@ -20,6 +20,17 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { MovingsScreenComponent } from './pages/movings-screen/movings-screen.component';
+import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
+
+export const currencyMaskConfig: CurrencyMaskConfig = {
+  align: 'left',
+  allowNegative: false,
+  decimal: ',',
+  precision: 2,
+  prefix: 'R$ ',
+  suffix: '',
+  thousands: '.',
+};
 
 @NgModule({
   declarations: [
@@ -52,6 +63,7 @@ import { MovingsScreenComponent } from './pages/movings-screen/movings-screen.co
       useClass: AuthInterceptor,
       multi: true,
     },
+    { provide: CURRENCY_MASK_CONFIG, useValue: currencyMaskConfig },
   ],
   bootstrap: [AppComponent],
 })
