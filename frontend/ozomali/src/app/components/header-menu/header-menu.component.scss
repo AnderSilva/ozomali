@@ -46,10 +46,12 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    user-select: none;
 
     &-name, &-access {
       margin: 0;
       padding: 0;
+      line-height: 1;
     }
   }
 
