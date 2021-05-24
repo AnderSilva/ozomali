@@ -78,7 +78,6 @@ export class MovingRegisterComponent implements OnInit {
           this.isMovingLoading = true;
           const formValues = this.productMovingForm.getRawValue();
 
-          formValues.preco_total = Number(formValues.preco_total);
           formValues.produto_id = Number(formValues.produto_id);
           formValues.quantidade = Number(formValues.quantidade);
 

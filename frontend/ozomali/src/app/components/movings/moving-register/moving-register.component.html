@@ -46,7 +46,7 @@
           class="moving-register__form-field moving-register__form-field--others"
         >
           <mat-label>Preço da compra</mat-label>
-          <input mask="999999999999" matInput placeholder="" formControlName="preco_total" />
+          <input currencyMask matInput placeholder="" formControlName="preco_total" />
           <mat-error *ngIf="productMovingForm.get('preco_total').hasError('required')">
             Digite o valor dessa compra de estoque
           </mat-error>
