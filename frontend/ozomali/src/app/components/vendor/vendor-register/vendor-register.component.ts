@@ -99,18 +99,22 @@ export class VendorRegisterComponent implements OnInit, OnDestroy {
   }
 
   public updateValidity(value: string): void {
-    const input = this.vendorSearchForm.get('param');
+    const paramInput = this.vendorSearchForm.get('param');
+    const statusInput = this.vendorSearchForm.get('status');
 
     switch (value) {
       case 'ativo':
-        input.setValidators(null);
+        paramInput.setValidators(null);
+        statusInput.setValidators(Validators.required);
         break;
       default:
-        input.setValidators(Validators.required);
+        statusInput.setValidators(null);
+        paramInput.setValidators(Validators.required);
         break;
     }
 
-    input.updateValueAndValidity();
+    paramInput.updateValueAndValidity();
+    statusInput.updateValueAndValidity();
   }
 
   public updateMask(filter: string): void {
