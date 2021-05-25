@@ -4,7 +4,7 @@ from flask_restx import Resource
 from app.main.util.decorator import admin_token_required, token_required
 from ..util.dto import MovimentacaoDto
 from ..service.movimentacao_service import * 
-from ..service.movimentacao_report_service import movimentacao_report_by_periodo
+from ..service.movimentacao_report_service import movimentacao_report_by_periodo, movimento_validacao
 from typing import Dict, Tuple
 
 api = MovimentacaoDto.api
@@ -64,4 +64,9 @@ class ReportMovimentacao(Resource):
     def post(self,ativo=True):
         """Analise de movimentacao"""
         data = request.json
+        validation = movimento_validacao(data)
+        print(validation[1])
+        if validation[1] != 200:
+            return validation
+        
         return movimentacao_report_by_periodo(data=data)

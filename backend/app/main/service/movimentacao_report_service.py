@@ -6,11 +6,52 @@ from app.main.model.movimento_report import MovimentoReport
 from sqlalchemy.sql import text
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+from dateutil.parser import parse
 
 def get_movi_order(employee):
     return employee.data_filtro
 
-def movimentacao_report_by_periodo(data):
+def movimento_validacao(data) -> Tuple[Dict[str,str], int]:
+    if not data.get('periodo','') in ['Mensal', 'Semanal', 'Diario']:
+        response_object = {
+                'status': 'Falha',
+                'message': 'Periodo invalido [%s], os periodos validos são Mensal, Semanal e Diario.'.format(data.get('periodo','')),
+            }
+        return response_object, 400
+    if not is_date(data.get('data_inicio','')):
+        response_object = {
+                'status': 'Falha',
+                'message': 'Data inicio é invalida [%s] o formato é yyyymmdd'.format(data.get('data_inicio','')),
+            }
+        return response_object, 400
+    if not is_date(data.get('data_final','')):
+        response_object = {
+                'status': 'Falha',
+                'message': 'Data final é invalida [%s] o formato é yyyymmdd'.format(data.get('data_final','')),
+            }
+        return response_object, 400
+    if data.get('data_final','')>data.get('data_inicio',''):
+        response_object = {
+                'status': 'Falha',
+                'message': 'Data final deve ser maior que data inicial.',
+            }
+        return response_object, 400
+
+    response_object = {
+                'status': 'Sucesso',
+                'message': '',
+            }
+    return  response_object,200
+    
+def is_date(data):    
+    try: 
+        #dt = data[0,4] + '-' + data[4,6] + '-' + data[6,8]
+        parse(data)
+        return True
+    except ValueError:
+        return False
+
+def movimentacao_report_by_periodo(data):    
     filters = ''
     filters += "visao_filtro = '" + data.get('periodo','') + "'"
     if data.get('data_inicio',''):
