@@ -1,9 +1,6 @@
 from .. import db
-import datetime
-from typing import Union
 from sqlalchemy import func
-from .. model.usuario import Usuario
-from .. model.produto import Produto    
+from sqlalchemy.ext.hybrid import hybrid_property
 
 class Movimentacao(db.Model):
     __tablename__ = "movimentacao"
@@ -18,8 +15,12 @@ class Movimentacao(db.Model):
     produto_id = db.Column(db.Integer,db.ForeignKey('produto.id'),nullable=False)
     produto = db.relationship('Produto', backref='produto')
     usuario = db.relationship('Usuario', backref='usuario')
+    @hybrid_property
+    def data_movimentacao_format(self):        
+        return self.data_movimentacao.strftime("%d/%m/%Y, %H:%M:%S")
 
     ativo = db.Column(db.Boolean,default=True)
 
     def __repr__(self):
         return "<Local Estoque '{}', Produto '{}', Quantidade '{}'>".format(self.local_estoque, self.produto.nome, self.quantidade)
+        

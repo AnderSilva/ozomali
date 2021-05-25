@@ -129,13 +129,25 @@ class MovimentacaoDto:
         'quantidade': fields.Integer(description='Quantidade de produto.'),
         'usuario_id': fields.Integer(description='Id do usuario'),
         'produto_id': fields.Integer(description='Id do produto'),
-        'data_movimentacao': fields.DateTime(),
+        'data_movimentacao': fields.String(attribute = 'data_movimentacao_format'),
         'ativo': fields.Boolean(description='inativa/ativa movimento'),
         'nome_produto':fields.String(description='Nome do produto', attribute='produto.nome'),
         'nome_usuario':fields.String(description='Nome do usuario', attribute='usuario.nome'),
     })
     movimentacao_saldo = api.model('movimentacaosaldo', {
         'quantidade': fields.Integer(description='Quantidade que existe no estoque')
+    })
+    movimentacao_report_filtro = api.model('movimentacao_report_filtro', {
+        'periodo' : fields.String(description = 'Periodo pode ser Mensal, Semanal e Diario'),
+        'data_inicio' : fields.String(description = 'filtrar por com a mascara yyyyMMdd  20240501'),
+        'data_final' : fields.String(description = 'filtrar por com a mascara yyyyMMdd  20240501')        
+    })
+    movimentacao_report = api.model('movimentacao_report',{
+        'periodo':fields.String(description='Perido de ocorrencia'),
+        'vendas': fields.Float(description='Vendas Total'),
+        'compras': fields.Float(description='Compras Total'),
+        'lucro_prejuizo': fields.Float(description='Lucro ou prejuizo'),
+        'ticket_medio': fields.Float(description='Ticket Medio'),
     })
 
 class FornecedorDto:
