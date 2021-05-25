@@ -23,3 +23,4 @@ class Movimentacao(db.Model):
 
     def __repr__(self):
         return "<Local Estoque '{}', Produto '{}', Quantidade '{}'>".format(self.local_estoque, self.produto.nome, self.quantidade)
+        
