@@ -30,7 +30,7 @@ def movimento_validacao(data) -> Tuple[Dict[str,str], int]:
                 'message': 'Data final é invalida [%s] o formato é yyyymmdd'.format(data.get('data_final','')),
             }
         return response_object, 400
-    if data.get('data_final','')>data.get('data_inicio',''):
+    if data.get('data_final','')<data.get('data_inicio',''):
         response_object = {
                 'status': 'Falha',
                 'message': 'Data final deve ser maior que data inicial.',

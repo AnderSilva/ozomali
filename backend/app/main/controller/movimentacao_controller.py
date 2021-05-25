@@ -65,7 +65,7 @@ class ReportMovimentacao(Resource):
         """Analise de movimentacao"""
         data = request.json
         validation = movimento_validacao(data)
-        print(validation[1])
+    
         if validation[1] != 200:
             return validation
         
