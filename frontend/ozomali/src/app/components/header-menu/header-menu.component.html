@@ -3,7 +3,7 @@
     <div matRipple class="header-menu__text-wrapper">
       <p class="header-menu__header-title" [routerLink]="['']">Ozomali Vendas</p>
     </div>
-    <div *ngIf="user$ | async as user" class="header-menu__user">
+    <div *ngIf="userInfo$ | async as user" class="header-menu__user">
       <img [matMenuTriggerFor]="menu" class="header-menu__header-image" src="./assets/images/user_picture_mock.svg" />
       <h4 class="header-menu__user-name">Usuário: {{ user.name }}</h4>
       <h4 class="header-menu__user-access">Nível de acesso: {{ user.perfil }}</h4>

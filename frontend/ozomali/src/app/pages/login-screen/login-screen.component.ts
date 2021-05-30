@@ -46,8 +46,8 @@ export class LoginScreenComponent {
       .subscribe(
         response => {
           this.isAuthLoading = false;
-          const user = jwt_decode(response.Authorization);
-          this.userService.updateAuthentication(true, response.Authorization, user);
+          const userInfo = jwt_decode(response.Authorization);
+          this.userService.updateAuthentication(response.Authorization, userInfo);
           this.loginForm.reset();
           this.notifications.feedbackModal(response);
         },

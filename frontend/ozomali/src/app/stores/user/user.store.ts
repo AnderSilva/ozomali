@@ -2,17 +2,13 @@ import { Injectable } from '@angular/core';
 import { Store, StoreConfig } from '@datorama/akita';
 
 export interface UserState {
-  key: string;
-  isAuthenticated: boolean;
-  user: any;
+  userInfo: any;
   token: string;
 }
 
 export function createInitialState(): UserState {
   return {
-    key: '',
-    isAuthenticated: false,
-    user: {},
+    userInfo: {},
     token: '',
   };
 }

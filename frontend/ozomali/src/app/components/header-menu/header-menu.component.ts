@@ -9,10 +9,10 @@ import { UserQuery } from 'src/app/stores/user';
 })
 export class HeaderMenuComponent {
   @Output() public shouldLogout: EventEmitter<void> = new EventEmitter();
-  user$: Observable<any>;
+  userInfo$: Observable<any>;
 
   constructor(private userQuery: UserQuery) {
-    this.user$ = this.userQuery.user$;
+    this.userInfo$ = this.userQuery.userInfo$;
   }
 
   public logout(): void {

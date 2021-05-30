@@ -15,8 +15,8 @@ export class UserService {
     return this.http.post(`${this.baseUrl}/login`, params);
   }
 
-  updateAuthentication(isAuthenticated: boolean, token: string, user: any): void {
-    this.userStore.update({ isAuthenticated, token, user });
+  updateAuthentication(token: string, userInfo: any): void {
+    this.userStore.update({ token, userInfo });
   }
 
   logout(): void {
