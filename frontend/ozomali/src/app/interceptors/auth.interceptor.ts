@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UserQuery } from '../stores/user';
+import { UserQuery, UserService } from '../stores/user';
+import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(public userQuery: UserQuery) {}
+  constructor(private userQuery: UserQuery, private userService: UserService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const skipIntercept = request.headers.has('skip');
@@ -24,6 +25,16 @@ export class AuthInterceptor implements HttpInterceptor {
       },
     });
 
-    return next.handle(request);
+    return next.handle(request).pipe(
+      tap(
+        () => {},
+        (err: any) => {
+          if (err instanceof HttpErrorResponse && err.status !== 401) {
+            return;
+          }
+          this.userService.logout();
+        },
+      ),
+    );
   }
 }
