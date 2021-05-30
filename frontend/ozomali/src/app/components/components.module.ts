@@ -20,6 +20,8 @@ import { VendorRegisterComponent } from './vendor/vendor-register/vendor-registe
 import { MovingRegisterComponent } from './movings/moving-register/moving-register.component';
 import { MovingCardComponent } from './movings/moving-card/moving-card.component';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { ChartsModule } from 'ng2-charts';
+import { ReportsComponent } from './reports/reports.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,7 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
     VendorCardComponent,
     MovingRegisterComponent,
     MovingCardComponent,
+    ReportsComponent,
   ],
   imports: [
     CommonModule,
@@ -47,6 +50,7 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
     MatProgressSpinnerModule,
     MatSelectModule,
     CurrencyMaskModule,
+    ChartsModule,
   ],
   exports: [
     HeaderMenuComponent,
@@ -58,6 +62,7 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
     VendorCardComponent,
     MovingRegisterComponent,
     MovingCardComponent,
+    ReportsComponent,
   ],
 })
 export class ComponentsModule {}
