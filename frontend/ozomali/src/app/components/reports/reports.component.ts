@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
-import { Label } from 'ng2-charts';
+import { Color, Label } from 'ng2-charts';
 
 @Component({
   selector: 'app-reports',
@@ -13,7 +13,7 @@ export class ReportsComponent implements OnChanges {
   public lineChartData: ChartDataSets[];
   public lineChartLabels: Label[];
   public lineChartOptions: ChartOptions;
-  public lineChartColors: any[];
+  public lineChartColors: Color[];
   public lineChartLegend: boolean;
   public lineChartType: ChartType;
   public lineChartPlugins = [];
