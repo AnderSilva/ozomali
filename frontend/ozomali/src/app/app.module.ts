@@ -26,6 +26,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { DatePipe } from '@angular/common';
+import { ReportScreenComponent } from './pages/report-screen/report-screen.component';
 
 export const currencyMaskConfig: CurrencyMaskConfig = {
   align: 'left',
@@ -45,6 +46,7 @@ export const currencyMaskConfig: CurrencyMaskConfig = {
     ProductScreenComponent,
     LoginScreenComponent,
     MovingsScreenComponent,
+    ReportScreenComponent,
   ],
   imports: [
     BrowserModule,

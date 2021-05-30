@@ -4,6 +4,7 @@ import { DefaultScreenComponent } from './pages/default-screen/default-screen.co
 import { LoginScreenComponent } from './pages/login-screen/login-screen.component';
 import { MovingsScreenComponent } from './pages/movings-screen/movings-screen.component';
 import { ProductScreenComponent } from './pages/product-screen/product-screen.component';
+import { ReportScreenComponent } from './pages/report-screen/report-screen.component';
 import { VendorScreenComponent } from './pages/vendor-screen/vendor-screen.component';
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
       { path: 'vendors', component: VendorScreenComponent },
       { path: 'products', component: ProductScreenComponent },
       { path: 'movings', component: MovingsScreenComponent },
+      { path: 'reports', component: ReportScreenComponent },
       { path: '', component: DefaultScreenComponent },
     ],
   },

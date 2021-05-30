@@ -1,0 +1,46 @@
+<div class="report-screen">
+  <form [formGroup]="dateRangeForm" class="report-screen__form">
+    <mat-form-field appearance="outline" class="report-screen__form-select">
+      <mat-label>Mostrar em:</mat-label>
+      <mat-select formControlName="periodo">
+        <mat-option value="Mensal"> Meses </mat-option>
+        <mat-option value="Semanal"> Semanas </mat-option>
+        <mat-option value="Diario"> Dias </mat-option>
+      </mat-select>
+
+      <mat-error *ngIf="dateRangeForm.get('periodo').hasError('required')">Insira uma opção</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="report-screen__form-date">
+      <mat-label>Período do relatório</mat-label>
+
+      <mat-date-range-input [rangePicker]="rangePicker" disabled>
+        <input matStartDate formControlName="data_inicio" placeholder="Start date" />
+        <input matEndDate formControlName="data_final" placeholder="End date" />
+      </mat-date-range-input>
+
+      <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
+
+      <mat-date-range-picker #rangePicker touchUi disabled="false">
+        <mat-date-range-picker-actions>
+          <button mat-button matDateRangePickerCancel>Cancelar</button>
+          <button mat-raised-button color="primary" matDateRangePickerApply>Aplicar</button>
+        </mat-date-range-picker-actions>
+      </mat-date-range-picker>
+
+      <mat-error
+        *ngIf="
+          dateRangeForm.get('data_inicio').hasError('required') || dateRangeForm.get('data_final').hasError('required')
+        "
+        >Insira um período válido</mat-error
+      >
+    </mat-form-field>
+  </form>
+
+  <div matRipple class="report-screen__button" (click)="onReport()">
+    <span *ngIf="!isReportLoading">Gerar relatório</span>
+    <mat-spinner [diameter]="30" *ngIf="isReportLoading"></mat-spinner>
+  </div>
+
+  <app-reports [report]="report"></app-reports>
+</div>
