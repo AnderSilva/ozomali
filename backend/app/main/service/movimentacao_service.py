@@ -3,12 +3,8 @@ import datetime
 
 from app.main import db
 from app.main.model.movimentacao import Movimentacao
-from app.main.model.usuario import Usuario
-from app.main.model.produto import Produto
 from app.main.model.authenticate import Authenticate
-from app.main.model.preco import Preco
 from typing import Dict, Tuple
-from ..service.usuario_service import get_a_user
 from ..service.produto_service import get_a_product
 from ..service.preco_service import get_active_price
 

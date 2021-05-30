@@ -11,10 +11,10 @@ def token_required(f) -> Callable:
     @wraps(f)
     def decorated(self, *args, **kwargs):
         data, status = Auth.get_logged_in_user(request)        
-        token = data.get('data')
-        get_authenticate(self, token)        
+        token = data.get('data')        
         if not token:
             return data, status
+        get_authenticate(self, token)
 
         return f(self, *args, **kwargs)
 
@@ -44,4 +44,4 @@ def admin_token_required(f: Callable) -> Callable:
     return decorated
 
 def get_authenticate(self, token):
-    self.authenticate = Authenticate(token.get('exp'), token.get('iat'), token.get('uid'), token.get('name'), token.get('login'), token.get('perfil'))
+    self.authenticate = Authenticate(token.get('exp',''), token.get('iat',''), token.get('uid',''), token.get('name',''), token.get('login',''), token.get('perfil',''))

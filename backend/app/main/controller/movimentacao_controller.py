@@ -4,12 +4,15 @@ from flask_restx import Resource
 from app.main.util.decorator import admin_token_required, token_required
 from ..util.dto import MovimentacaoDto
 from ..service.movimentacao_service import * 
+from ..service.movimentacao_report_service import movimentacao_report_by_periodo, movimento_validacao
 from typing import Dict, Tuple
 
 api = MovimentacaoDto.api
 _movimentacaoinsert = MovimentacaoDto.movimentacaoinsert
 _movimentacao_lista = MovimentacaoDto.movimentacao_lista
 _movimentacao_saldo = MovimentacaoDto.movimentacao_saldo
+_movimentacao_report = MovimentacaoDto.movimentacao_report
+_movimentacao_report_filtro = MovimentacaoDto.movimentacao_report_filtro
 
 @api.route('') #,'/')
 class MovimentacaoRoute(Resource):    
@@ -50,3 +53,20 @@ class SaldoMovimentacaoPorProduto(Resource):
     def get(self, produto_id):
         """Informa o saldo no estoque por produto"""
         return get_net_by_product(produto_id = produto_id, ativo=True)
+
+@api.route('/report')
+class ReportMovimentacao(Resource):
+    @api.doc('report_movimentacao')
+    @api.doc(security='apikey')
+    @token_required
+    @api.expect(_movimentacao_report_filtro, validate=True)
+    @api.marshal_list_with(_movimentacao_report, envelope='data')
+    def post(self,ativo=True):
+        """Analise de movimentacao"""
+        data = request.json
+        validation = movimento_validacao(data)
+    
+        if validation[1] != 200:
+            return validation
+        
+        return movimentacao_report_by_periodo(data=data)
