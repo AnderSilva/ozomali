@@ -1,18 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-vendor-screen',
   templateUrl: './vendor-screen.component.html',
   styleUrls: ['./vendor-screen.component.scss'],
 })
-export class VendorScreenComponent implements OnInit {
+export class VendorScreenComponent {
   public vendors: any;
   public resultVendor: any;
   public shouldSearch: boolean = true;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 
   public setVendors(vendors: any): void {
     this.vendors = vendors;

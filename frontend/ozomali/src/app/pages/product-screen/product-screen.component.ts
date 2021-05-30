@@ -1,18 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-product-screen',
   templateUrl: './product-screen.component.html',
   styleUrls: ['./product-screen.component.scss'],
 })
-export class ProductScreenComponent implements OnInit {
+export class ProductScreenComponent {
   public products: any;
   public resultProduct: any;
   public shouldSearch: boolean = true;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 
   public setProducts(products: any): void {
     this.products = products;

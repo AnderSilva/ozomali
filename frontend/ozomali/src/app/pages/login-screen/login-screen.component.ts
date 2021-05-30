@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import jwt_decode from 'jwt-decode';
   templateUrl: './login-screen.component.html',
   styleUrls: ['./login-screen.component.scss'],
 })
-export class LoginScreenComponent implements OnInit {
+export class LoginScreenComponent {
   public isAuthenticated$: Observable<boolean>;
   public isAuthLoading: boolean = false;
   public loginForm: FormGroup;
@@ -33,8 +33,6 @@ export class LoginScreenComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
-
   public login(): void {
     if (this.loginForm.invalid) {
       return;
@@ -49,7 +47,7 @@ export class LoginScreenComponent implements OnInit {
       .subscribe(
         response => {
           this.isAuthLoading = false;
-          const user = jwt_decode(response.Authorization)
+          const user = jwt_decode(response.Authorization);
           this.userService.updateAuthentication(true, response.Authorization, user);
           this.loginForm.reset();
           this.notifications.feedbackModal(response);

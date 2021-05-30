@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { filter, switchMap, take } from 'rxjs/operators';
 import { product } from 'src/app/interfaces/product.interface';
@@ -10,7 +10,7 @@ import { ProductService } from 'src/app/services/product/product.service';
   templateUrl: './product-register.component.html',
   styleUrls: ['./product-register.component.scss'],
 })
-export class ProductRegisterComponent implements OnInit {
+export class ProductRegisterComponent {
   @Input() public isSearch: boolean;
   @Output() public results = new EventEmitter<any>();
   @Output() public clearSearch = new EventEmitter<any>();
@@ -45,8 +45,6 @@ export class ProductRegisterComponent implements OnInit {
       param: ['', Validators.required],
     });
   }
-
-  ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.product.currentValue !== changes.product.previousValue) {

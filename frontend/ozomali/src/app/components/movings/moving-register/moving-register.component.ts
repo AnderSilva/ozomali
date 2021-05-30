@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { filter, switchMap, take } from 'rxjs/operators';
 import { MovingsService } from 'src/app/services/movings/movings.service';
@@ -9,7 +9,7 @@ import { NotificationService } from 'src/app/services/notification/notification.
   templateUrl: './moving-register.component.html',
   styleUrls: ['./moving-register.component.scss'],
 })
-export class MovingRegisterComponent implements OnInit {
+export class MovingRegisterComponent {
   public productMovingForm: FormGroup;
   public productMovingSearchForm: FormGroup;
   public isMovingLoading: boolean;
@@ -34,8 +34,6 @@ export class MovingRegisterComponent implements OnInit {
       id: ['', Validators.required],
     });
   }
-
-  ngOnInit(): void {}
 
   public clearForm(): void {
     // this.clearSearch.emit();
