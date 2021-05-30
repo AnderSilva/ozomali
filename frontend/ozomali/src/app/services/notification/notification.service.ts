@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmationModalComponent } from 'src/app/components/modals/confirmation-modal/confirmation-modal.component';
 import { FeedbackModalComponent } from 'src/app/components/modals/feedback-modal/feedback-modal.component';
 
@@ -9,17 +9,21 @@ import { FeedbackModalComponent } from 'src/app/components/modals/feedback-modal
 export class NotificationService {
   constructor(private dialog: MatDialog) {}
 
-  public confirmationModal(description?: string, confirmText?: string, cancelText?: string) {
+  public confirmationModal(
+    description?: string,
+    confirmText?: string,
+    cancelText?: string,
+  ): MatDialogRef<ConfirmationModalComponent> {
     return this.dialog.open(ConfirmationModalComponent, {
       data: {
-        description: description,
-        confirmText: confirmText,
-        cancelText: cancelText,
+        description,
+        confirmText,
+        cancelText,
       },
     });
   }
 
-  public feedbackModal(response: any) {
+  public feedbackModal(response: any): MatDialogRef<FeedbackModalComponent> {
     if (response?.error?.status && response?.error?.message) {
       return this.dialog.open(FeedbackModalComponent, {
         data: {

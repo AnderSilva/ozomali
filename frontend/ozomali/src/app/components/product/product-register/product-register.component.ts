@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { filter, switchMap, take } from 'rxjs/operators';
-import { product } from 'src/app/interfaces/product.interface';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { ProductService } from 'src/app/services/product/product.service';
 
@@ -10,11 +9,11 @@ import { ProductService } from 'src/app/services/product/product.service';
   templateUrl: './product-register.component.html',
   styleUrls: ['./product-register.component.scss'],
 })
-export class ProductRegisterComponent {
+export class ProductRegisterComponent implements OnChanges {
   @Input() public isSearch: boolean;
   @Output() public results = new EventEmitter<any>();
   @Output() public clearSearch = new EventEmitter<any>();
-  @Input() public product: product;
+  @Input() public product: any;
 
   public productRegisterForm: FormGroup;
   public productSearchForm: FormGroup;
@@ -46,7 +45,7 @@ export class ProductRegisterComponent {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes.product.currentValue !== changes.product.previousValue) {
       this.setProductForm(this.product);
     }
@@ -87,10 +86,10 @@ export class ProductRegisterComponent {
     statusInput.updateValueAndValidity();
   }
 
-  public updateMask(filter: string): void {
+  public updateMask(filterValue: string): void {
     this.productSearchForm.get('param').reset();
 
-    switch (filter) {
+    switch (filterValue) {
       case 'id':
       case 'codigo_barra':
         this.mask = '999999999999999999999999';
@@ -140,16 +139,16 @@ export class ProductRegisterComponent {
       );
   }
 
-  public setProductForm(product: any): void {
-    this.productRegisterForm.get('nome').setValue(product.nome);
-    this.productRegisterForm.get('codigo_barra').setValue(product.codigo_barra);
-    this.productRegisterForm.get('fornecedor_id').setValue(product.fornecedor_id);
-    this.productRegisterForm.get('preco_venda').setValue(product.preco_venda);
+  public setProductForm(productReceived: any): void {
+    this.productRegisterForm.get('nome').setValue(productReceived.nome);
+    this.productRegisterForm.get('codigo_barra').setValue(productReceived.codigo_barra);
+    this.productRegisterForm.get('fornecedor_id').setValue(productReceived.fornecedor_id);
+    this.productRegisterForm.get('preco_venda').setValue(productReceived.preco_venda);
 
-    this.productRegisterForm.get('ativo').setValue(product.ativo);
-    this.productRegisterForm.get('id').setValue(product.id);
-    this.productRegisterForm.get('nome_fornecedor').setValue(product.nome_fornecedor);
-    this.productRegisterForm.get('saldo').setValue(product.saldo);
+    this.productRegisterForm.get('ativo').setValue(productReceived.ativo);
+    this.productRegisterForm.get('id').setValue(productReceived.id);
+    this.productRegisterForm.get('nome_fornecedor').setValue(productReceived.nome_fornecedor);
+    this.productRegisterForm.get('saldo').setValue(productReceived.saldo);
   }
 
   public onSearchProduct(): void {
@@ -160,7 +159,7 @@ export class ProductRegisterComponent {
 
     this.isRegisterLoading = true;
 
-    let search: any = {};
+    const search: any = {};
     search[this.productSearchForm.get('filter').value] = this.productSearchForm.get('param').value;
 
     if ('id' in search) {
@@ -180,9 +179,9 @@ export class ProductRegisterComponent {
       .searchProduct(search)
       .pipe(take(1))
       .subscribe(
-        product => {
+        resultProduct => {
           this.isRegisterLoading = false;
-          this.results.emit(product.data);
+          this.results.emit(resultProduct.data);
         },
         response => {
           this.isRegisterLoading = false;
@@ -220,7 +219,7 @@ export class ProductRegisterComponent {
     }
 
     this.isRegisterLoading = true;
-    let formValues = this.productRegisterForm.getRawValue();
+    const formValues = this.productRegisterForm.getRawValue();
 
     this.productService
       .updateProduct(this.product.id, formValues)

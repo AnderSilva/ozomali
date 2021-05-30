@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, filter, switchMap, take, takeUntil } from 'rxjs/operators';
@@ -11,10 +11,10 @@ import { VendorService } from 'src/app/services/vendor/vendor.service';
   templateUrl: './vendor-register.component.html',
   styleUrls: ['./vendor-register.component.scss'],
 })
-export class VendorRegisterComponent implements OnInit, OnDestroy {
+export class VendorRegisterComponent implements OnInit, OnDestroy, OnChanges {
   private readonly unsubscribe$: Subject<void> = new Subject<void>();
-  public isAddressLoading: boolean = false;
-  public isRegisterLoading: boolean = false;
+  public isAddressLoading: boolean;
+  public isRegisterLoading: boolean;
   public vendorRegisterForm: FormGroup;
   public vendorSearchForm: FormGroup;
   public mask: string;
@@ -30,6 +30,9 @@ export class VendorRegisterComponent implements OnInit, OnDestroy {
     private vendorService: VendorService,
     private notifications: NotificationService,
   ) {
+    this.isAddressLoading = false;
+    this.isRegisterLoading = false;
+
     this.vendorRegisterForm = this.formBuilder.group({
       cnpj: ['', Validators.required],
       nome: ['', Validators.required],
@@ -54,7 +57,7 @@ export class VendorRegisterComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.isSearch) {
-      this.vendorRegisterForm.controls['cnpj'].disable();
+      this.vendorRegisterForm.get('cnpj').disable();
     }
 
     this.vendorRegisterForm
@@ -74,7 +77,7 @@ export class VendorRegisterComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes.vendor.currentValue !== changes.vendor.previousValue) {
       this.setVendorForm(this.vendor);
     }
@@ -117,10 +120,10 @@ export class VendorRegisterComponent implements OnInit, OnDestroy {
     statusInput.updateValueAndValidity();
   }
 
-  public updateMask(filter: string): void {
+  public updateMask(filterValue: string): void {
     this.vendorSearchForm.get('param').reset();
 
-    switch (filter) {
+    switch (filterValue) {
       case 'id':
       case 'numero':
         this.mask = '999999999999999999999999';
@@ -184,7 +187,7 @@ export class VendorRegisterComponent implements OnInit, OnDestroy {
     }
 
     this.isRegisterLoading = true;
-    let search: any = {};
+    const search: any = {};
     search[this.vendorSearchForm.get('filter').value] = this.vendorSearchForm.get('param').value;
 
     if ('id' in search) {
@@ -253,7 +256,7 @@ export class VendorRegisterComponent implements OnInit, OnDestroy {
     }
 
     this.isRegisterLoading = true;
-    let formValues = this.vendorRegisterForm.getRawValue();
+    const formValues = this.vendorRegisterForm.getRawValue();
 
     this.vendorService
       .updateVendor(this.vendor.id, formValues)

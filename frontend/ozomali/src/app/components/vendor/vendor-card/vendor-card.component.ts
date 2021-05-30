@@ -9,7 +9,7 @@ export class VendorCardComponent {
   @Input() vendor: any;
   @Output() public clickVendor = new EventEmitter<any>();
 
-  public chooseCard() {
+  public chooseCard(): void {
     this.clickVendor.emit(this.vendor);
   }
 }

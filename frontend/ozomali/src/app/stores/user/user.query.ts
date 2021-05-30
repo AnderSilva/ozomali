@@ -12,7 +12,7 @@ export class UserQuery extends Query<UserState> {
     super(store);
   }
 
-  get token() {
+  get token(): string {
     return this.getValue().token;
   }
 }

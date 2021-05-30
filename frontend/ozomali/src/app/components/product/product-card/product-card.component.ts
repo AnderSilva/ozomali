@@ -9,7 +9,7 @@ export class ProductCardComponent {
   @Input() product: any;
   @Output() public clickProduct = new EventEmitter<any>();
 
-  public chooseCard() {
+  public chooseCard(): void {
     this.clickProduct.emit(this.product);
   }
 }

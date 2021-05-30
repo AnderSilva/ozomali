@@ -15,7 +15,7 @@ import jwt_decode from 'jwt-decode';
 })
 export class LoginScreenComponent {
   public isAuthenticated$: Observable<boolean>;
-  public isAuthLoading: boolean = false;
+  public isAuthLoading: boolean;
   public loginForm: FormGroup;
 
   constructor(
@@ -25,6 +25,7 @@ export class LoginScreenComponent {
     private userService: UserService,
     private notifications: NotificationService,
   ) {
+    this.isAuthLoading = false;
     this.isAuthenticated$ = this.userQuery.isAuthenticated$;
 
     this.loginForm = this.formBuilder.group({
@@ -34,7 +35,7 @@ export class LoginScreenComponent {
   }
 
   public login(): void {
-    if (this.loginForm.invalid) {
+    if (this.loginForm.invalid || this.isAuthLoading) {
       return;
     }
 

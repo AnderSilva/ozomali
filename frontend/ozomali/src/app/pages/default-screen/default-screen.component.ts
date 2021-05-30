@@ -30,7 +30,7 @@ export class DefaultScreenComponent {
     this.report = [];
   }
 
-  public onReport() {
+  public onReport(): void {
     if (this.dateRangeForm.invalid || this.isReportLoading) {
       this.dateRangeForm.markAllAsTouched();
       return;
@@ -38,7 +38,7 @@ export class DefaultScreenComponent {
 
     this.isReportLoading = true;
 
-    let formValues = this.dateRangeForm.getRawValue();
+    const formValues = this.dateRangeForm.getRawValue();
 
     formValues.data_inicio = this.datePipe.transform(formValues.data_inicio, 'yyyyMMdd');
     formValues.data_final = this.datePipe.transform(formValues.data_final, 'yyyyMMdd');

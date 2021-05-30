@@ -8,7 +8,11 @@ import { Component } from '@angular/core';
 export class ProductScreenComponent {
   public products: any;
   public resultProduct: any;
-  public shouldSearch: boolean = true;
+  public shouldSearch: boolean;
+
+  constructor() {
+    this.shouldSearch = true;
+  }
 
   public setProducts(products: any): void {
     this.products = products;

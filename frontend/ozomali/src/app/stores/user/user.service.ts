@@ -7,15 +7,11 @@ import { UserStore } from './user.store';
 export class UserService {
   constructor(private userStore: UserStore, private http: HttpClient) {}
 
-  updateAuthentication(isAuthenticated: boolean, token: string, user: any) {
-    this.userStore.update({ isAuthenticated: isAuthenticated, token: token, user: user });
+  updateAuthentication(isAuthenticated: boolean, token: string, user: any): void {
+    this.userStore.update({ isAuthenticated, token, user });
   }
 
-  logout() {
+  logout(): void {
     this.userStore.reset();
-  }
-
-  get() {
-    return this.http.get('').pipe(tap(entities => this.userStore.update(entities)));
   }
 }
