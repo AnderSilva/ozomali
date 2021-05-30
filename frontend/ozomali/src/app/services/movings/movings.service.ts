@@ -23,4 +23,8 @@ export class MovingsService {
   public getMovings(id: any): Observable<any> {
     return this.http.get(`${this.baseUrl}/${id}`);
   }
+
+  public generateReport(params: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/report`, params);
+  }
 }
