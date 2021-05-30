@@ -8,9 +8,8 @@ describe('DefaultScreenComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DefaultScreenComponent ]
-    })
-    .compileComponents();
+      declarations: [DefaultScreenComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

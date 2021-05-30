@@ -130,20 +130,20 @@
         </mat-form-field>
 
         <mat-form-field
-        *ngIf="
-          productSearchForm.get('filter').value !== 'ativo' &&
-          productSearchForm.get('filter').value == 'preco_venda_ini' ||
-          productSearchForm.get('filter').value == 'preco_venda_fin'
-        "
-        appearance="outline"
-        class="product-register__form-field product-register__form-field--search"
-      >
-        <mat-label>Preço</mat-label>
-        <input matInput currencyMask placeholder="" formControlName="price" />
-        <mat-error *ngIf="productSearchForm.get('price').hasError('required')">
-          Digite um preço para a busca
-        </mat-error>
-      </mat-form-field>
+          *ngIf="
+            (productSearchForm.get('filter').value !== 'ativo' &&
+              productSearchForm.get('filter').value == 'preco_venda_ini') ||
+            productSearchForm.get('filter').value == 'preco_venda_fin'
+          "
+          appearance="outline"
+          class="product-register__form-field product-register__form-field--search"
+        >
+          <mat-label>Preço</mat-label>
+          <input matInput currencyMask placeholder="" formControlName="price" />
+          <mat-error *ngIf="productSearchForm.get('price').hasError('required')">
+            Digite um preço para a busca
+          </mat-error>
+        </mat-form-field>
       </div>
 
       <div matRipple class="product-register__button" (click)="onSearchProduct()">

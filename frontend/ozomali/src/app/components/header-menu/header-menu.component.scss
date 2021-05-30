@@ -48,7 +48,8 @@
     flex-direction: column;
     user-select: none;
 
-    &-name, &-access {
+    &-name,
+    &-access {
       margin: 0;
       padding: 0;
       line-height: 1;

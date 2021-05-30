@@ -8,9 +8,8 @@ describe('MovingRegisterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MovingRegisterComponent ]
-    })
-    .compileComponents();
+      declarations: [MovingRegisterComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
