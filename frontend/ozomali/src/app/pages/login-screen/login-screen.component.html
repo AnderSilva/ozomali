@@ -11,11 +11,13 @@
         <mat-form-field appearance="outline" class="login-screen__form-field">
           <mat-label>Login</mat-label>
           <input matInput placeholder="Escreva seu nome de usuário" formControlName="login" />
+          <mat-error *ngIf="loginForm.get('login').hasError('required')"> Digite seu login </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="login-screen__form-field">
           <mat-label>Senha</mat-label>
           <input matInput placeholder="Digite sua senha" [type]="'password'" formControlName="senha" />
+          <mat-error *ngIf="loginForm.get('senha').hasError('required')"> Digite sua senha </mat-error>
         </mat-form-field>
 
         <button matRipple class="login-screen__button" (click)="login()">
