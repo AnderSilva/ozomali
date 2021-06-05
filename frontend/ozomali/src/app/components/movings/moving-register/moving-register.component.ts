@@ -79,6 +79,10 @@ export class MovingRegisterComponent {
           formValues.produto_id = Number(formValues.produto_id);
           formValues.quantidade = Number(formValues.quantidade);
 
+          if (formValues.tipo_movimentacao === 'S') {
+            delete formValues.preco_total;
+          }
+
           return this.movingsService.registerMoving(formValues);
         }),
         take(1),
