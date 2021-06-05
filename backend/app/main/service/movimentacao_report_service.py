@@ -15,19 +15,19 @@ def movimento_validacao(data) -> Tuple[Dict[str,str], int]:
     if not data.get('periodo','') in ['Mensal', 'Semanal', 'Diario']:
         response_object = {
                 'status': 'Falha',
-                'message': 'Periodo invalido [%s], os periodos validos são Mensal, Semanal e Diario.'.format(data.get('periodo','')),
+                'message': 'Período inválido [%s], os períodos válidos são Mensal, Semanal e Diário.'.format(data.get('periodo','')),
             }
         return response_object, 400
     if not is_date(data.get('data_inicio','')):
         response_object = {
                 'status': 'Falha',
-                'message': 'Data inicio é invalida [%s] o formato é yyyymmdd'.format(data.get('data_inicio','')),
+                'message': 'Data início é inválida [%s] o formato é yyyymmdd'.format(data.get('data_inicio','')),
             }
         return response_object, 400
     if not is_date(data.get('data_final','')):
         response_object = {
                 'status': 'Falha',
-                'message': 'Data final é invalida [%s] o formato é yyyymmdd'.format(data.get('data_final','')),
+                'message': 'Data final é inválida [%s] o formato é yyyymmdd'.format(data.get('data_final','')),
             }
         return response_object, 400
     if data.get('data_final','')<data.get('data_inicio',''):

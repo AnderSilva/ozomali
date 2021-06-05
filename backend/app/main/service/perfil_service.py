@@ -16,7 +16,7 @@ def save_new_profile(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         )
         save_changes(novo_perfil)
         response_object = {
-            'status': 'success',
+            'status': 'Sucesso',
             'message': 'Perfil registrado com sucesso.',
             'id': novo_perfil.id,
         }
@@ -24,7 +24,7 @@ def save_new_profile(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
     else:
         response_object = {
             'status': 'Falha',
-            'message': 'perfil já existe.',
+            'message': 'Perfil já existe.',
         }
         return response_object, 409
 

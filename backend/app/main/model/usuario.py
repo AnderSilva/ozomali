@@ -66,13 +66,13 @@ class Usuario(db.Model):
             
             is_blacklisted_token = BlacklistToken.check_blacklist(auth_token)
             if is_blacklisted_token:
-                return 'Token blacklisted. Please log in again.'
+                return 'Conta deslogada. Por favor realizar o login novamente.'
             else:
                 return payload['uid']
         except jwt.ExpiredSignatureError:
-            return 'Signature expired. Please log in again.'
+            return 'Senha expirada. Por favor realizar o login novamente.'
         except jwt.InvalidTokenError:
-            return 'Invalid token. Please log in again.'
+            return 'Senha inválida. Por favor realizar o login novamente.'
 
     def __repr__(self):
         return "<Usuario '{}'>".format(self.login)
