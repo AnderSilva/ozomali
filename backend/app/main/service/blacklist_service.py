@@ -11,13 +11,13 @@ def save_token(token: str) -> Tuple[Dict[str, str], int]:
         db.session.add(blacklist_token)
         db.session.commit()
         response_object = {
-            'status': 'successo',
+            'status': 'Sucesso',
             'message': 'Usuário deslogado com sucesso.'
         }
         return response_object, 200
     except Exception as e:
         response_object = {
-            'status': 'falha',
+            'status': 'Falha',
             'message': e
         }
         return response_object, 200

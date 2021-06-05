@@ -29,7 +29,7 @@ def save_new_vendor(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         )
         save_changes(novo_fornecedor)
         response_object = {
-            'status': 'success',
+            'status': 'Sucesso',
             'message': 'Fornecedor registrado com sucesso.',
             'id': novo_fornecedor.id
         }
@@ -45,7 +45,7 @@ def save_new_vendor(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
 def update_vendor(fornecedor: Fornecedor,data)-> Tuple[Dict[str, str], int]:
     update_changes(fornecedor,data)
     response_object = {
-            'status': 'success',
+            'status': 'Sucesso',
             'message': 'Fornecedor atualizado com sucesso.',
             'id' : fornecedor.id,
             'cnpj':fornecedor.cnpj,

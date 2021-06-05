@@ -17,7 +17,7 @@ def save_new_contact(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
     if not tipocontato:
         response_object = {
             'status': 'Falha',
-            'message': 'Tipo contato inválido.',
+            'message': 'Tipo de contato inválido.',
         }
         return response_object, 404
     
@@ -47,7 +47,7 @@ def save_new_contact(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         )
         save_changes(novo_contato)
         response_object = {
-            'status': 'success',
+            'status': 'Sucesso',
             'message': 'Contato registrado com sucesso.',
             'id': novo_contato.id
         }
@@ -76,13 +76,13 @@ def update_contact(contato: Contato,data):
             if not tipocontato:
                 response_object = {
                     'status': 'Falha',
-                    'message': 'Tipo contato inválido.',
+                    'message': 'Tipo de contato inválido.',
                 }
                 return response_object, 404
 
         update_changes(contato,data)        
         response_object = {
-            'status': 'success',
+            'status': 'Sucesso',
             'message': 'Contato atualizado com sucesso.'     
         }
         return response_object, 201 #tipo contato para retornar o objeto

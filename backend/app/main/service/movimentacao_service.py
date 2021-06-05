@@ -36,7 +36,7 @@ def save_new_moviment(data: Dict[str, str], authenticate:Authenticate) -> Tuple[
         if not preco:
             response_object = {
                 'status': 'Falha',
-                'message': 'Produto não tem preco ativo, informe o preço no sistema.',
+                'message': 'Produto não tem preço ativo, informe o preço no sistema.',
             }
             return response_object, 400
         precoTotal = preco.preco_venda * data['quantidade']
@@ -55,8 +55,8 @@ def save_new_moviment(data: Dict[str, str], authenticate:Authenticate) -> Tuple[
         )
     save_changes(nova_mov)
     response_object = {
-            'status': 'success',
-            'message': 'Movimentacao registrado com sucesso.',
+            'status': 'Sucesso',
+            'message': 'Movimentação registrado com sucesso.',
             'preco_total': precoTotal,
             'preco_unitario': precoUnitatio,
             'id': nova_mov.id
@@ -65,12 +65,12 @@ def save_new_moviment(data: Dict[str, str], authenticate:Authenticate) -> Tuple[
 
 def Validation(data: Dict[str, str], authenticate:Authenticate)-> str:
     if data['tipo_movimentacao'] not in ('E', 'S'):        
-        return 'tipo_movimentacao - Informe a LETRA "E" para Entrada ou "S" para Saida.'
+        return 'tipo_movimentacao - Informe a LETRA "E" para Entrada ou "S" para Saída.'
     if data['tipo_movimentacao'] =='E' :
         if data.get('preco_total',0) == 0:
-            return 'preco_total deve ser informado quando for entrada no estoque.'
+            return 'Preço total deve ser informado quando for entrada no estoque.'
         if data['preco_total'] <= 0:
-            return 'preco_total deve ser maior que zero.'
+            return 'Preço total deve ser maior que zero.'
         if not authenticate.perfil in ('admin', 'estoque'):
             return 'Não autorizado, verifique com o administrador.'
     if data['tipo_movimentacao'] =='S' :
@@ -78,12 +78,12 @@ def Validation(data: Dict[str, str], authenticate:Authenticate)-> str:
             return 'Não autorizado, verifique com o administrador.'
 
     if data['quantidade'] <= 0:
-        return 'quantidade deve ser maior que zero.'
+        return 'Quantidade deve ser maior que zero.'
     if not data['local_estoque'].strip():        
-        return 'local_estoque deve ser informado.'    
+        return 'Local do estoque deve ser informado.'    
     qtde = get_net_by_product(data['produto_id'], True).quantidade
     if data['tipo_movimentacao'] == 'S' and qtde < data['quantidade']:
-        return 'quantidade - Quantidade de produto insuficiente. Estoque tem {}.'.format(qtde)
+        return 'Quantidade de produto insuficiente. Saldo do estoque {}.'.format(qtde) 
     return ""
 
 def save_changes(data: Movimentacao) -> None:

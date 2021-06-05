@@ -14,23 +14,23 @@ class Auth:
                 auth_token = Usuario.encode_auth_token(usuario.id, usuario.nome, usuario.login, usuario.perfil.nome)
                 if auth_token:
                     response_object = {
-                        'status': 'sucesso',
+                        'status': 'Sucesso',
                         'message': 'Usuário logado com sucesso.',
                         'Authorization': auth_token
                     }
                     return response_object, 200
             else:
                 response_object = {
-                    'status': 'falha',
-                    'message': 'login / senha incorretos.'
+                    'status': 'Falha',
+                    'message': 'Login ou senha incorretos.'
                 }
                 return response_object, 401
 
         except Exception as e:
             print(e)
             response_object = {
-                'status': 'falha',
-                'message': 'Tente novamente'
+                'status': 'Falha',
+                'message': 'Tente novamente.'
             }
             return response_object, 500
 
@@ -40,8 +40,8 @@ class Auth:
             novasenha =data.get('novasenha')
             if not novasenha or novasenha.__len__()<4:
                 response_object = {
-                    'status': 'falha',
-                    'message': 'Senha nova deve ser informada com pelo menos 4 digitos.'
+                    'status': 'Falha',
+                    'message': 'A nova senha deve conter pelo menos 4 digitos.'
                 }
                 return response_object, 400
             # fetch the usuario data
@@ -49,21 +49,21 @@ class Auth:
             if usuario and usuario.check_senha(data.get('senha')):
                 update_password(usuario, novasenha)
                 response_object = {
-                    'status': 'sucesso',
+                    'status': 'Sucesso',
                     'message': 'Senha alterada com sucesso.'
                 }
                 return response_object, 200
             else:
                 response_object = {
-                    'status': 'falha',
-                    'message': 'login / senha incorretos.'
+                    'status': 'Falha',
+                    'message': 'Login ou senha incorretos.'
                 }
                 return response_object, 401
 
         except Exception as e:
             print(e)
             response_object = {
-                'status': 'falha',
+                'status': 'Falha',
                 'message': 'Tente novamente'
             }
             return response_object, 500
@@ -74,8 +74,8 @@ class Auth:
             novasenha =data.get('novasenha')
             if not novasenha or novasenha.__len__()>5:
                 response_object = {
-                    'status': 'falha',
-                    'message': 'Senha nova deve ser informada com pelo menos 4 digitos.'
+                    'status': 'Falha',
+                    'message': 'A nova senha deve conter pelo menos 4 digitos.'
                 }
                 return response_object, 400
             # fetch the usuario data
@@ -83,21 +83,21 @@ class Auth:
             if usuario:
                 update_password(usuario, novasenha)
                 response_object = {
-                    'status': 'sucesso',
+                    'status': 'Sucesso',
                     'message': 'Senha alterada com sucesso.'
                 }
                 return response_object, 200
             else:
                 response_object = {
-                    'status': 'falha',
-                    'message': 'login / senha incorretos.'
+                    'status': 'Falha',
+                    'message': 'Login ou senha incorretos.'
                 }
                 return response_object, 401
 
         except Exception as e:
             print(e)
             response_object = {
-                'status': 'falha',
+                'status': 'Falha',
                 'message': 'Tente novamente'
             }
             return response_object, 500
@@ -115,14 +115,14 @@ class Auth:
                 return save_token(token=auth_token)
             else:
                 response_object = {
-                    'status': 'falha',
+                    'status': 'Falha',
                     'message': resp
                 }
                 return response_object, 401
         else:
             response_object = {
-                'status': 'falha',
-                'message': 'Forneca um token de autenticação válido.'
+                'status': 'Falha',
+                'message': 'Forneça um token de autenticação válido.'
             }
             return response_object, 403
 
@@ -136,7 +136,7 @@ class Auth:
             if not isinstance(resp, str):
                 usuario = Usuario.query.filter_by(id=resp).first()
                 response_object = {
-                    'status': 'sucesso',
+                    'status': 'Sucesso',
                     'data': {                        
                         'nome': usuario.nome,
                         'uid': usuario.id,
@@ -146,13 +146,13 @@ class Auth:
                 }
                 return response_object, 200
             response_object = {
-                'status': 'falha',
+                'status': 'Falha',
                 'message': resp
             }
             return response_object, 401
         else:
             response_object = {
-                'status': 'falha',
+                'status': 'Falha',
                 'message': 'Forneça um token de autenticação válido.'
             }
             return response_object, 401    

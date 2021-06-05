@@ -36,7 +36,7 @@ def save_new_price(data: Dict[str, str], authenticate: Authenticate) -> Tuple[Di
         save_changes(novo_preco)        
         InactiveOldPrice(novo_preco)
         response_object = {
-            'status': 'success',
+            'status': 'Sucesso',
             'message': 'Preço registrado com sucesso.',
             'id': novo_preco.id
         }

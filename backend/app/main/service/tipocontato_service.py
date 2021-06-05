@@ -16,7 +16,7 @@ def save_new_contacttype(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         )
         save_changes(novo_tipocontato)
         response_object = {
-            'status': 'success',
+            'status': 'Sucesso',
             'message': 'Tipo Contato registrado com sucesso.',
             'id': novo_tipocontato.id
         }
@@ -39,14 +39,14 @@ def update_contacttype(tipocontato: TipoContato,data):
     if data:
         update_changes(tipocontato,data)        
         response_object = {
-            'status': 'success',
-            'message': 'Tipo contato atualizado com sucesso.',     
+            'status': 'Sucesso',
+            'message': 'Tipo do contato atualizado com sucesso.',     
         }
         return response_object, 201 #tipo contato para retornar o objeto
     else:
         response_object = {
             'status': 'Falha',
-            'message': 'Tipo contato inválido.',
+            'message': 'Tipo do contato inválido.',
         }
         return response_object, 404
 
