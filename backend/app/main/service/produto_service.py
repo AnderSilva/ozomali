@@ -51,7 +51,7 @@ def save_new_product(data: Dict[str, str], authenticate: Authenticate) -> Tuple[
             )            
             save_price(novo_preco)            
         response_object = {
-            'status': 'success',
+            'status': 'Sucesso',
             'message': 'Produto registrado com sucesso.',
             'id' : novo_produto.id,
         }
@@ -91,7 +91,7 @@ def update_product(produto: Produto,data, authenticate: Authenticate) -> Tuple[D
             
     produtoUpdated = get_a_product(tipo='id',id=produto.id)
     response_object = {
-            'status': 'success',
+            'status': 'Sucesso',
             'message': 'Produto atualizado com sucesso.',
             'id' : produtoUpdated.id,
             'nome' : produtoUpdated.nome,
