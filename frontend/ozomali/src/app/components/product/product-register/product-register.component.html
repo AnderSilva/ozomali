@@ -35,11 +35,19 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--others">
-          <mat-label>ID do fornecedor</mat-label>
-          <input matInput placeholder="" mask="9999" formControlName="fornecedor_id" />
-          <mat-error *ngIf="productRegisterForm.get('fornecedor_id').hasError('required')">
-            Digite o ID do fornecedor do produto
-          </mat-error>
+          <mat-label>Fornecedor</mat-label>
+          <input matInput placeholder="" [formControl]="fornecedor" [matAutocomplete]="auto" />
+          <mat-autocomplete
+            autoActiveFirstOption
+            #auto="matAutocomplete"
+            (optionSelected)="vendorChosen($event.option.value)"
+          >
+            <mat-option *ngFor="let vendor of filteredVendors | async" [value]="vendor">
+              {{ vendor }}
+            </mat-option>
+          </mat-autocomplete>
+
+          <mat-error *ngIf="fornecedor.hasError('required')"> Digite o nome fornecedor do produto </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--others">
@@ -55,11 +63,6 @@
         <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--others">
           <mat-label>ID do Produto</mat-label>
           <input matInput placeholder="" formControlName="id" />
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--others">
-          <mat-label>Nome do fornecedor</mat-label>
-          <input matInput placeholder="" formControlName="nome_fornecedor" />
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--others">

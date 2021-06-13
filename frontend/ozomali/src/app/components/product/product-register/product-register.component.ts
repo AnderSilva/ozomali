@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { filter, switchMap, take } from 'rxjs/operators';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { filter, map, startWith, switchMap, take } from 'rxjs/operators';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { ProductService } from 'src/app/services/product/product.service';
 
@@ -9,11 +10,17 @@ import { ProductService } from 'src/app/services/product/product.service';
   templateUrl: './product-register.component.html',
   styleUrls: ['./product-register.component.scss'],
 })
-export class ProductRegisterComponent implements OnChanges {
+export class ProductRegisterComponent implements OnChanges, OnInit {
   @Input() public isSearch: boolean;
   @Output() public results = new EventEmitter<any>();
   @Output() public clearSearch = new EventEmitter<any>();
   @Input() public product: any;
+
+  @Input() public vendors: any;
+  @Input() public vendorNames: string[];
+
+  public filteredVendors: Observable<string[]>;
+  public fornecedor: FormControl;
 
   public productRegisterForm: FormGroup;
   public productSearchForm: FormGroup;
@@ -25,6 +32,8 @@ export class ProductRegisterComponent implements OnChanges {
     private productService: ProductService,
     private notifications: NotificationService,
   ) {
+    this.fornecedor = new FormControl('', Validators.required);
+
     this.productRegisterForm = this.formBuilder.group({
       nome: ['', Validators.required],
       codigo_barra: ['', Validators.required],
@@ -33,7 +42,6 @@ export class ProductRegisterComponent implements OnChanges {
 
       ativo: [''],
       id: [{ value: '', disabled: true }],
-      nome_fornecedor: [{ value: '', disabled: true }],
       saldo: [{ value: '', disabled: true }],
     });
 
@@ -45,8 +53,27 @@ export class ProductRegisterComponent implements OnChanges {
     });
   }
 
+  ngOnInit(): void {
+    this.filteredVendors = this.fornecedor.valueChanges.pipe(
+      startWith(''),
+      map(value => this.filterVendors(value)),
+    );
+  }
+
+  private filterVendors(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.vendorNames.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  public vendorChosen(vendorName: string): void {
+    const matchVendor = this.vendors.find((vendor: any) => vendor.nome === vendorName);
+
+    this.productRegisterForm.get('fornecedor_id').setValue(matchVendor.id);
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.product.currentValue !== changes.product.previousValue) {
+    if (changes.product?.currentValue !== changes.product?.previousValue) {
       this.setProductForm(this.product);
     }
   }
@@ -101,8 +128,9 @@ export class ProductRegisterComponent implements OnChanges {
   }
 
   public registerProduct(): void {
-    if (this.productRegisterForm.invalid || this.isRegisterLoading) {
+    if (this.productRegisterForm.invalid || this.fornecedor.invalid || this.isRegisterLoading) {
       this.productRegisterForm.markAllAsTouched();
+      this.fornecedor.markAsTouched();
       return;
     }
 
@@ -129,6 +157,7 @@ export class ProductRegisterComponent implements OnChanges {
       .subscribe(
         response => {
           this.productRegisterForm.reset();
+          this.fornecedor.reset();
           this.isRegisterLoading = false;
           this.notifications.feedbackModal(response);
         },
@@ -147,8 +176,9 @@ export class ProductRegisterComponent implements OnChanges {
 
     this.productRegisterForm.get('ativo').setValue(productReceived.ativo);
     this.productRegisterForm.get('id').setValue(productReceived.id);
-    this.productRegisterForm.get('nome_fornecedor').setValue(productReceived.nome_fornecedor);
     this.productRegisterForm.get('saldo').setValue(productReceived.saldo);
+
+    this.fornecedor.setValue(productReceived.nome_fornecedor);
   }
 
   public onSearchProduct(): void {
@@ -213,13 +243,16 @@ export class ProductRegisterComponent implements OnChanges {
   }
 
   public updateProduct(): void {
-    if (this.productRegisterForm.invalid || this.isRegisterLoading) {
+    if (this.productRegisterForm.invalid || this.fornecedor.invalid || this.isRegisterLoading) {
       this.productRegisterForm.markAllAsTouched();
+      this.fornecedor.markAsTouched();
       return;
     }
 
     this.isRegisterLoading = true;
     const formValues = this.productRegisterForm.getRawValue();
+
+    formValues.fornecedor_id = Number(formValues.fornecedor_id);
 
     this.productService
       .updateProduct(this.product.id, formValues)

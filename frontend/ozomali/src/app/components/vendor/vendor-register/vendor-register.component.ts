@@ -78,7 +78,7 @@ export class VendorRegisterComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.vendor.currentValue !== changes.vendor.previousValue) {
+    if (changes.vendor?.currentValue !== changes.vendor?.previousValue) {
       this.setVendorForm(this.vendor);
     }
   }

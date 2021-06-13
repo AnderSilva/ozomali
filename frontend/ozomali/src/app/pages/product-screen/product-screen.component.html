@@ -11,6 +11,8 @@
         (clearSearch)="clearSearch()"
         class="product-screen__component"
         [product]="resultProduct"
+        [vendors]="vendors"
+        [vendorNames]="vendorNames"
       ></app-product-register>
 
       <div class="product-screen__search" *ngIf="products && shouldSearch">
@@ -29,7 +31,11 @@
         <img class="product-screen__icons" src="./assets/images/produto.svg" />
         Cadastrar Produto
       </ng-template>
-      <app-product-register class="product-screen__component"></app-product-register>
+      <app-product-register
+        class="product-screen__component"
+        [vendors]="vendors"
+        [vendorNames]="vendorNames"
+      ></app-product-register>
     </mat-tab>
   </mat-tab-group>
 </div>
