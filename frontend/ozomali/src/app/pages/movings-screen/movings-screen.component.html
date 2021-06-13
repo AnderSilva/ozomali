@@ -10,6 +10,8 @@
         [isSearch]="true"
         (results)="setMovings($event)"
         class="movings-screen__component"
+        [products]="products"
+        [productNames]="productNames"
       ></app-moving-register>
 
       <div class="movings-screen__search" *ngIf="movings">
@@ -28,7 +30,11 @@
         <img class="movings-screen__icons" src="./assets/images/produto.svg" />
         Registrar movimentação
       </ng-template>
-      <app-moving-register class="movings-screen__component"></app-moving-register>
+      <app-moving-register
+        class="movings-screen__component"
+        [products]="products"
+        [productNames]="productNames"
+      ></app-moving-register>
     </mat-tab>
   </mat-tab-group>
 </div>

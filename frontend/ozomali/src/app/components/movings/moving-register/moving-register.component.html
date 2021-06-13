@@ -16,9 +16,14 @@
             placeholder=""
             formControlName="tipo_movimentacao"
             (selectionChange)="updateValidity($event.value)"
+            *ngIf="userInfo$ | async as userInfo"
           >
-            <mat-option value="E"> Entrada </mat-option>
-            <mat-option value="S"> Saída </mat-option>
+            <mat-option *ngIf="userInfo.perfil === 'admin' || userInfo.perfil === 'estoque'" value="E">
+              Entrada
+            </mat-option>
+            <mat-option *ngIf="userInfo.perfil === 'admin' || userInfo.perfil === 'venda'" value="S">
+              Saída
+            </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -33,11 +38,20 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="moving-register__form-field moving-register__form-field--others">
-          <mat-label>ID do produto</mat-label>
-          <input mask="999999999999" matInput placeholder="" formControlName="produto_id" />
-          <mat-error *ngIf="productMovingForm.get('produto_id').hasError('required')">
-            Digite o ID do produto
-          </mat-error>
+          <mat-label>Produto</mat-label>
+          <input matInput placeholder="" [formControl]="product" [matAutocomplete]="auto" />
+
+          <mat-autocomplete
+            autoActiveFirstOption
+            #auto="matAutocomplete"
+            (optionSelected)="productChosen($event.option.value)"
+          >
+            <mat-option *ngFor="let product of filteredProducts | async" [value]="product">
+              {{ product }}
+            </mat-option>
+          </mat-autocomplete>
+
+          <mat-error *ngIf="product.hasError('required')"> Digite o nome do produto </mat-error>
         </mat-form-field>
 
         <mat-form-field
@@ -67,39 +81,23 @@
 
 <ng-template #search>
   <div class="moving-register__search">
-    <form [formGroup]="productMovingSearchForm" class="moving-register__form-wrapper">
+    <form class="moving-register__form-wrapper">
       <div class="moving-register__form">
-        <!-- <mat-form-field appearance="outline" class="moving-register__form-field moving-register__form-field--search">
-          <mat-label>Buscar por:</mat-label>
-          <mat-select placeholder="" formControlName="filter" (selectionChange)="updateMask($event.value)">
-            <mat-option value="id"> ID </mat-option>
-            <mat-option value="nome"> Nome </mat-option>
-            <mat-option value="codigo_barra"> Código de barras </mat-option>
-            <mat-option value="ativo"> Status </mat-option>
-            <mat-option value="nome_fornecedor"> Fornecedor </mat-option>
-            <mat-option value="preco_venda_ini"> Preço mínimo </mat-option>
-            <mat-option value="preco_venda_fin"> Preço máximo </mat-option>
-          </mat-select>
-        </mat-form-field> -->
-
-        <!-- <mat-form-field
-          *ngIf="productSearchForm.get('filter').value === 'ativo'"
-          appearance="outline"
-          class="moving-register__form-field moving-register__form-field--search"
-        >
-          <mat-label>Selecione um status</mat-label>
-          <mat-select placeholder="" formControlName="status">
-            <mat-option [value]="true"> Ativo </mat-option>
-            <mat-option [value]="false"> Inativo </mat-option>
-          </mat-select>
-        </mat-form-field> -->
-
-        <!-- *ngIf="productSearchForm.get('filter').value !== 'ativo'" -->
-
         <mat-form-field appearance="outline" class="moving-register__form-field moving-register__form-field--search">
-          <mat-label>ID do produto</mat-label>
-          <input matInput placeholder="" formControlName="id" />
-          <mat-error *ngIf="productMovingSearchForm.get('id').hasError('required')"> Digite o ID do produto </mat-error>
+          <mat-label>Produto</mat-label>
+          <input matInput placeholder="" [formControl]="product" [matAutocomplete]="auto" />
+
+          <mat-autocomplete
+            autoActiveFirstOption
+            #auto="matAutocomplete"
+            (optionSelected)="productChosen($event.option.value)"
+          >
+            <mat-option *ngFor="let product of filteredProducts | async" [value]="product">
+              {{ product }}
+            </mat-option>
+          </mat-autocomplete>
+
+          <mat-error *ngIf="product.hasError('required')"> Digite o nome do produto </mat-error>
         </mat-form-field>
       </div>
 

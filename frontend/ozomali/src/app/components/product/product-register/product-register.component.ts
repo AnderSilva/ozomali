@@ -61,9 +61,9 @@ export class ProductRegisterComponent implements OnChanges, OnInit {
   }
 
   private filterVendors(value: string): string[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = value?.toLowerCase();
 
-    return this.vendorNames.filter(option => option.toLowerCase().includes(filterValue));
+    return this.vendorNames.filter(option => option?.toLowerCase().includes(filterValue));
   }
 
   public vendorChosen(vendorName: string): void {
@@ -81,6 +81,7 @@ export class ProductRegisterComponent implements OnChanges, OnInit {
   public clearForm(): void {
     this.clearSearch.emit();
     this.productRegisterForm.reset();
+    this.fornecedor.reset();
     this.product = undefined;
   }
 

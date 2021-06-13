@@ -1,27 +1,39 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { filter, switchMap, take } from 'rxjs/operators';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { filter, map, startWith, switchMap, take } from 'rxjs/operators';
 import { MovingsService } from 'src/app/services/movings/movings.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
+import { UserQuery } from 'src/app/stores/user';
 
 @Component({
   selector: 'app-moving-register',
   templateUrl: './moving-register.component.html',
   styleUrls: ['./moving-register.component.scss'],
 })
-export class MovingRegisterComponent {
+export class MovingRegisterComponent implements OnInit {
   public productMovingForm: FormGroup;
-  public productMovingSearchForm: FormGroup;
   public isMovingLoading: boolean;
 
   @Input() public isSearch: boolean;
   @Output() public results = new EventEmitter<any>();
 
+  @Input() public products: any;
+  @Input() public productNames: string[];
+
+  public filteredProducts: Observable<string[]>;
+  public product: FormControl;
+
+  public userInfo$: Observable<any>;
+
   constructor(
     private formBuilder: FormBuilder,
     private notifications: NotificationService,
     private movingsService: MovingsService,
+    private userQuery: UserQuery,
   ) {
+    this.product = new FormControl('', Validators.required);
+
     this.productMovingForm = this.formBuilder.group({
       local_estoque: ['', Validators.required],
       tipo_movimentacao: ['', Validators.required],
@@ -30,15 +42,31 @@ export class MovingRegisterComponent {
       preco_total: ['', Validators.required],
     });
 
-    this.productMovingSearchForm = this.formBuilder.group({
-      id: ['', Validators.required],
-    });
+    this.userInfo$ = this.userQuery.userInfo$;
+  }
+
+  ngOnInit(): void {
+    this.filteredProducts = this.product.valueChanges.pipe(
+      startWith(''),
+      map(value => this.filterProducts(value)),
+    );
+  }
+
+  private filterProducts(value: string): string[] {
+    const filterValue = value?.toLowerCase();
+
+    return this.productNames.filter(option => option?.toLowerCase().includes(filterValue));
+  }
+
+  public productChosen(productName: string): void {
+    const matchProduct = this.products.find((product: any) => product.nome === productName);
+
+    this.productMovingForm.get('produto_id').setValue(matchProduct.id);
   }
 
   public clearForm(): void {
-    // this.clearSearch.emit();
     this.productMovingForm.reset();
-    // this.product = undefined;
+    this.product.reset();
   }
 
   public updateValidity(value: string): void {
@@ -57,8 +85,9 @@ export class MovingRegisterComponent {
   }
 
   public registerMoving(): void {
-    if (this.productMovingForm.invalid || this.isMovingLoading) {
+    if (this.productMovingForm.invalid || this.product.invalid || this.isMovingLoading) {
       this.productMovingForm.markAllAsTouched();
+      this.product.markAsTouched();
       return;
     }
 
@@ -90,6 +119,7 @@ export class MovingRegisterComponent {
       .subscribe(
         response => {
           this.productMovingForm.reset();
+          this.product.reset();
           this.isMovingLoading = false;
           this.notifications.feedbackModal(response);
         },
@@ -101,14 +131,14 @@ export class MovingRegisterComponent {
   }
 
   public onSearchProductMovings(): void {
-    if (this.productMovingSearchForm.invalid || this.isMovingLoading) {
-      this.productMovingSearchForm.markAllAsTouched();
+    if (this.product.invalid || this.isMovingLoading) {
+      this.product.markAllAsTouched();
       return;
     }
 
     this.isMovingLoading = true;
 
-    const id = this.productMovingSearchForm.get('id').value;
+    const id = Number(this.productMovingForm.get('produto_id').value);
 
     this.movingsService
       .getMovings(id)
