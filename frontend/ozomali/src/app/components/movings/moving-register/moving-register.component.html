@@ -4,7 +4,7 @@
       <div class="moving-register__form-field--wrapper">
         <mat-form-field appearance="outline" class="moving-register__form-field moving-register__form-field--name">
           <mat-label>Local de estoque</mat-label>
-          <input matInput placeholder="" formControlName="local_estoque" />
+          <input matInput placeholder="Fundos, terceiro andar" formControlName="local_estoque" />
           <mat-error *ngIf="productMovingForm.get('local_estoque').hasError('required')">
             Digite o local de estoque
           </mat-error>
@@ -13,7 +13,6 @@
         <mat-form-field appearance="outline" class="moving-register__form-field moving-register__form-field--others">
           <mat-label>Tipo de movimentação</mat-label>
           <mat-select
-            placeholder=""
             formControlName="tipo_movimentacao"
             (selectionChange)="updateValidity($event.value)"
             *ngIf="userInfo$ | async as userInfo"
@@ -31,7 +30,7 @@
       <div class="moving-register__form-field--wrapper">
         <mat-form-field appearance="outline" class="moving-register__form-field moving-register__form-field--others">
           <mat-label>Quantidade</mat-label>
-          <input mask="999999999999" matInput placeholder="" formControlName="quantidade" />
+          <input mask="999999999999" matInput placeholder="542" formControlName="quantidade" />
           <mat-error *ngIf="productMovingForm.get('quantidade').hasError('required')">
             Digite a quantidade de peças
           </mat-error>
@@ -39,7 +38,7 @@
 
         <mat-form-field appearance="outline" class="moving-register__form-field moving-register__form-field--others">
           <mat-label>Produto</mat-label>
-          <input matInput placeholder="" [formControl]="product" [matAutocomplete]="auto" />
+          <input matInput placeholder="Camisa Preta PP Moda Verão" [formControl]="product" [matAutocomplete]="auto" />
 
           <mat-autocomplete
             autoActiveFirstOption
@@ -60,7 +59,7 @@
           class="moving-register__form-field moving-register__form-field--others"
         >
           <mat-label>Preço da compra</mat-label>
-          <input currencyMask matInput placeholder="" formControlName="preco_total" />
+          <input currencyMask matInput formControlName="preco_total" />
           <mat-error *ngIf="productMovingForm.get('preco_total').hasError('required')">
             Digite o valor dessa compra de estoque
           </mat-error>
@@ -85,7 +84,7 @@
       <div class="moving-register__form">
         <mat-form-field appearance="outline" class="moving-register__form-field moving-register__form-field--search">
           <mat-label>Produto</mat-label>
-          <input matInput placeholder="" [formControl]="product" [matAutocomplete]="auto" />
+          <input matInput placeholder="Camisa Preta PP Moda Verão" [formControl]="product" [matAutocomplete]="auto" />
 
           <mat-autocomplete
             autoActiveFirstOption

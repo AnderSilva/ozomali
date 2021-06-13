@@ -3,7 +3,7 @@
     <div class="vendor-register__form">
       <mat-form-field appearance="outline" class="vendor-register__form-field vendor-register__form-field--cnpj">
         <mat-label>CNPJ</mat-label>
-        <input matInput placeholder="" mask="CPF_CNPJ" formControlName="cnpj" />
+        <input matInput placeholder="00.000.000/0000-00" mask="CPF_CNPJ" formControlName="cnpj" />
         <mat-error *ngIf="vendorRegisterForm.get('cnpj').hasError('required')"> Digite um CNPJ válido </mat-error>
       </mat-form-field>
 
@@ -14,7 +14,7 @@
           [ngClass]="isSearch ? 'vendor-register__form-field--address' : 'vendor-register__form-field--name'"
         >
           <mat-label>Nome</mat-label>
-          <input matInput placeholder="" formControlName="nome" />
+          <input matInput placeholder="Confecção de peças Ozomali" formControlName="nome" />
           <mat-error *ngIf="vendorRegisterForm.get('nome').hasError('required')">
             Digite o nome do fornecedor
           </mat-error>
@@ -26,7 +26,7 @@
           class="vendor-register__form-field vendor-register__form-field--others"
         >
           <mat-label>ID do Fornecedor</mat-label>
-          <input matInput placeholder="" formControlName="id" />
+          <input matInput formControlName="id" />
         </mat-form-field>
 
         <mat-form-field
@@ -35,7 +35,7 @@
           class="vendor-register__form-field vendor-register__form-field--others"
         >
           <mat-label>Status</mat-label>
-          <mat-select placeholder="" formControlName="ativo">
+          <mat-select formControlName="ativo">
             <mat-option [value]="true"> Ativo </mat-option>
             <mat-option [value]="false"> Inativo </mat-option>
           </mat-select>
@@ -45,13 +45,13 @@
       <div class="vendor-register__form-field--wrapper">
         <mat-form-field appearance="outline" class="vendor-register__form-field vendor-register__form-field--cep">
           <mat-label>CEP</mat-label>
-          <input matInput placeholder="" mask="00000-000" formControlName="cep" />
+          <input matInput placeholder="00000-000" mask="00000-000" formControlName="cep" />
           <mat-error *ngIf="vendorRegisterForm.get('cep').hasError('required')"> Digite um CEP válido </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="vendor-register__form-field vendor-register__form-field--address">
           <mat-label>Endereço</mat-label>
-          <input matInput placeholder="" formControlName="logradouro" />
+          <input matInput placeholder="Rua/Avenida Dom Pedro I" formControlName="logradouro" />
           <mat-error *ngIf="vendorRegisterForm.get('logradouro').hasError('required')">
             Digite o endereço do fornecedor
           </mat-error>
@@ -59,7 +59,7 @@
 
         <mat-form-field appearance="outline" class="vendor-register__form-field vendor-register__form-field--district">
           <mat-label>Bairro</mat-label>
-          <input matInput placeholder="" formControlName="bairro" />
+          <input matInput placeholder="Cambuci" formControlName="bairro" />
           <mat-error *ngIf="vendorRegisterForm.get('bairro').hasError('required')"> Digite um bairro válido </mat-error>
         </mat-form-field>
       </div>
@@ -67,7 +67,7 @@
       <div class="vendor-register__form-field--wrapper">
         <mat-form-field appearance="outline" class="vendor-register__form-field vendor-register__form-field--others">
           <mat-label>Número</mat-label>
-          <input matInput placeholder="" mask="9999999999" formControlName="numero" />
+          <input matInput placeholder="1248" mask="9999999999" formControlName="numero" />
           <mat-error *ngIf="vendorRegisterForm.get('numero').hasError('required')">
             Digite o número do endereço
           </mat-error>
@@ -75,17 +75,17 @@
 
         <mat-form-field appearance="outline" class="vendor-register__form-field vendor-register__form-field--others">
           <mat-label>Complemento</mat-label>
-          <input matInput placeholder="" formControlName="complemento" />
+          <input matInput placeholder="bloco B/apto 22" formControlName="complemento" />
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="vendor-register__form-field vendor-register__form-field--others">
           <mat-label>Cidade</mat-label>
-          <input matInput placeholder="" formControlName="cidade" />
+          <input matInput placeholder="São Paulo" formControlName="cidade" />
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="vendor-register__form-field vendor-register__form-field--others">
           <mat-label>Estado</mat-label>
-          <input matInput placeholder="" mask="SS" formControlName="estado" />
+          <input matInput placeholder="SP" mask="SS" formControlName="estado" />
         </mat-form-field>
       </div>
     </div>
@@ -109,7 +109,6 @@
         <mat-form-field appearance="outline" class="vendor-register__form-field vendor-register__form-field--search">
           <mat-label>Buscar por:</mat-label>
           <mat-select
-            placeholder=""
             formControlName="filter"
             (selectionChange)="updateMask($event.value); updateValidity($event.value)"
           >
@@ -133,7 +132,7 @@
           class="vendor-register__form-field vendor-register__form-field--search"
         >
           <mat-label>Selecione um status</mat-label>
-          <mat-select placeholder="" formControlName="status">
+          <mat-select formControlName="status">
             <mat-option [value]="true"> Ativo </mat-option>
             <mat-option [value]="false"> Inativo </mat-option>
           </mat-select>
@@ -145,7 +144,7 @@
           class="vendor-register__form-field vendor-register__form-field--search"
         >
           <mat-label>ID, CNPJ, Nome, Endereço...</mat-label>
-          <input matInput [mask]="mask" placeholder="" formControlName="param" />
+          <input matInput [mask]="mask" placeholder="Parâmetro relevante ao filtro escolhido" formControlName="param" />
           <mat-error *ngIf="vendorSearchForm.get('param').hasError('required')">
             Digite um parâmetro para a busca
           </mat-error>

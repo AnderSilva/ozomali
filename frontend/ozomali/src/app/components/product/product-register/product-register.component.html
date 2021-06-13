@@ -8,7 +8,7 @@
           [ngClass]="isSearch ? 'product-register__form-field--others' : 'product-register__form-field--name'"
         >
           <mat-label>Nome</mat-label>
-          <input matInput placeholder="" formControlName="nome" />
+          <input matInput placeholder="Camisa Preta PP Moda Verão" formControlName="nome" />
           <mat-error *ngIf="productRegisterForm.get('nome').hasError('required')"> Digite o nome do produto </mat-error>
         </mat-form-field>
 
@@ -18,7 +18,7 @@
           class="product-register__form-field product-register__form-field--others"
         >
           <mat-label>Status</mat-label>
-          <mat-select placeholder="" formControlName="ativo">
+          <mat-select formControlName="ativo">
             <mat-option [value]="true"> Ativo </mat-option>
             <mat-option [value]="false"> Inativo </mat-option>
           </mat-select>
@@ -28,7 +28,12 @@
       <div class="product-register__form-field--wrapper">
         <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--others">
           <mat-label>Código de barras</mat-label>
-          <input matInput placeholder="" mask="999999999999999999999999" formControlName="codigo_barra" />
+          <input
+            matInput
+            placeholder="555444332221568754456745"
+            mask="999999999999999999999999"
+            formControlName="codigo_barra"
+          />
           <mat-error *ngIf="productRegisterForm.get('codigo_barra').hasError('required')">
             Digite o código de barras do produto
           </mat-error>
@@ -36,7 +41,12 @@
 
         <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--others">
           <mat-label>Fornecedor</mat-label>
-          <input matInput placeholder="" [formControl]="fornecedor" [matAutocomplete]="auto" />
+          <input
+            matInput
+            placeholder="Confecção de peças Ozomali"
+            [formControl]="fornecedor"
+            [matAutocomplete]="auto"
+          />
           <mat-autocomplete
             autoActiveFirstOption
             #auto="matAutocomplete"
@@ -52,7 +62,7 @@
 
         <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--others">
           <mat-label>Preço</mat-label>
-          <input currencyMask matInput placeholder="" formControlName="preco_venda" />
+          <input currencyMask matInput formControlName="preco_venda" />
           <mat-error *ngIf="productRegisterForm.get('preco_venda').hasError('required')">
             Digite o preco do produto
           </mat-error>
@@ -62,12 +72,12 @@
       <div class="product-register__form-field--wrapper" *ngIf="isSearch">
         <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--others">
           <mat-label>ID do Produto</mat-label>
-          <input matInput placeholder="" formControlName="id" />
+          <input matInput formControlName="id" />
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--others">
           <mat-label>Saldo em estoque</mat-label>
-          <input matInput placeholder="" formControlName="saldo" />
+          <input matInput formControlName="saldo" />
         </mat-form-field>
       </div>
     </div>
@@ -90,7 +100,6 @@
         <mat-form-field appearance="outline" class="product-register__form-field product-register__form-field--search">
           <mat-label>Buscar por:</mat-label>
           <mat-select
-            placeholder=""
             formControlName="filter"
             (selectionChange)="updateMask($event.value); updateValidity($event.value)"
           >
@@ -110,7 +119,7 @@
           class="product-register__form-field product-register__form-field--search"
         >
           <mat-label>Selecione um status</mat-label>
-          <mat-select placeholder="" formControlName="status">
+          <mat-select formControlName="status">
             <mat-option [value]="true"> Ativo </mat-option>
             <mat-option [value]="false"> Inativo </mat-option>
           </mat-select>
@@ -126,7 +135,7 @@
           class="product-register__form-field product-register__form-field--search"
         >
           <mat-label>ID, Nome, Código...</mat-label>
-          <input matInput [mask]="mask" placeholder="" formControlName="param" />
+          <input matInput [mask]="mask" placeholder="Parâmetro relevante ao filtro escolhido" formControlName="param" />
           <mat-error *ngIf="productSearchForm.get('param').hasError('required')">
             Digite um parâmetro para a busca
           </mat-error>
@@ -142,7 +151,7 @@
           class="product-register__form-field product-register__form-field--search"
         >
           <mat-label>Preço</mat-label>
-          <input matInput currencyMask placeholder="" formControlName="price" />
+          <input matInput currencyMask formControlName="price" />
           <mat-error *ngIf="productSearchForm.get('price').hasError('required')">
             Digite um preço para a busca
           </mat-error>
