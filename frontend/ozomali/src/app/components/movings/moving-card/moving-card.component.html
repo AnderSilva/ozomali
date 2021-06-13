@@ -6,7 +6,7 @@
 
   <div class="c-moving-card__wrapper">
     <span class="c-moving-card__unit">Quantidade: {{ moving.quantidade }}</span>
-    <span class="c-moving-card__second">Preço total: {{ moving.preco_total }}</span>
+    <span class="c-moving-card__second">Preço total: {{ moving.preco_total | currency: 'BRL' }}</span>
   </div>
 
   <div class="c-moving-card__wrapper">

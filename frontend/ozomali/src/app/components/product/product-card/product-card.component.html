@@ -14,7 +14,7 @@
   </div>
 
   <div class="c-product-card__wrapper c-product-card__wrapper--last">
-    <span class="c-product-card__price">Preço: {{ product.preco_venda }}</span>
+    <span class="c-product-card__price">Preço: {{ product.preco_venda | currency: 'BRL' }}</span>
     <span class="c-product-card__stock">Estoque: {{ product.saldo }}</span>
   </div>
 </div>
