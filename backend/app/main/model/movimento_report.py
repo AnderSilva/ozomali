@@ -21,13 +21,13 @@ class MovimentoReport(db.Model):
         self.data_filtro = data_filtro
         self.visao_filtro = visao_filtro
         self.periodo = periodo
-        self.vendas = vendas
-        self.compras = compras
-        self.lucro_prejuizo = lucro_prejuizo
-        self.ticket_medio = ticket_medio
+        self.vendas = round(vendas, ndigits=2)
+        self.compras = round(compras, ndigits=2)
+        self.lucro_prejuizo = round(lucro_prejuizo, ndigits=2)
+        self.ticket_medio = round(ticket_medio, ndigits=2)
 
 #CREATE OR REPLACE VIEW vw_movimentacao_report AS
-# select row_number() over(ORDER BY data_filtro) as id, data_filtro, visao_filtro, periodo, vendas, compras, lucro_prejuizo, ticket_medio from ( 
+# select row_number() over(ORDER BY data_filtro) as id, data_filtro, visao_filtro, periodo, round(cast(vendas as numeric),2) vendas, round(cast(compras as numeric),2) compras, round(cast(lucro_prejuizo as numeric),2) lucro_prejuizo,round(cast(ticket_medio as numeric),2) ticket_medio from ( 
 # select TO_CHAR(m.data_movimentacao,'Mon/yy') as periodo, TO_CHAR(m.data_movimentacao,'yyyyMM01') as data_filtro,
 # 'Mensal' as visao_filtro, 
 # sum(case when m.tipo_movimentacao = 'S' then m.preco_total else 0 end) as vendas,

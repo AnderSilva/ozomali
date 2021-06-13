@@ -34,8 +34,8 @@ def admin_token_required(f: Callable) -> Callable:
         admin = token.get('perfil')
         if not admin or admin != 'admin':
             response_object = {
-                'status': 'falha',
-                'message': 'requirido token admin'
+                'status': 'Falha',
+                'message': 'Acesso não autorizado'
             }
             return response_object, 401
 

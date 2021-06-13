@@ -58,7 +58,7 @@ class SaldoMovimentacaoPorProduto(Resource):
 class ReportMovimentacao(Resource):
     @api.doc('report_movimentacao')
     @api.doc(security='apikey')
-    @token_required
+    @admin_token_required
     @api.expect(_movimentacao_report_filtro, validate=True)
     @api.marshal_list_with(_movimentacao_report, envelope='data')
     def post(self,ativo=True):

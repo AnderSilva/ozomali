@@ -73,9 +73,9 @@ class Usuario(db.Model):
             else:
                 return payload['uid']
         except jwt.ExpiredSignatureError:
-            return 'Senha expirada. Por favor realizar o login novamente.'
+            return 'Token expirado. Por favor realizar o login novamente.'
         except jwt.InvalidTokenError:
-            return 'Senha inválida. Por favor realizar o login novamente.'
+            return 'Token inválido. Por favor realizar o login novamente.'
 
     def __repr__(self):
         return "<Usuario '{}'>".format(self.login)

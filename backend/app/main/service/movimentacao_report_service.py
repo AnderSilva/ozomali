@@ -61,7 +61,7 @@ def movimentacao_report_by_periodo(data):
         filters += " AND "
         filters += "data_filtro <= '" + data.get('data_final','') + "'"
     data_report = MovimentoReport.query.filter(text(filters)).all()
-    data_report = addPeriodoVazios(data_report, data)    
+    data_report = addPeriodoVazios(data_report, data)
     data_report.sort(key=get_movi_order)
     return data_report
 

@@ -20,7 +20,7 @@ class Produto(db.Model):
     def preco_venda(self):        
         for p in self.precos:
             if p.ativo:
-                return p.preco_venda
+                return round(p.preco_venda, ndigits=2)
         return 0
     @hybrid_property
     def saldo(self):        

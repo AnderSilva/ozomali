@@ -33,6 +33,13 @@ def save_new_product(data: Dict[str, str], authenticate: Authenticate) -> Tuple[
             'message': 'Fornecedor não encontrado.',
         }
         return response_object, 404
+    
+    if fornecedor.ativo==False:
+        response_object = {
+            'status': 'Falha',
+            'message': 'Não é possível incluir o produto de um fornecedor inativo.',
+        }
+        return response_object, 404
 
     if not produto:
         novo_produto = Produto(
@@ -103,8 +110,8 @@ def update_product(produto: Produto,data, authenticate: Authenticate) -> Tuple[D
         }
     return response_object, 200   
 
-def get_all_products(ativo=False):
-    p = Produto.query.filter_by(ativo=ativo).all()    
+def get_all_products():
+    p = Produto.query.all()    
     return p
 
 def get_search_products(data):
