@@ -83,10 +83,14 @@
       user-select: none;
       border-radius: 10px;
       padding: 10px 0 10px 10px;
-      background-color: #3372eb;
+      background-color: #5d8ff0;
 
       &--first {
         margin-top: 0;
+      }
+
+      &--active {
+        background-color: #3372eb;
       }
 
       &-image {

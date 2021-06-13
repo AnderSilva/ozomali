@@ -12,22 +12,43 @@
   </div>
   <div class="header-menu__wrapper">
     <div class="header-menu__menu">
-      <!-- <div matRipple>
-        <p class="header-menu__menu-title" [routerLink]="['']">Menu principal</p>
-      </div> -->
-      <div matRipple class="header-menu__menu-buttons header-menu__menu-buttons--first" [routerLink]="['fornecedores']">
+      <div
+        matRipple
+        class="header-menu__menu-buttons header-menu__menu-buttons--first"
+        [routerLink]="['/fornecedores']"
+        [routerLinkActive]="['header-menu__menu-buttons--active']"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
         <img class="header-menu__menu-buttons-image" src="./assets/images/icone-fornecedor-menu.svg" />
         <p class="header-menu__menu-buttons-text">Fornecedores</p>
       </div>
-      <div matRipple class="header-menu__menu-buttons" [routerLink]="['produtos']">
+      <div
+        matRipple
+        class="header-menu__menu-buttons"
+        [routerLink]="['/produtos']"
+        [routerLinkActive]="['header-menu__menu-buttons--active']"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
         <img class="header-menu__menu-buttons-image" src="./assets/images/icone-produtos-menu.svg" />
         <p class="header-menu__menu-buttons-text">Produtos</p>
       </div>
-      <div matRipple class="header-menu__menu-buttons" [routerLink]="['movimentacoes']">
+      <div
+        matRipple
+        class="header-menu__menu-buttons"
+        [routerLink]="['/movimentacoes']"
+        [routerLinkActive]="['header-menu__menu-buttons--active']"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
         <img class="header-menu__menu-buttons-image" src="./assets/images/cart.svg" />
         <p class="header-menu__menu-buttons-text">Movimentações</p>
       </div>
-      <div matRipple class="header-menu__menu-buttons" [routerLink]="['relatorios']">
+      <div
+        matRipple
+        class="header-menu__menu-buttons"
+        [routerLink]="['/relatorios']"
+        [routerLinkActive]="['header-menu__menu-buttons--active']"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
         <img class="header-menu__menu-buttons-image" src="./assets/images/reports.svg" />
         <p class="header-menu__menu-buttons-text">Relatórios</p>
       </div>
