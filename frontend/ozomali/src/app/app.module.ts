@@ -27,6 +27,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { DatePipe } from '@angular/common';
 import { ReportScreenComponent } from './pages/report-screen/report-screen.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { NotAuthorizedComponent } from './pages/not-authorized/not-authorized.component';
 
 export const currencyMaskConfig: CurrencyMaskConfig = {
   align: 'left',
@@ -47,6 +49,8 @@ export const currencyMaskConfig: CurrencyMaskConfig = {
     LoginScreenComponent,
     MovingsScreenComponent,
     ReportScreenComponent,
+    NotFoundComponent,
+    NotAuthorizedComponent,
   ],
   imports: [
     BrowserModule,
