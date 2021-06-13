@@ -15,4 +15,16 @@
     width: 500px;
     height: 500px;
   }
+
+  &__button {
+    color: #e7eced;
+    background-color: #3372eb;
+    font-size: 24px;
+    margin-top: 15px;
+    padding: 10px 10px;
+    border-radius: 5px;
+    border: unset;
+    user-select: none;
+    cursor: pointer;
+  }
 }
