@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserQuery } from 'src/app/stores/user';
+import { UserQuery, UserService } from 'src/app/stores/user';
 
 @Component({
   selector: 'app-header-menu',
@@ -8,14 +8,13 @@ import { UserQuery } from 'src/app/stores/user';
   styleUrls: ['./header-menu.component.scss'],
 })
 export class HeaderMenuComponent {
-  @Output() public shouldLogout: EventEmitter<void> = new EventEmitter();
   userInfo$: Observable<any>;
 
-  constructor(private userQuery: UserQuery) {
+  constructor(private userQuery: UserQuery, private userService: UserService) {
     this.userInfo$ = this.userQuery.userInfo$;
   }
 
   public logout(): void {
-    this.shouldLogout.emit();
+    this.userService.logout();
   }
 }

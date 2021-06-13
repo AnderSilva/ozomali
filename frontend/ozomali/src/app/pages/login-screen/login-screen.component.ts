@@ -6,6 +6,7 @@ import { UserService } from 'src/app/stores/user/user.service';
 import { UserQuery } from 'src/app/stores/user';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import jwt_decode from 'jwt-decode';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-screen',
@@ -22,6 +23,7 @@ export class LoginScreenComponent {
     private userQuery: UserQuery,
     private userService: UserService,
     private notifications: NotificationService,
+    private router: Router,
   ) {
     this.isAuthLoading = false;
     this.isAuthenticated$ = this.userQuery.isAuthenticated$;
@@ -49,6 +51,7 @@ export class LoginScreenComponent {
           const userInfo = jwt_decode(response.Authorization);
           this.userService.updateAuthentication(response.Authorization, userInfo);
           this.loginForm.reset();
+          this.router.navigate(['']);
           this.notifications.feedbackModal(response);
         },
         response => {
@@ -56,9 +59,5 @@ export class LoginScreenComponent {
           this.notifications.feedbackModal(response);
         },
       );
-  }
-
-  public logoff(): void {
-    this.userService.logout();
   }
 }
