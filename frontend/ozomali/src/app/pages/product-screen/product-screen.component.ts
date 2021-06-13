@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { take } from 'rxjs/operators';
+import { NotificationService } from 'src/app/services/notification/notification.service';
 import { VendorService } from 'src/app/services/vendor/vendor.service';
 
 @Component({
@@ -15,7 +16,7 @@ export class ProductScreenComponent implements OnInit {
   public vendors: any;
   public vendorNames: string[];
 
-  constructor(private vendorService: VendorService) {
+  constructor(private vendorService: VendorService, private notifications: NotificationService) {
     this.shouldSearch = true;
     this.vendors = [];
     this.vendorNames = [];
@@ -43,12 +44,16 @@ export class ProductScreenComponent implements OnInit {
     this.vendorService
       .getVendors()
       .pipe(take(1))
-      .subscribe(vendors => {
-        this.vendors = vendors?.data;
-
-        vendors?.data.forEach((vendor: any) => {
-          this.vendorNames.push(vendor.nome);
-        });
-      });
+      .subscribe(
+        vendors => {
+          this.vendors = vendors?.data;
+          vendors?.data.forEach((vendor: any) => {
+            this.vendorNames.push(vendor.nome);
+          });
+        },
+        response => {
+          this.notifications.feedbackModal(response);
+        },
+      );
   }
 }

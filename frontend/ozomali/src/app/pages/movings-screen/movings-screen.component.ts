@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { take } from 'rxjs/operators';
+import { NotificationService } from 'src/app/services/notification/notification.service';
 import { ProductService } from 'src/app/services/product/product.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class MovingsScreenComponent implements OnInit {
   public products: any;
   public productNames: string[];
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService, private notifications: NotificationService) {
     this.products = [];
     this.productNames = [];
   }
@@ -30,12 +31,17 @@ export class MovingsScreenComponent implements OnInit {
     this.productService
       .getProducts()
       .pipe(take(1))
-      .subscribe(products => {
-        this.products = products?.data;
+      .subscribe(
+        products => {
+          this.products = products?.data;
 
-        products?.data.forEach((vendor: any) => {
-          this.productNames.push(vendor.nome);
-        });
-      });
+          products?.data.forEach((vendor: any) => {
+            this.productNames.push(vendor.nome);
+          });
+        },
+        response => {
+          this.notifications.feedbackModal(response);
+        },
+      );
   }
 }

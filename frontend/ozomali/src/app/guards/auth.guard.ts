@@ -14,7 +14,7 @@ export class AuthGuard implements CanLoad {
   }
 
   canLoad(): boolean {
-    let isAuthenticated: boolean = false;
+    let isAuthenticated = false;
 
     this.isAuthenticated$.subscribe(authenticated => (isAuthenticated = authenticated));
 
