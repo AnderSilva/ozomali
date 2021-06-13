@@ -10,7 +10,7 @@ class Auth:
         try:           
             # fetch the usuario data
             usuario = Usuario.query.filter_by(login=data.get('login')).first()
-            if usuario and usuario.check_senha(data.get('senha')):
+            if usuario and usuario.check_senha(data.get('senha')) and usuario.ativo==True:
                 auth_token = Usuario.encode_auth_token(usuario.id, usuario.nome, usuario.login, usuario.perfil.nome)
                 if auth_token:
                     response_object = {
