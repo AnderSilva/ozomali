@@ -22,7 +22,7 @@ import { MovingCardComponent } from './movings/moving-card/moving-card.component
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { ChartsModule } from 'ng2-charts';
 import { ReportsComponent } from './reports/reports.component';
-
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 @NgModule({
   declarations: [
     HeaderMenuComponent,
@@ -51,6 +51,7 @@ import { ReportsComponent } from './reports/reports.component';
     MatSelectModule,
     CurrencyMaskModule,
     ChartsModule,
+    MatAutocompleteModule,
   ],
   exports: [
     HeaderMenuComponent,
