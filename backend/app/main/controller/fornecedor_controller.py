@@ -20,15 +20,15 @@ class FornecedorAPI(Resource):
     @api.doc(security='apikey')
     @token_required
     @api.marshal_list_with(_fornecedorlista, envelope='data')
-    def get(self,ativo=True):
+    def get(self):
         """Lista todos fornecedores"""
-        return get_all_vendors(ativo)
+        return get_all_vendors()
 
     @api.expect(_fornecedorinsert, validate=True)
     @api.response(201, 'Fornecedor criado com sucesso.')
     @api.doc('cria um novo fornecedor')
     @api.doc(security='apikey')
-    @token_required
+    @admin_token_required
     def post(self) -> Tuple[Dict[str, str], int]:
         data = request.json
         return save_new_vendor(data=data)

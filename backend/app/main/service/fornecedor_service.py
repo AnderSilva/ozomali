@@ -61,8 +61,8 @@ def update_vendor(fornecedor: Fornecedor,data)-> Tuple[Dict[str, str], int]:
         }
     return response_object, 200    
 
-def get_all_vendors(ativo=False):    
-    return Fornecedor.query.filter_by(ativo=ativo).all()
+def get_all_vendors():    
+    return Fornecedor.query.all()
 
 def get_search_vendors(data):
     filters = ''

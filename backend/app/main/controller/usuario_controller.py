@@ -16,7 +16,7 @@ _usuarioupdate = UsuarioDto.usuarioupdate
 class UsuarioList(Resource):
     @api.doc('list_of_registered_users')
     @api.doc(security='apikey')
-    @token_required
+    @admin_token_required
     @api.marshal_list_with(_usuariolist, envelope='data')
     def get(self,ativo=True):
         """Lista todos usuários"""
@@ -37,7 +37,7 @@ class UsuarioList(Resource):
 class UsuarioId(Resource):    
     @api.marshal_with(_usuariolist)
     @api.doc(security='apikey')
-    @token_required
+    @admin_token_required
     def get(self, id):
         """Obtem informações de um usuário com base no seu id"""
         usuario = get_a_user('id',id)
@@ -80,7 +80,7 @@ class UsuarioId(Resource):
 class Usuario(Resource):    
     @api.marshal_with(_usuariolist, envelope='data')
     @api.doc(security='apikey')
-    @token_required
+    @admin_token_required
     def get(self, campo, valor):
         """Lista de usuários filtrados por campo/valor"""
         usuarios = get_a_user(campo,valor)
