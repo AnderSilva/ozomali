@@ -31,9 +31,9 @@ export class MovingsScreenComponent implements OnInit {
       .getProducts()
       .pipe(take(1))
       .subscribe(products => {
-        this.products = products.data;
+        this.products = products?.data;
 
-        products.data.forEach((vendor: any) => {
+        products?.data.forEach((vendor: any) => {
           this.productNames.push(vendor.nome);
         });
       });

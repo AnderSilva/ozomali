@@ -44,9 +44,9 @@ export class ProductScreenComponent implements OnInit {
       .getVendors()
       .pipe(take(1))
       .subscribe(vendors => {
-        this.vendors = vendors.data;
+        this.vendors = vendors?.data;
 
-        vendors.data.forEach((vendor: any) => {
+        vendors?.data.forEach((vendor: any) => {
           this.vendorNames.push(vendor.nome);
         });
       });

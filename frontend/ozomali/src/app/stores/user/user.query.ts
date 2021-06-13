@@ -15,4 +15,8 @@ export class UserQuery extends Query<UserState> {
   get token(): string {
     return this.getValue().token;
   }
+
+  get userInfo(): any {
+    return this.getValue().userInfo;
+  }
 }
