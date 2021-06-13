@@ -5,6 +5,11 @@
         <mat-label>CNPJ</mat-label>
         <input matInput placeholder="00.000.000/0000-00" mask="CPF_CNPJ" formControlName="cnpj" />
         <mat-error *ngIf="vendorRegisterForm.get('cnpj').hasError('required')"> Digite um CNPJ válido </mat-error>
+        <mat-error
+          *ngIf="!vendorRegisterForm.get('cnpj').hasError('required') && vendorRegisterForm.get('cnpj').errors !== null"
+        >
+          Digite um CNPJ válido
+        </mat-error>
       </mat-form-field>
 
       <div class="vendor-register__form-field--wrapper">
@@ -81,11 +86,13 @@
         <mat-form-field appearance="outline" class="vendor-register__form-field vendor-register__form-field--others">
           <mat-label>Cidade</mat-label>
           <input matInput placeholder="São Paulo" formControlName="cidade" />
+          <mat-error *ngIf="vendorRegisterForm.get('cidade').hasError('required')"> Digite a cidade </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="vendor-register__form-field vendor-register__form-field--others">
           <mat-label>Estado</mat-label>
           <input matInput placeholder="SP" mask="SS" formControlName="estado" />
+          <mat-error *ngIf="vendorRegisterForm.get('estado').hasError('required')"> Digite o estado </mat-error>
         </mat-form-field>
       </div>
     </div>
@@ -124,6 +131,7 @@
             <mat-option value="estado"> Estado </mat-option>
             <mat-option value="cep"> CEP </mat-option>
           </mat-select>
+          <mat-error *ngIf="vendorSearchForm.get('filter').hasError('required')">Escolha um filtro</mat-error>
         </mat-form-field>
 
         <mat-form-field

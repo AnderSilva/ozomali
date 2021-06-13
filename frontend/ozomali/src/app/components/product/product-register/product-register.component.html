@@ -111,6 +111,7 @@
             <mat-option value="preco_venda_ini"> Preço mínimo </mat-option>
             <mat-option value="preco_venda_fin"> Preço máximo </mat-option>
           </mat-select>
+          <mat-error *ngIf="productSearchForm.get('filter').hasError('required')">Escolha um filtro</mat-error>
         </mat-form-field>
 
         <mat-form-field

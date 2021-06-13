@@ -24,6 +24,9 @@
               Saída
             </mat-option>
           </mat-select>
+          <mat-error *ngIf="productMovingForm.get('tipo_movimentacao').hasError('required')"
+            >Escolha o tipo da movimentação</mat-error
+          >
         </mat-form-field>
       </div>
 
