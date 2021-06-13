@@ -1,7 +1,8 @@
 <div class="header-menu">
   <div class="header-menu__header">
     <div matRipple class="header-menu__text-wrapper">
-      <p class="header-menu__header-title" [routerLink]="['']">Ozomali Vendas</p>
+      <img [matMenuTriggerFor]="menu" class="header-menu__header-image" src="./assets/images/tcc.svg" />
+      <p class="header-menu__header-title" [routerLink]="['']">Ozomali Estoque</p>
     </div>
     <div *ngIf="userInfo$ | async as user" class="header-menu__user">
       <img [matMenuTriggerFor]="menu" class="header-menu__header-image" src="./assets/images/user_picture_mock.svg" />
@@ -14,7 +15,7 @@
       <!-- <div matRipple>
         <p class="header-menu__menu-title" [routerLink]="['']">Menu principal</p>
       </div> -->
-      <div matRipple class="header-menu__menu-buttons" [routerLink]="['vendors']">
+      <div matRipple class="header-menu__menu-buttons header-menu__menu-buttons--first" [routerLink]="['vendors']">
         <img class="header-menu__menu-buttons-image" src="./assets/images/icone-fornecedor-menu.svg" />
         <p class="header-menu__menu-buttons-text">Fornecedores</p>
       </div>

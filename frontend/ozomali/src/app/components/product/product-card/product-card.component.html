@@ -1,10 +1,20 @@
 <div matRipple *ngIf="product" class="c-product-card" (click)="chooseCard()">
-  <span>Nome: {{ product.nome }}</span>
-  <span>ID: {{ product.id }}</span>
-  <span>Status: {{ product.ativo ? 'Ativo' : 'Inativo' }}</span>
-  <span>Código de Barras: {{ product.codigo_barra }}</span>
-  <span>Nome do Fornecedor: {{ product.nome_fornecedor }}</span>
-  <span>ID do Fornecedor: {{ product.fornecedor_id }}</span>
-  <span>Preço de venda: {{ product.preco_venda }}</span>
-  <span>Saldo em estoque: {{ product.saldo }}</span>
+  <div class="c-product-card__wrapper">
+    <span class="c-product-card__name">{{ product.nome }}</span>
+    <span class="c-product-card__id">ID: {{ product.id }}</span>
+  </div>
+
+  <div class="c-product-card__wrapper">
+    <span class="c-product-card__code">{{ product.codigo_barra }}</span>
+    <span class="c-product-card__status">{{ product.ativo ? 'Ativo' : 'Inativo' }}</span>
+  </div>
+
+  <div class="c-product-card__wrapper">
+    <span class="c-product-card__vendor">Fornecedor: {{ product.nome_fornecedor }}</span>
+  </div>
+
+  <div class="c-product-card__wrapper c-product-card__wrapper--last">
+    <span class="c-product-card__price">Preço: {{ product.preco_venda }}</span>
+    <span class="c-product-card__stock">Estoque: {{ product.saldo }}</span>
+  </div>
 </div>

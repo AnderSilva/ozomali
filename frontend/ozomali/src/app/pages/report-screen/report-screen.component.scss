@@ -8,13 +8,18 @@
 
   &__form {
     &-select {
-      margin-right: 45px;
+      margin-right: 25px;
 
       ::ng-deep .mat-form-field {
         display: unset;
 
         &-outline {
           background-color: #c4c4c4;
+          border-radius: 5px;
+        }
+
+        &-flex {
+          max-width: 120px;
         }
       }
     }
@@ -23,8 +28,9 @@
       ::ng-deep .mat-form-field {
         display: unset;
 
-        &-flex {
+        &-outline {
           background-color: #c4c4c4;
+          border-radius: 5px;
         }
       }
     }

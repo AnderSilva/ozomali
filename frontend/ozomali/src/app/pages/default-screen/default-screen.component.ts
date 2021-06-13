@@ -8,7 +8,7 @@ import { UserService } from 'src/app/stores/user';
 export class DefaultScreenComponent {
   constructor(private userService: UserService) {}
 
-  invalidateToken() {
+  invalidateToken(): void {
     this.userService.updateAuthentication('tokenInvalido', {
       exp: 1622931211,
       iat: 1622844806,

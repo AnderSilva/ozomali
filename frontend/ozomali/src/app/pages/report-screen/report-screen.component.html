@@ -11,7 +11,7 @@
       <mat-error *ngIf="dateRangeForm.get('periodo').hasError('required')">Insira uma opção</mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" class="report-screen__form-date">
+    <mat-form-field appearance="outline" class="report-screen__form-date">
       <mat-label>Período do relatório</mat-label>
 
       <mat-date-range-input [rangePicker]="rangePicker" disabled>

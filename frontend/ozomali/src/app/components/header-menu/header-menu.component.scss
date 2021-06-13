@@ -8,22 +8,23 @@
   height: 100%;
 
   &__header {
-    background-color: #5d8ff0;
+    background-color: #4881f4;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 90px 0 30px;
-    color: white;
+    padding: 0 90px 0 10px;
+    color: #e7eced;
 
     &-title {
       font-size: 36px;
       margin: 0;
-      padding: 15px 5px;
+      padding: 15px 0 15px 5px;
       cursor: pointer;
       user-select: none;
     }
 
     &-image {
+      margin-bottom: 5px;
       height: 80px;
       width: 80px;
       cursor: pointer;
@@ -39,6 +40,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 10px;
+    padding: 10px 10px 10px 10px;
+    margin: 0;
   }
 
   &__user {
@@ -47,6 +51,7 @@
     align-items: center;
     flex-direction: column;
     user-select: none;
+    padding: 10px 0;
 
     &-name,
     &-access {
@@ -57,10 +62,10 @@
   }
 
   &__menu {
-    background-color: #3372eb;
-    padding: 0 25px;
+    background-color: #4881f4;
+    padding: 0 10px;
     width: fit-content;
-    color: white;
+    color: #e7eced;
 
     &-title {
       margin: 30px 0 0;
@@ -73,9 +78,16 @@
     &-buttons {
       display: flex;
       align-items: center;
-      margin-top: 35px;
+      margin: 25px 0 0 0;
       cursor: pointer;
       user-select: none;
+      border-radius: 10px;
+      padding: 10px 0 10px 10px;
+      background-color: #3372eb;
+
+      &--first {
+        margin-top: 0;
+      }
 
       &-image {
         height: 60px;
@@ -85,7 +97,7 @@
       &-text {
         font-size: 36px;
         padding: 0 5px;
-        margin: 0 30 0 20px;
+        margin: 0;
       }
     }
   }

@@ -2,11 +2,13 @@
   display: flex;
   background-color: #e7eced;
   width: 80%;
+  border-radius: 10px;
 
   &__search {
     display: flex;
     background-color: #e7eced;
     width: 80%;
+    border-radius: 10px;
   }
 
   &__form {
@@ -44,6 +46,7 @@
 
         &-outline {
           background-color: #c4c4c4;
+          border-radius: 5px;
         }
       }
     }

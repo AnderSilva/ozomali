@@ -1,13 +1,26 @@
 <div matRipple *ngIf="moving" class="c-moving-card">
-  <span>ID: {{ moving.id }}</span>
-  <span>Status: {{ moving.ativo }}</span>
-  <span>Local de estoque: {{ moving.local_estoque }}</span>
-  <span>Tipo de movimentação: {{ moving.tipo_movimentacao === 'E' ? 'Entrada' : 'Saída' }}</span>
-  <span>Preço total: {{ moving.preco_total }}</span>
-  <span>Quantidade: {{ moving.quantidade }}</span>
-  <span>Nome do produto: {{ moving.nome_produto }}</span>
-  <span>ID do produto: {{ moving.produto_id }}</span>
-  <span>Nome do usuário: {{ moving.nome_usuario }}</span>
-  <span>ID do usuário: {{ moving.usuario_id }}</span>
-  <span>Data da movimentação: {{ moving.data_movimentacao }}</span>
+  <div class="c-moving-card__wrapper">
+    <span class="c-moving-card__unit">Estoque: {{ moving.local_estoque }}</span>
+    <span class="c-moving-card__second">{{ moving.tipo_movimentacao === 'E' ? 'Entrada' : 'Saída' }}</span>
+  </div>
+
+  <div class="c-moving-card__wrapper">
+    <span class="c-moving-card__unit">Quantidade: {{ moving.quantidade }}</span>
+    <span class="c-moving-card__second">Preço total: {{ moving.preco_total }}</span>
+  </div>
+
+  <div class="c-moving-card__wrapper">
+    <span class="c-moving-card__unit">Produto: {{ moving.nome_produto }}</span>
+    <span class="c-moving-card__second">ID: {{ moving.produto_id }}</span>
+  </div>
+
+  <div class="c-moving-card__wrapper">
+    <span class="c-moving-card__unit">Usuário: {{ moving.nome_usuario }}</span>
+    <span class="c-moving-card__second">ID: {{ moving.usuario_id }}</span>
+  </div>
+
+  <div class="c-moving-card__wrapper c-moving-card__wrapper--last">
+    <span class="c-moving-card__unit">{{ moving.data_movimentacao }}</span>
+    <span class="c-moving-card__second">ID: {{ moving.id }}</span>
+  </div>
 </div>

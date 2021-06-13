@@ -7,4 +7,32 @@
   cursor: pointer;
   user-select: none;
   border-radius: 10px;
+  color: #e7eced;
+
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+
+    &--last {
+      margin-bottom: unset;
+    }
+  }
+
+  &__name {
+    font-size: 20px;
+  }
+
+  &__second {
+    margin-left: 15px;
+  }
+
+  &__unit,
+  &__second {
+    background-color: #3372eb;
+    padding: 5px;
+    border-radius: 5px;
+    width: fit-content;
+    height: fit-content;
+  }
 }

@@ -1,4 +1,6 @@
 .feedback-modal {
+  border-radius: 10px;
+
   &__text {
     font-size: 24px;
   }
@@ -20,6 +22,8 @@
 
   &__continue {
     padding: 5px 25px;
+    font-size: 20px;
+    border-radius: 5px;
     border: unset;
     cursor: pointer;
     color: #e5e5e5;
