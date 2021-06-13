@@ -64,9 +64,12 @@ class Usuario(db.Model):
         try:
             payload = jwt.decode(auth_token, key, algorithms='HS256')
             
+            user=Usuario.query.filter_by(id=payload['uid']).first()
             is_blacklisted_token = BlacklistToken.check_blacklist(auth_token)
             if is_blacklisted_token:
                 return 'Conta deslogada. Por favor realizar o login novamente.'
+            elif user.ativo!=True:
+                return 'Conta invativa. Por favor entrar em contato com o administrador.'
             else:
                 return payload['uid']
         except jwt.ExpiredSignatureError:
