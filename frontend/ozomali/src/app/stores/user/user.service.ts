@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserStore } from './user.store';
 
@@ -7,7 +8,7 @@ import { UserStore } from './user.store';
 export class UserService {
   private readonly baseUrl: string;
 
-  constructor(private userStore: UserStore, private http: HttpClient) {
+  constructor(private userStore: UserStore, private http: HttpClient, private router: Router) {
     this.baseUrl = 'https://ozomali-api.herokuapp.com/api/v1/auth';
   }
 
@@ -21,5 +22,6 @@ export class UserService {
 
   logout(): void {
     this.userStore.reset();
+    this.router.navigate(['/login']);
   }
 }
