@@ -18,6 +18,12 @@ def save_new_moviment(data: Dict[str, str], authenticate:Authenticate) -> Tuple[
             'message': 'Id produto inválido.',
         }
         return response_object, 400
+    if produto.ativo==False:
+        response_object = {
+            'status': 'Falha',
+            'message': 'Não é permitido movimentação para produto inativo.',
+        }
+        return response_object, 400
 
     #Validando a movimentacao
     msg = Validation(data, authenticate)

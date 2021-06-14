@@ -20,9 +20,9 @@ class ProdutoLista(Resource):
     @api.doc(security='apikey')
     @token_required
     @api.marshal_list_with(_produtolist, envelope='data')
-    def get(self,ativo=True):
+    def get(self):
         """Lista todos produtos"""
-        return get_all_products(ativo)
+        return get_all_products()
 
     @api.expect(_produtoinsert, validate=True)
     @api.doc('Cria um novo Produto',responses={
