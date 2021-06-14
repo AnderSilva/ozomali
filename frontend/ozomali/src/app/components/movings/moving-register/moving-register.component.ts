@@ -50,6 +50,13 @@ export class MovingRegisterComponent implements OnInit {
       startWith(''),
       map(value => this.filterProducts(value)),
     );
+
+    if (this.userQuery.userInfo.perfil === 'estoque') {
+      this.productMovingForm.get('tipo_movimentacao').setValue('E');
+    }
+    if (this.userQuery.userInfo.perfil === 'venda') {
+      this.productMovingForm.get('tipo_movimentacao').setValue('S');
+    }
   }
 
   private filterProducts(value: string): string[] {
