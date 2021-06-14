@@ -1,10 +1,10 @@
-<div class="header-menu">
+<div class="header-menu" *ngIf="userInfo$ | async as user">
   <div class="header-menu__header">
     <div matRipple class="header-menu__text-wrapper">
       <img [matMenuTriggerFor]="menu" class="header-menu__header-image" src="./assets/images/tcc.svg" />
       <p class="header-menu__header-title" [routerLink]="['']">Ozomali Estoque</p>
     </div>
-    <div *ngIf="userInfo$ | async as user" class="header-menu__user">
+    <div class="header-menu__user">
       <img [matMenuTriggerFor]="menu" class="header-menu__header-image" src="./assets/images/user_picture_mock.svg" />
       <h4 class="header-menu__user-name">Usuário: {{ user.name }}</h4>
       <h4 class="header-menu__user-access">Nível de acesso: {{ user.perfil }}</h4>
@@ -15,6 +15,7 @@
       <div
         matRipple
         class="header-menu__menu-buttons header-menu__menu-buttons--first"
+        *ngIf="user.perfil === 'admin'"
         [routerLink]="['/fornecedores']"
         [routerLinkActive]="['header-menu__menu-buttons--active']"
         [routerLinkActiveOptions]="{ exact: true }"
@@ -45,12 +46,24 @@
       <div
         matRipple
         class="header-menu__menu-buttons"
+        *ngIf="user.perfil === 'admin'"
         [routerLink]="['/relatorios']"
         [routerLinkActive]="['header-menu__menu-buttons--active']"
         [routerLinkActiveOptions]="{ exact: true }"
       >
         <img class="header-menu__menu-buttons-image" src="./assets/images/reports.svg" />
         <p class="header-menu__menu-buttons-text">Relatórios</p>
+      </div>
+      <div
+        matRipple
+        class="header-menu__menu-buttons"
+        *ngIf="user.perfil === 'admin'"
+        [routerLink]="['/usuarios']"
+        [routerLinkActive]="['header-menu__menu-buttons--active']"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <img class="header-menu__menu-buttons-image" src="./assets/images/user.svg" />
+        <p class="header-menu__menu-buttons-text">Usuários</p>
       </div>
     </div>
 
