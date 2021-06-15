@@ -26,6 +26,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ComponentsModule } from '../components/components.module';
 import { NgxMaskModule } from 'ngx-mask';
 import { MatDialogModule } from '@angular/material/dialog';
+import { UsersScreenComponent } from './users-screen/users-screen.component';
 
 export const currencyMaskConfig: CurrencyMaskConfig = {
   align: 'left',
@@ -47,6 +48,7 @@ export const currencyMaskConfig: CurrencyMaskConfig = {
     LoginScreenComponent,
     NotFoundComponent,
     NotAuthorizedComponent,
+    UsersScreenComponent,
   ],
   imports: [
     CommonModule,

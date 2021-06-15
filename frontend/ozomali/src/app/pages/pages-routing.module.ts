@@ -5,6 +5,7 @@ import { DefaultScreenComponent } from './default-screen/default-screen.componen
 import { MovingsScreenComponent } from './movings-screen/movings-screen.component';
 import { ProductScreenComponent } from './product-screen/product-screen.component';
 import { ReportScreenComponent } from './report-screen/report-screen.component';
+import { UsersScreenComponent } from './users-screen/users-screen.component';
 import { VendorScreenComponent } from './vendor-screen/vendor-screen.component';
 
 const routes: Routes = [
@@ -50,7 +51,7 @@ const routes: Routes = [
   },
   {
     path: 'usuarios',
-    component: ReportScreenComponent,
+    component: UsersScreenComponent,
     canActivate: [RolesGuard],
     data: {
       roles: {
