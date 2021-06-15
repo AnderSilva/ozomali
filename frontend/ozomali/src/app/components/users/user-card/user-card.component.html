@@ -1,0 +1,15 @@
+<div matRipple *ngIf="user" class="c-user-card" (click)="chooseCard()">
+  <div class="c-user-card__wrapper">
+    <span class="c-user-card__name">{{ user.nome }}</span>
+    <span class="c-user-card__id">ID: {{ user.id }}</span>
+  </div>
+
+  <div class="c-user-card__wrapper">
+    <span class="c-user-card__login">{{ user.login }}</span>
+    <span class="c-user-card__status">{{ user.ativo ? 'Ativo' : 'Inativo' }}</span>
+  </div>
+
+  <span class="c-user-card__access" *ngIf="user.perfil_id as id">
+    {{ id === 1 ? 'admin' : id === 2 ? 'estoque' : 'vendas' }}
+  </span>
+</div>

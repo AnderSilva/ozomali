@@ -1,0 +1,145 @@
+<div class="user-register" *ngIf="isSearch ? (user ? true : false) : true">
+  <form [formGroup]="userRegisterForm" class="user-register__form-wrapper">
+    <div class="user-register__form">
+      <div class="user-register__form-field--wrapper">
+        <mat-form-field appearance="outline" class="user-register__form-field user-register__form-field--name">
+          <mat-label>Nome</mat-label>
+          <input matInput placeholder="João Francisco da Rocha" formControlName="nome" />
+          <mat-error *ngIf="userRegisterForm.get('nome').hasError('required')"> Digite o nome do usuário </mat-error>
+        </mat-form-field>
+
+        <mat-form-field
+          *ngIf="isSearch"
+          appearance="outline"
+          class="user-register__form-field user-register__form-field--others"
+        >
+          <mat-label>ID do Usuário</mat-label>
+          <input matInput formControlName="id" />
+        </mat-form-field>
+
+        <mat-form-field
+          *ngIf="isSearch"
+          appearance="outline"
+          class="user-register__form-field user-register__form-field--others"
+        >
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="ativo">
+            <mat-option [value]="true"> Ativo </mat-option>
+            <mat-option [value]="false"> Inativo </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="user-register__form-field--wrapper">
+        <mat-form-field appearance="outline" class="user-register__form-field user-register__form-field--others">
+          <mat-label>Login</mat-label>
+          <input matInput placeholder="joaozinho" formControlName="login" />
+          <mat-error *ngIf="userRegisterForm.get('login').hasError('required')"> Digite o login do usuário </mat-error>
+        </mat-form-field>
+
+        <mat-form-field
+          appearance="outline"
+          class="user-register__form-field user-register__form-field--others"
+          *ngIf="isSearch ? false : true"
+        >
+          <mat-label>Senha</mat-label>
+          <input matInput [type]="'password'" formControlName="senha" />
+          <mat-error *ngIf="userRegisterForm.get('senha').hasError('required')"> Digite a senha </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="user-register__form-field user-register__form-field--others">
+          <mat-label>Acesso</mat-label>
+          <mat-select formControlName="perfil_id">
+            <mat-option [value]="1"> Admin </mat-option>
+            <mat-option [value]="2"> Estoque </mat-option>
+            <mat-option [value]="3"> Vendas </mat-option>
+          </mat-select>
+          <mat-error *ngIf="userRegisterForm.get('perfil_id').hasError('required')">
+            Escolha o nível de acesso
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div matRipple class="user-register__button" (click)="clearForm()">
+      <span *ngIf="!isRegisterLoading">{{ isSearch ? 'Nova busca' : 'Limpar' }}</span>
+      <mat-spinner [diameter]="30" *ngIf="isRegisterLoading"></mat-spinner>
+    </div>
+
+    <div matRipple class="user-register__button" (click)="isSearch ? updateUser() : registerUser()">
+      <span *ngIf="!isRegisterLoading"> {{ isSearch ? 'Atualizar' : 'Cadastrar' }}</span>
+      <mat-spinner [diameter]="30" *ngIf="isRegisterLoading"></mat-spinner>
+    </div>
+  </form>
+</div>
+
+<ng-container *ngIf="isSearch ? (user ? false : true) : false">
+  <div class="user-register__search">
+    <form [formGroup]="userSearchForm" class="user-register__form-wrapper">
+      <div class="user-register__form">
+        <mat-form-field appearance="outline" class="user-register__form-field user-register__form-field--search">
+          <mat-label>Buscar por:</mat-label>
+
+          <mat-select
+            formControlName="filter"
+            (selectionChange)="updateMask($event.value); updateValidity($event.value)"
+          >
+            <mat-option value="id"> ID </mat-option>
+            <mat-option value="nome"> Nome </mat-option>
+            <mat-option value="ativo"> Status </mat-option>
+            <mat-option value="perfil_id"> Acesso </mat-option>
+            <mat-option value="login"> Login </mat-option>
+          </mat-select>
+          <mat-error *ngIf="userSearchForm.get('filter').hasError('required')">Escolha um filtro</mat-error>
+        </mat-form-field>
+
+        <mat-form-field
+          *ngIf="userSearchForm.get('filter').value === 'ativo'"
+          appearance="outline"
+          class="user-register__form-field user-register__form-field--search"
+        >
+          <mat-label>Selecione um status</mat-label>
+          <mat-select formControlName="status">
+            <mat-option [value]="true"> Ativo </mat-option>
+            <mat-option [value]="false"> Inativo </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field
+          *ngIf="userSearchForm.get('filter').value === 'perfil_id'"
+          appearance="outline"
+          class="user-register__form-field user-register__form-field--search"
+        >
+          <mat-label>Selecione um acesso</mat-label>
+          <mat-select formControlName="perfil_id">
+            <mat-option [value]="1"> Admin </mat-option>
+            <mat-option [value]="2"> Estoque </mat-option>
+            <mat-option [value]="3"> Vendas </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field
+          *ngIf="userSearchForm.get('filter').value !== 'ativo' && userSearchForm.get('filter').value !== 'perfil_id'"
+          appearance="outline"
+          class="user-register__form-field user-register__form-field--search"
+        >
+          <mat-label>ID, Nome, Login...</mat-label>
+          <input matInput [mask]="mask" placeholder="Parâmetro relevante ao filtro escolhido" formControlName="param" />
+          <mat-error *ngIf="userSearchForm.get('param').hasError('required')">
+            Digite um parâmetro para a busca
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div matRipple class="user-register__button" (click)="onSearchUser()">
+        <span *ngIf="!isRegisterLoading">Buscar usuários</span>
+        <mat-spinner [diameter]="30" *ngIf="isRegisterLoading"></mat-spinner>
+      </div>
+
+      <div matRipple class="user-register__button" (click)="getUsers()">
+        <span *ngIf="!isRegisterLoading">Listar todos usuários</span>
+        <mat-spinner [diameter]="30" *ngIf="isRegisterLoading"></mat-spinner>
+      </div>
+    </form>
+  </div>
+</ng-container>

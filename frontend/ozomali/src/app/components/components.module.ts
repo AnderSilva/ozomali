@@ -23,6 +23,8 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { ChartsModule } from 'ng2-charts';
 import { ReportsComponent } from './reports/reports.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { UserRegisterComponent } from './users/user-register/user-register.component';
+import { UserCardComponent } from './users/user-card/user-card.component';
 @NgModule({
   declarations: [
     HeaderMenuComponent,
@@ -35,6 +37,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MovingRegisterComponent,
     MovingCardComponent,
     ReportsComponent,
+    UserRegisterComponent,
+    UserCardComponent,
   ],
   imports: [
     CommonModule,
@@ -64,6 +68,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MovingRegisterComponent,
     MovingCardComponent,
     ReportsComponent,
+    UserRegisterComponent,
+    UserCardComponent,
   ],
 })
 export class ComponentsModule {}
