@@ -163,6 +163,9 @@ export class VendorRegisterComponent implements OnInit, OnDestroy, OnChanges {
           this.isRegisterLoading = true;
           const formValues = this.vendorRegisterForm.getRawValue();
 
+          delete formValues.id
+          delete formValues.ativo
+
           return this.vendorService.createVendor(formValues);
         }),
         take(1),
@@ -257,6 +260,8 @@ export class VendorRegisterComponent implements OnInit, OnDestroy, OnChanges {
 
     this.isRegisterLoading = true;
     const formValues = this.vendorRegisterForm.getRawValue();
+
+    delete formValues.id
 
     this.vendorService
       .updateVendor(this.vendor.id, formValues)

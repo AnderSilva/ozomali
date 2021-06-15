@@ -149,6 +149,10 @@ export class ProductRegisterComponent implements OnChanges, OnInit {
           this.isRegisterLoading = true;
           const formValues = this.productRegisterForm.getRawValue();
 
+          delete formValues.id;
+          delete formValues.ativo;
+          delete formValues.saldo;
+
           formValues.fornecedor_id = Number(formValues.fornecedor_id);
 
           return this.productService.createProduct(formValues);
@@ -252,6 +256,9 @@ export class ProductRegisterComponent implements OnChanges, OnInit {
 
     this.isRegisterLoading = true;
     const formValues = this.productRegisterForm.getRawValue();
+
+    delete formValues.id;
+    delete formValues.saldo;
 
     formValues.fornecedor_id = Number(formValues.fornecedor_id);
 
