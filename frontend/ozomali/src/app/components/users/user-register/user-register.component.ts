@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
 import { filter, switchMap, take } from 'rxjs/operators';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { UsersService } from 'src/app/services/users/users.service';
@@ -10,8 +9,7 @@ import { UsersService } from 'src/app/services/users/users.service';
   templateUrl: './user-register.component.html',
   styleUrls: ['./user-register.component.scss'],
 })
-export class UserRegisterComponent implements OnInit {
-  private readonly unsubscribe$: Subject<void> = new Subject<void>();
+export class UserRegisterComponent implements OnInit, OnChanges {
   public isRegisterLoading: boolean;
   public userRegisterForm: FormGroup;
   public userSearchForm: FormGroup;
@@ -57,11 +55,6 @@ export class UserRegisterComponent implements OnInit {
     if (changes.user?.currentValue !== changes.user?.previousValue) {
       this.setUserForm(this.user);
     }
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
   }
 
   public clearForm(): void {
@@ -158,22 +151,22 @@ export class UserRegisterComponent implements OnInit {
       return;
     }
 
-    const filter = this.userSearchForm.get('filter').value;
+    const formFilter = this.userSearchForm.get('filter').value;
     let value: any = this.userSearchForm.get('param').value;
     this.isRegisterLoading = true;
 
-    if (filter === 'id') {
+    if (formFilter === 'id') {
       value = Number(this.userSearchForm.get('param').value);
     }
-    if (filter === 'ativo') {
+    if (formFilter === 'ativo') {
       value = this.userSearchForm.get('status').value;
     }
-    if (filter === 'perfil_id') {
+    if (formFilter === 'perfil_id') {
       value = this.userSearchForm.get('perfil_id').value;
     }
 
     this.usersService
-      .searchUsers(filter, value)
+      .searchUsers(formFilter, value)
       .pipe(take(1))
       .subscribe(
         users => {

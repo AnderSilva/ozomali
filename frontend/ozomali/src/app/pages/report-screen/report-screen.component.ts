@@ -50,7 +50,6 @@ export class ReportScreenComponent {
         response => {
           this.isReportLoading = false;
           this.report = response.data;
-          // this.notifications.feedbackModal(response);
         },
         response => {
           this.isReportLoading = false;
