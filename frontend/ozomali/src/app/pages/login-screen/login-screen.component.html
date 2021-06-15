@@ -4,9 +4,9 @@
 
     <form class="login-screen__form" [formGroup]="loginForm">
       <mat-form-field appearance="outline" class="login-screen__form-field">
-        <mat-label>Login</mat-label>
+        <mat-label>Usuário</mat-label>
         <input matInput placeholder="Escreva seu nome de usuário" formControlName="login" />
-        <mat-error *ngIf="loginForm.get('login').hasError('required')"> Digite seu login </mat-error>
+        <mat-error *ngIf="loginForm.get('login').hasError('required')"> Digite seu usuário </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="login-screen__form-field">
