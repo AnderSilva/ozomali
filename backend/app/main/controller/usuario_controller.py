@@ -41,7 +41,7 @@ class UsuarioId(Resource):
     @admin_token_required
     def get(self, id):
         """Obtem informações de um usuário com base no seu id"""
-        usuario = get_a_user('id',id)
+        usuario = get_a_user(id)
         if not usuario:
             api.abort(404)
         else:
@@ -61,7 +61,8 @@ class UsuarioId(Resource):
     def patch(self,id):
         """Atualiza um usuário  Obs: para inativar, coloque 'ativo': false """
         
-        usuario = get_a_user('id',id)
+        usuario = get_a_user(id)
+
         data = request.json
         if not usuario:
             api.abort(404, 'Usuario não encontrado.')
@@ -73,7 +74,7 @@ class UsuarioId(Resource):
             if not perfil:
                 api.abort(404, 'Perfil não encontrado')
 
-        return update_user(usuario,data=data)
+        return update_user(usuario, data=data)
 
 
 @api.route('/<string:campo>/<string:valor>')
@@ -84,5 +85,17 @@ class Usuario(Resource):
     @admin_token_required
     def get(self, campo, valor):
         """Lista de usuários filtrados por campo/valor"""
-        usuarios = get_a_user(campo,valor)
+        usuarios = get_some_user(campo,valor)
         return usuarios
+
+@api.route('/pesquisa')
+class UsuarioListaPesquisa(Resource):
+    @api.doc('lista_de_usuarios_registrados_pesquisa')
+    @api.doc(security='apikey')
+    @token_required
+    @api.expect(_usuariolist, validate=True)
+    @api.marshal_list_with(_usuariolist, envelope='data')
+    def post(self,ativo=True):
+        """Lista todos usuarios pesquisados"""
+        data = request.json
+        return get_search_users(data=data)

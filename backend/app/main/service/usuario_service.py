@@ -1,11 +1,13 @@
 import uuid
 import datetime
+import unidecode
 
 from app.main import db
 from app.main.model import unaccent
 from app.main.model.usuario import Usuario
 from app.main.model.perfil import Perfil
 from typing import Dict, Tuple
+from sqlalchemy.sql import text
 
 
 def save_new_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
@@ -61,10 +63,8 @@ def update_user(usuario: Usuario,data) -> Tuple[Dict[str, str], int]:
 def get_all_users(ativo=False):
     usuarios = Usuario.query.filter_by(ativo=ativo)
     return usuarios.join(Perfil).all()
-    #return Usuario.query.filter_by(ativo=ativo).all()
 
-
-def get_a_user(tipo, id):
+def get_some_user(tipo, id):
     item = '%{}%'.format(id)
 
     if tipo=='id':
@@ -88,14 +88,37 @@ def get_a_user(tipo, id):
     if tipo=='ativo':
         return Usuario.query.filter_by(ativo=id).all()
 
+def get_search_users(data):
+    filters = ''    
+    if data.get('id',0) != 0:
+        filters += "usuario.id = " + str(data.get('id',0))
 
-def get_some_user(login):
-    return Usuario.query \
-    .filter(
-        unaccent(Usuario.login) \
-        .ilike( '%{}%'.format(login) )
-    ).all()
+    if data.get('nome',''):
+        if filters:
+            filters += " AND "
+        filters += "LOWER(unaccent(usuario.nome)) like '%" + unidecode.unidecode(data.get('nome','')).lower() + "%'"
+    
+    if data.get('login',''):
+        if filters:
+            filters += " AND "
+        filters += "LOWER(unaccent(usuario.login)) like '%" + unidecode.unidecode(data.get('login','')) + "%'"
 
+    if data.get('ativo','') == False or data.get('ativo','')== True:
+        if filters:
+            filters += " AND "
+        filters += "usuario.ativo =" 
+        filters += "'true'" if data.get('ativo','')== True else "'false'"
+
+    if data.get('perfil_id',0) !=0 :
+        if filters:
+            filters += " AND "
+        filters += "perfil.id = " + str(data.get('perfil_id',0))
+
+    return Usuario.query.join(Perfil).filter(text(filters)).all()
+
+
+def get_a_user(id):
+    return Usuario.query.filter_by(id=id).first()
 
 def generate_token(user: Usuario) -> Tuple[Dict[str, str], int]:
     try:        
