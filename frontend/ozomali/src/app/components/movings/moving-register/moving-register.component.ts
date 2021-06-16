@@ -56,6 +56,7 @@ export class MovingRegisterComponent implements OnInit {
     }
     if (this.userQuery.userInfo.perfil === 'venda') {
       this.productMovingForm.get('tipo_movimentacao').setValue('S');
+      this.productMovingForm.get('preco_total').setValidators(null);
     }
   }
 
