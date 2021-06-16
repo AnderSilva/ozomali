@@ -1,4 +1,15 @@
 <div class="default-screen">
-  <img class="default-screen__image" src="./assets/images/sale.svg" />
-  <button (click)="invalidateToken()"></button>
+  <img class="default-screen__image default-screen__image--start" src="./assets/images/rack2.svg" />
+  <img class="default-screen__image default-screen__image--start" src="./assets/images/rack.svg" />
+
+  <div class="default-screen__wrapper">
+    <img
+      (click)="easterEgg()"
+      class="default-screen__image default-screen__image--end default-screen__image--full"
+      src="./assets/images/sale.svg"
+    />
+    <button class="default-screen__image--end" *ngIf="easterEggShown" (click)="invalidateToken()"></button>
+  </div>
+
+  <img class="default-screen__image default-screen__image--start" src="./assets/images/rack3.svg" />
 </div>

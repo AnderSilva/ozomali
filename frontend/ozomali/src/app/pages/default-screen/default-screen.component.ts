@@ -6,7 +6,15 @@ import { UserQuery, UserService } from 'src/app/stores/user';
   styleUrls: ['./default-screen.component.scss'],
 })
 export class DefaultScreenComponent {
-  constructor(private userService: UserService, private userQuery: UserQuery) {}
+  easterEggShown: boolean;
+
+  constructor(private userService: UserService, private userQuery: UserQuery) {
+    this.easterEggShown = false;
+  }
+
+  easterEgg(): void {
+    this.easterEggShown = !this.easterEggShown;
+  }
 
   invalidateToken(): void {
     const currentUserInfo = this.userQuery.userInfo;

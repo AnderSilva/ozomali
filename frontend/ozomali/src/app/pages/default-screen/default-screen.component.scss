@@ -1,13 +1,28 @@
 .default-screen {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  justify-content: space-around;
   width: 100%;
   height: 100%;
 
+  &__wrapper {
+    display: flex;
+    width: 20%;
+    margin-bottom: 15px;
+  }
+
   &__image {
-    width: 500px;
-    height: 500px;
+    max-width: 20%;
+
+    &--start {
+      align-self: flex-start;
+    }
+
+    &--end {
+      align-self: flex-end;
+    }
+
+    &--full {
+      max-width: unset;
+    }
   }
 }
