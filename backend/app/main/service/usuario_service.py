@@ -44,9 +44,18 @@ def save_new_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         return response_object, 409
 
 
-def update_user(usuario: Usuario,data):
+def update_user(usuario: Usuario,data) -> Tuple[Dict[str, str], int]:
     update_changes(usuario,data)
-    return usuario
+    response_object = {
+            'status': 'Sucesso',
+            'message': 'Usuário atualizado com sucesso.',
+            'id' : usuario.id,
+            'login' : usuario.login,
+            'nome' : usuario.nome,
+            'ativo' : usuario.ativo,
+            'perfil_id' : usuario.perfil_id,
+        }
+    return response_object, 200
 
 
 def get_all_users(ativo=False):
@@ -59,7 +68,7 @@ def get_a_user(tipo, id):
     item = '%{}%'.format(id)
 
     if tipo=='id':
-        return Usuario.query.filter_by(id=id).first()
+        return Usuario.query.filter_by(id=id).all()
     
     if tipo=='login':
         return Usuario.query.filter(
