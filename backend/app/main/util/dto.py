@@ -35,8 +35,16 @@ class UsuarioDto:
         'login': fields.String(required=True),
         'nome' : fields.String(required=True),
         'ativo': fields.Boolean(),
-        'uri' : fields.Url('api.usuarios_usuario_id'),
         'perfil_id': fields.Integer( description='id do perfil')
+    })
+    usuarioListRetorno = api.model('usuarioListRetorno', {
+        'id'  : fields.Integer(readonly=True),
+        'login': fields.String(required=True),
+        'nome' : fields.String(required=True),
+        'ativo': fields.Boolean(),
+        'perfil_id': fields.Integer( description='id do perfil'),
+        'status': fields.String(required=False, description='status da atualização do usuário'),
+        'message': fields.String(required=False, description='descrição do resultado da atualização'),
     })
     usuarioupdate = api.model('usuarioupdate', {
         'login': fields.String(required=False),
@@ -77,7 +85,6 @@ class ProdutoDto:
         'nome': fields.String(required=False, description='nome do produto'),
         'codigo_barra': fields.String(required=False,description='Código de barra do Produto'),
         'fornecedor_id' : fields.Integer(required=False, description='id do fornecedor'),
-        'uri' : fields.Url('api.produtos_produto_id', readonly=True),
         'preco_venda' : fields.Float(description='preco de venda do produto'),
         'ativo': fields.Boolean(required=False,description='inativa/ativa produto')        
     })
@@ -85,7 +92,6 @@ class ProdutoDto:
         'nome': fields.String(required=False, description='nome do produto'),
         'codigo_barra': fields.String(required=False,description='Código de barra do Produto'),
         'fornecedor_id' : fields.Integer(required=False, description='id do fornecedor'),
-        'uri' : fields.Url('api.produtos_produto_id', readonly=True),
         'preco_venda' : fields.Float(description='preco de venda do produto'),
         'saldo' : fields.Float(description='quantidade do produto em estoque'),        
         'ativo': fields.Boolean(required=False,description='inativa/ativa produto'),
