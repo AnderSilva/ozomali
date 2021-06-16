@@ -10,6 +10,7 @@ api = UsuarioDto.api
 _usuarioinsert = UsuarioDto.usuarioinsert
 _usuariolist = UsuarioDto.usuariolist
 _usuarioupdate = UsuarioDto.usuarioupdate
+_usuarioListRetorno = UsuarioDto.usuarioListRetorno
 
 
 @api.route('') 
@@ -54,7 +55,7 @@ class UsuarioId(Resource):
     })
     @api.expect(_usuarioupdate, validate=True)
     @api.response(201, 'Usuário atualizado com sucesso.')
-    @api.marshal_with(_usuariolist)
+    @api.marshal_with(_usuarioListRetorno)
     @api.doc(security='apikey')
     @admin_token_required
     def patch(self,id):
@@ -84,7 +85,4 @@ class Usuario(Resource):
     def get(self, campo, valor):
         """Lista de usuários filtrados por campo/valor"""
         usuarios = get_a_user(campo,valor)
-        if not usuarios:
-            api.abort(404, 'Nenhum usuário foi encontrado.')
-        else:
-            return usuarios
+        return usuarios
