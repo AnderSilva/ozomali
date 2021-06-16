@@ -87,3 +87,15 @@ class Usuario(Resource):
         """Lista de usuários filtrados por campo/valor"""
         usuarios = get_some_user(campo,valor)
         return usuarios
+
+@api.route('/pesquisa')
+class UsuarioListaPesquisa(Resource):
+    @api.doc('lista_de_usuarios_registrados_pesquisa')
+    @api.doc(security='apikey')
+    @token_required
+    @api.expect(_usuariolist, validate=True)
+    @api.marshal_list_with(_usuariolist, envelope='data')
+    def post(self,ativo=True):
+        """Lista todos usuarios pesquisados"""
+        data = request.json
+        return get_search_users(data=data)
