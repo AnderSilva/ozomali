@@ -64,7 +64,7 @@ def get_all_users(ativo=False):
     #return Usuario.query.filter_by(ativo=ativo).all()
 
 
-def get_a_user(tipo, id):
+def get_some_user(tipo, id):
     item = '%{}%'.format(id)
 
     if tipo=='id':
@@ -89,13 +89,8 @@ def get_a_user(tipo, id):
         return Usuario.query.filter_by(ativo=id).all()
 
 
-def get_some_user(login):
-    return Usuario.query \
-    .filter(
-        unaccent(Usuario.login) \
-        .ilike( '%{}%'.format(login) )
-    ).all()
-
+def get_a_user(id):
+    return Usuario.query.filter_by(id=id).first()
 
 def generate_token(user: Usuario) -> Tuple[Dict[str, str], int]:
     try:        
