@@ -31,9 +31,9 @@ class UsuarioDto:
         'perfil_id': fields.Integer(required=True, description='id do perfil')
     })
     usuariolist = api.model('usuariolist', {
-        'id'  : fields.Integer(readonly=True),
-        'login': fields.String(required=True),
-        'nome' : fields.String(required=True),
+        'id'  : fields.Integer(readonly=False),
+        'login': fields.String(required=False),
+        'nome' : fields.String(required=False),
         'ativo': fields.Boolean(),
         'perfil_id': fields.Integer( description='id do perfil')
     })
