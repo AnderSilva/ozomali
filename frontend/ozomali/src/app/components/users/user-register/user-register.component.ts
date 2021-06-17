@@ -151,22 +151,23 @@ export class UserRegisterComponent implements OnInit, OnChanges {
       return;
     }
 
-    const formFilter = this.userSearchForm.get('filter').value;
-    let value: any = this.userSearchForm.get('param').value;
     this.isRegisterLoading = true;
 
-    if (formFilter === 'id') {
-      value = Number(this.userSearchForm.get('param').value);
+    const search: any = {};
+    search[this.userSearchForm.get('filter').value] = this.userSearchForm.get('param').value;
+
+    if ('id' in search) {
+      search.id = Number(search.id);
     }
-    if (formFilter === 'ativo') {
-      value = this.userSearchForm.get('status').value;
+    if ('ativo' in search) {
+      search.ativo = this.userSearchForm.get('status').value;
     }
-    if (formFilter === 'perfil_id') {
-      value = this.userSearchForm.get('perfil_id').value;
+    if ('perfil_id' in search) {
+      search.perfil_id = this.userSearchForm.get('perfil_id').value;
     }
 
     this.usersService
-      .searchUsers(formFilter, value)
+      .searchUsers(search)
       .pipe(take(1))
       .subscribe(
         users => {

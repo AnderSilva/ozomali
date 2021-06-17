@@ -20,8 +20,8 @@ export class UsersService {
     return this.http.post(this.baseUrl, params);
   }
 
-  public searchUsers(field: any, value: any): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${field}/${value}`);
+  public searchUsers(params: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/pesquisa`, params);
   }
 
   public updateUser(id: any, params: any): Observable<any> {
