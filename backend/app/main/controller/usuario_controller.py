@@ -19,9 +19,9 @@ class UsuarioList(Resource):
     @api.doc(security='apikey')
     @admin_token_required
     @api.marshal_list_with(_usuariolist, envelope='data')
-    def get(self,ativo=True):
+    def get(self):
         """Lista todos usuários"""
-        return get_all_users(ativo)
+        return get_all_users()
 
     @api.expect(_usuarioinsert, validate=True)
     @api.doc(security='apikey')

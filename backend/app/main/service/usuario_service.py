@@ -60,9 +60,8 @@ def update_user(usuario: Usuario,data) -> Tuple[Dict[str, str], int]:
     return response_object, 200
 
 
-def get_all_users(ativo=False):
-    usuarios = Usuario.query.filter_by(ativo=ativo)
-    return usuarios.join(Perfil).all()
+def get_all_users():
+    return Usuario.query.join(Perfil).all()
 
 def get_some_user(tipo, id):
     item = '%{}%'.format(id)
